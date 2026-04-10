@@ -1,0 +1,36 @@
+<div class="mock-widget" *ngIf="wizardState$ | async as snap">
+  <div class="widget-header" [style.backgroundColor]="snap.customization.primaryColor">
+    <div class="header-content">
+      <img *ngIf="snap.customization.logoUrl" [src]="snap.customization.logoUrl" alt="Bot Logo" class="bot-logo" />
+      <div *ngIf="!snap.customization.logoUrl" class="bot-logo-placeholder">
+        <i class="pi pi-android"></i>
+      </div>
+      <div>
+        <h4 class="bot-name">{{ snap.basicInfo.name || 'Your Chatbot' }}</h4>
+        <span class="online-status">Online</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <i class="pi pi-times"></i>
+    </div>
+  </div>
+
+  <div class="widget-body">
+    <div class="chat-bubble bot-bubble">
+      <img *ngIf="snap.customization.logoUrl" [src]="snap.customization.logoUrl" alt="Avatar" class="bubble-avatar" />
+      <div *ngIf="!snap.customization.logoUrl" class="bubble-avatar placeholder">
+        <i class="pi pi-android"></i>
+      </div>
+      <div class="message-content">
+        <p>{{ snap.customization.welcomeMessage || 'Hello! How can I help you today?' }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="widget-footer">
+    <input type="text" placeholder="Type your message..." disabled />
+    <button class="send-btn" [style.backgroundColor]="snap.customization.primaryColor">
+      <i class="pi pi-send"></i>
+    </button>
+  </div>
+</div>

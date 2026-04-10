@@ -1,0 +1,124 @@
+<div class="landing-page-root">
+
+  <header class="header">
+    <div class="header-inner">
+      <div class="brand-container" routerLink="/" style="cursor: pointer;">
+        <div class="logo-circle">
+          <img src="assets/Media/fusorai-logo.png" alt="Logo" class="icon-img">
+        </div>
+        <span class="brand-text">Fusor AI</span>
+      </div>
+
+      <div class="header-actions">
+        <app-fusor-button variant="outline" label="Login" (onClick)="navigateToLogin()"
+          [fullWidth]="false"></app-fusor-button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+
+    <section class="hero-section container">
+      <div class="badge-pill">
+        <div class="badge-dot"></div>
+        <span class="badge-text">Build AI Chatbots Without Code</span>
+      </div>
+
+      <h1 class="hero-title">
+        Create Intelligent <br>
+        AI Chatbots in Minutes
+      </h1>
+
+      <p class="hero-desc">
+        The most powerful no-code platform for building, testing, and deploying custom AI assistants trained on your
+        data.
+      </p>
+
+      <div class="cta-container">
+        <app-fusor-button label="Get Started Free" [fullWidth]="false"
+          routerLink="/workspace/create-chatbot"></app-fusor-button>
+        <app-fusor-button variant="outline" label="View Demo" [fullWidth]="false"></app-fusor-button>
+      </div>
+
+      <div class="stats-container">
+        <div class="stat-group">
+          <span class="stat-num">10K+</span>
+          <span class="stat-label">Active Chatbots</span>
+        </div>
+        <div class="stat-group">
+          <span class="stat-num">1M+</span>
+          <span class="stat-label">Conversations</span>
+        </div>
+        <div class="stat-group">
+          <span class="stat-num">99.9%</span>
+          <span class="stat-label">Uptime</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="features-section">
+      <div class="container features-inner">
+        <div class="section-head">
+          <h2>Built for Modern Teams</h2>
+          <p>Everything you need to create powerful AI experiences</p>
+        </div>
+
+        <div class="cards-grid">
+          <div class="feature-card">
+            <div class="card-icon-box">
+              <img src="assets/Media/lightningfast.png" alt="Lightning">
+            </div>
+            <h4>Lightning Fast</h4>
+            <p>Deploy chatbots in minutes with our intuitive drag-and-drop builder.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="card-icon-box">
+              <img src="assets/Media/enterprisesecurity.png" alt="Security">
+            </div>
+            <h4>Enterprise Security</h4>
+            <p>Bank-grade encryption and compliance with SOC 2, GDPR, and HIPAA.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="card-icon-box">
+              <img src="assets/Media/multi-channel.png" alt="Multi-Channel">
+            </div>
+            <h4>Multi-Channel</h4>
+            <p>Deploy across web, WhatsApp, Messenger, Slack, and more.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="card-icon-box smart-ai-icon">
+              <!-- Replaced with the primary logo properly enlarged -->
+              <img src="assets/Media/fusorai-logo.png" alt="Smart AI">
+            </div>
+            <h4>Smart AI</h4>
+            <p>Powered by GPT-4 and custom models for intelligent context awareness.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bottom-cta container">
+      <h2>Ready to Get Started?</h2>
+      <p>Join thousands of teams building better customer experiences.</p>
+      <app-fusor-button label="Create Your First Chatbot" [fullWidth]="false" class="big-cta"
+        routerLink="/workspace/create-chatbot"></app-fusor-button>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner container">
+      <div class="brand-container">
+        <div class="logo-circle small">
+          <img src="assets/Media/Loginicon.png" alt="Logo" class="icon-img-sm">
+        </div>
+        <span class="brand-text small">Fusor AI</span>
+      </div>
+      <span class="copyright">© 2025 Fusor AI. All rights reserved.</span>
+    </div>
+  </footer>
+
+</div>

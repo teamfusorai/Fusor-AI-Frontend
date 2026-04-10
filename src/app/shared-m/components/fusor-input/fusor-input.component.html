@@ -1,0 +1,53 @@
+<div class="fusor-input-wrapper">
+  <!-- Label Row -->
+  <div class="label-row" *ngIf="label">
+    <label [class.required]="showRequiredStar">{{ label }}</label>
+    <!-- Slot for extra actions like "Forgot password?" -->
+    <div class="extra-action">
+      <ng-content select="[slot=action]"></ng-content>
+    </div>
+  </div>
+
+  <!-- Input Container -->
+  <div 
+    class="input-container" 
+    [ngClass]="{
+      'has-focus': isFocused, 
+      'has-error': !!errorMessage,
+      'is-disabled': disabled,
+      'has-left-icon': !!icon,
+      'has-right-icon': type === 'password'
+    }">
+    
+    <!-- Optional Left Icon -->
+    <i *ngIf="icon" [class]="icon + ' left-icon'"></i>
+    
+    <!-- Core Input -->
+    <input 
+      pInputText
+      [type]="computedType"
+      [value]="value"
+      [placeholder]="placeholder"
+      [disabled]="disabled"
+      (input)="onInput($event)"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+      class="fusor-form-control"
+    />
+
+    <!-- Password visibility toggle (Right Icon) -->
+    <button 
+      *ngIf="type === 'password'" 
+      type="button" 
+      class="pwd-toggle-btn"
+      tabindex="-1"
+      (click)="togglePasswordVisibility()">
+      <i [class]="isPasswordVisible ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
+    </button>
+  </div>
+
+  <!-- Error Message -->
+  <div class="error-msg" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+</div>

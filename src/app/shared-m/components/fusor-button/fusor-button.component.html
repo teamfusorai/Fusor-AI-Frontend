@@ -1,0 +1,15 @@
+<button 
+  pButton 
+  [type]="type"
+  [disabled]="disabled || loading"
+  [class]="'fusor-btn fusor-btn-' + variant + (fullWidth ? ' w-full' : '') + (loading ? ' is-loading' : '')"
+  (click)="onClick.emit($event)">
+  
+  <i *ngIf="loading" class="pi pi-spinner pi-spin btn-icon"></i>
+  <i *ngIf="!loading && icon" [class]="icon + ' btn-icon'"></i>
+  
+  <span class="p-button-label" *ngIf="label">{{ label }}</span>
+  <div class="content">
+    <ng-content></ng-content>
+  </div>
+</button>

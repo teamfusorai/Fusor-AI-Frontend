@@ -1,0 +1,35 @@
+<div class="step-container">
+  <div class="step-header">
+    <h3>Basic Information</h3>
+    <p>Let's start by giving your chatbot an identity.</p>
+  </div>
+
+  <form [formGroup]="basicInfoForm" class="step-form">
+    
+    <app-fusor-input 
+      label="Chatbot Name" 
+      formControlName="name"
+      placeholder="e.g. Acme Support Bot"
+      [showRequiredStar]="true"
+      [errorMessage]="basicInfoForm.get('name')?.touched && basicInfoForm.get('name')?.invalid ? 'Name is required' : ''">
+    </app-fusor-input>
+
+    <app-fusor-dropdown
+      label="Industry"
+      formControlName="industry"
+      [options]="industryOptions"
+      [showRequiredStar]="true"
+      [errorMessage]="basicInfoForm.get('industry')?.touched && basicInfoForm.get('industry')?.invalid ? 'Industry is required' : ''">
+    </app-fusor-dropdown>
+
+    <app-fusor-input 
+      *ngIf="basicInfoForm.get('industry')?.value === 'Other'"
+      label="Please specify your industry" 
+      formControlName="customIndustry"
+      placeholder="Type here..."
+      [showRequiredStar]="true"
+      [errorMessage]="basicInfoForm.get('customIndustry')?.touched && basicInfoForm.get('customIndustry')?.invalid ? 'Please specify' : ''">
+    </app-fusor-input>
+
+  </form>
+</div>

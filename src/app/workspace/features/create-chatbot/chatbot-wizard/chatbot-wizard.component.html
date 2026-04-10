@@ -1,0 +1,34 @@
+<div class="wizard-container">
+  <div class="wizard-content">
+    
+    <div class="wizard-header">
+      <h2>Create New Chatbot</h2>
+      <p-steps [model]="steps" [readonly]="false" [(activeIndex)]="activeIndex"></p-steps>
+    </div>
+
+    <!-- Main 2-column layout -->
+    <div class="split-pane">
+      
+      <!-- Left side: dynamic forms -->
+      <div class="form-pane scrollable-pane">
+        <router-outlet></router-outlet>
+        
+        <!-- Action Buttons -->
+        <div class="wizard-actions">
+          <app-fusor-button label="Back" variant="outline" *ngIf="activeIndex > 0" (click)="prev()"></app-fusor-button>
+          <app-fusor-button 
+            [label]="activeIndex === steps.length - 1 ? 'Publish' : 'Next'" 
+            [disabled]="!(wizardService.isCurrentStepValid$ | async)" 
+            (click)="next()"
+          ></app-fusor-button>
+        </div>
+      </div>
+
+      <!-- Right side: fixed preview -->
+      <div class="preview-pane">
+        <app-bot-preview></app-bot-preview>
+      </div>
+
+    </div>
+  </div>
+</div>

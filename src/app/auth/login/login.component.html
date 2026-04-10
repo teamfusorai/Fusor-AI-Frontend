@@ -1,0 +1,65 @@
+<div class="auth-page-wrapper">
+  <div class="auth-card">
+
+    <!-- Close action (optional if used as a modal but we keep standard routing header) -->
+    <a routerLink="/" class="close-btn" aria-label="Close">
+      <i class="pi pi-times"></i>
+    </a>
+
+    <!-- Header -->
+    <div class="dialog-header">
+      <div class="logo-wrapper">
+        <div class="icon-container">
+          <!-- Logo for Fusor AI -->
+          <img src="assets/Media/fusorai-logo.png" alt="Fusor AI Logo" style="width: 24px; height: 24px; object-fit: contain;">
+        </div>
+        <span class="logo-text">Fusor AI</span>
+      </div>
+      <h2>Welcome back</h2>
+      <p>Login to your account to continue</p>
+    </div>
+
+    <!-- Display Backend Error -->
+    <div class="global-error" *ngIf="errorMsg">
+      <i class="pi pi-exclamation-circle"></i>
+      {{ errorMsg }}
+    </div>
+
+    <!-- Login Form -->
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+
+      <!-- Email -->
+      <app-fusor-input label="Email" type="email" placeholder="name@company.com" formControlName="email"
+        [errorMessage]="f['email'].invalid && f['email'].touched ? 'Please enter a valid email addressing' : ''">
+      </app-fusor-input>
+
+      <!-- Password -->
+      <app-fusor-input label="Password" type="password" placeholder="Enter your password" formControlName="password"
+        [errorMessage]="f['password'].invalid && f['password'].touched ? 'Invalid password format (Min 8 chars, 1 uppercase, 1 lowercase, 1 number, 1 special character)' : ''">
+        <a slot="action" routerLink="/auth/forgot-password" tabindex="-1" class="forgot-link">Forgot password?</a>
+      </app-fusor-input>
+
+      <!-- Submit Button -->
+      <app-fusor-button type="submit" label="Login" [loading]="isLoading">
+      </app-fusor-button>
+    </form>
+
+    <!-- Divider -->
+    <div class="divider">
+      <span>Or continue with</span>
+    </div>
+
+    <!-- Social Logins -->
+    <div class="social-logins">
+      <app-fusor-button variant="outline" icon="pi pi-google" label="Google"></app-fusor-button>
+      <app-fusor-button variant="outline" icon="pi pi-github" label="GitHub"></app-fusor-button>
+    </div>
+
+    <!-- Footer -->
+    <div class="auth-footer">
+      <span>Don't have an account?</span>
+      <a routerLink="/auth/signup" class="signup-link">Sign up</a>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,15 @@
+@import '../login/login.component.scss';
+
+/* We can reuse exact styles from login.component since the card structure and layout is identical */
+/* The @import simply pulls in the shared auth container/divider/footer rules */
+
+.login-link {
+  color: #0F172A;
+  font-weight: 600;
+  margin-left: 6px;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
