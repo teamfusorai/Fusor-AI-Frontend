@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HomeRoutingModule } from './home-routing.module';
-import { SharedMModule } from '../shared-m/shared-m.module';
+import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './home.component';
 
 
@@ -14,7 +14,7 @@ import { HomeComponent } from './home.component';
     CommonModule,
     HomeRoutingModule,
     RouterModule,
-    SharedMModule
+    SharedModule
   ]
 })
 export class HomeModule { }

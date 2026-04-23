@@ -1,22 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../core/services/auth.service';
+import { AuthLoaderService } from '../../core/services/auth-loader.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   loginForm!: FormGroup;
-  isLoading = false;
   errorMsg = '';
+  private authSub?: Subscription;
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    public authLoader: AuthLoaderService
   ) {}
 
   ngOnInit(): void {
@@ -34,19 +37,23 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.isLoading = true;
     this.errorMsg = '';
 
-    this.authService.login(this.loginForm.value).subscribe({
+    this.authSub = this.authService.login(this.loginForm.value).subscribe({
       next: (res) => {
-        this.isLoading = false;
         // Proceed to dashboard or home
         this.router.navigate(['/']);
       },
       error: (err) => {
-        this.isLoading = false;
         this.errorMsg = err.error?.error?.message || 'Invalid email or password';
       }
     });
   }
+
+  ngOnDestroy(): void {
+    if (this.authSub) {
+      this.authSub.unsubscribe();
+    }
+  }
 }
+

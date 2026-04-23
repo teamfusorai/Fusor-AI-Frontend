@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { SharedMModule } from '../shared-m/shared-m.module'; 
+import { SharedModule } from '../shared/shared.module'; 
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthRoutingModule } from './auth-routing.module';
 import { AuthComponent } from './auth.component';
@@ -16,10 +16,11 @@ import { CommonModule } from '@angular/common';
     ForgotPasswordComponent,
   ],
   imports: [    
-    SharedMModule, 
+    SharedModule, 
     CommonModule,
     AuthRoutingModule,
     ReactiveFormsModule
   ]
 })
 export class AuthModule { }
+

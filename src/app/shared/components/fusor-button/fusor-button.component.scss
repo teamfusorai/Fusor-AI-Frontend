@@ -1,0 +1,84 @@
+.fusor-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  border: 1px solid transparent;
+  width: auto;
+  gap: 8px;
+  height: 48px;
+  font-family: var(--font-family);
+
+  &.w-full {
+    width: 100%;
+  }
+
+  /* Primary Variant */
+  &.fusor-btn-primary {
+    background: var(--primary-color);
+    color: var(--primary-color-text);
+    border: 1px solid var(--primary-color);
+    border-radius: 20px;
+
+    /* Proper Inversion on Hover matching Figma intent */
+    &:hover:not(:disabled) {
+      background: var(--primary-color-text);
+      color: var(--primary-color);
+      border-color: var(--primary-color);
+      transform: none;
+      box-shadow: none;
+    }
+    
+    &:active:not(:disabled) {
+      background: var(--primary-color);
+      color: var(--primary-color-text);
+    }
+  }
+
+  /* Outline Variant (Mapped to Figma spec for Login / View Demo) */
+  &.fusor-btn-outline {
+    background: var(--input-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--border-light);
+    border-radius: 20px;
+
+    &:hover:not(:disabled) {
+      background: rgba(229, 229, 229, 0.6);
+      border-color: var(--border-light);
+    }
+    
+    &:focus {
+      border-color: var(--primary-color);
+      box-shadow: none;
+    }
+  }
+
+  /* Disabled State */
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* Loading State */
+  &.is-loading {
+    cursor: wait;
+    opacity: 0.8;
+  }
+}
+
+::ng-deep .p-button {
+  padding: 0;
+  background: transparent;
+  border: none;
+  width: 100%;
+  
+  &:focus {
+    box-shadow: none;
+  }
+}

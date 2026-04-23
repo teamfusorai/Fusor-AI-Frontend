@@ -3,8 +3,8 @@ import { LoginComponent } from './login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 // import { RouterTestingModule } from '@angular/router-testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { AuthService } from '../services/auth.service';
-import { SharedMModule } from '../../shared-m/shared-m.module';
+import { AuthService } from '../../core/services/auth.service';
+import { SharedModule } from '../../shared/shared.module';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -17,7 +17,7 @@ describe('LoginComponent', () => {
         ReactiveFormsModule,
         // RouterTestingModule, 
         HttpClientTestingModule,
-        SharedMModule
+        SharedModule
       ],
       providers: [AuthService]
     })
@@ -37,3 +37,4 @@ describe('LoginComponent', () => {
     expect(component.loginForm.get('password')?.value).toBe('');
   });
 });
+

@@ -1,0 +1,143 @@
+.fusor-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.label-row label {
+  cursor: pointer;
+}
+
+.label-row label.required::after {
+  content: '*';
+  color: var(--danger-text);
+  margin-left: 2px;
+}
+
+.extra-action {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* Base input container acting as visual wrapper */
+.input-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  background-color: var(--surface-card);
+  // border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  height: 48px;
+  transition: all 0.2s ease;
+  overflow: hidden;
+
+  /* Hover State */
+  &:hover:not(.is-disabled):not(.has-error) {
+    border-color: var(--border-focus);
+  }
+
+  /* Focus State */
+  &.has-focus:not(.has-error) {
+    border-color: var(--text-primary);
+    // box-shadow: 0 0 0 1px var(--text-primary);
+  }
+
+  /* Error State */
+  &.has-error {
+    border-color: var(--danger-text);
+    background-color: var(--danger-bg);
+
+    &.has-focus {
+      box-shadow: 0 0 0 1px var(--danger-text);
+    }
+  }
+
+  /* Disabled State */
+  &.is-disabled {
+    background-color: var(--surface-ground);
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+}
+
+/* Inside the input container */
+.left-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+.fusor-form-control {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: transparent;
+  outline: none;
+  padding: 0 16px;
+  font-size: 15px;
+  color: var(--text-primary);
+  font-family: var(--font-family);
+
+  /* Ensure PrimeNG original borders don't show since we styled the container */
+  box-shadow: none !important;
+
+  &::placeholder {
+    color: var(--text-muted);
+  }
+}
+
+/* Adjust padding if icons exist */
+.input-container.has-left-icon .fusor-form-control {
+  padding-left: 42px;
+}
+
+.input-container.has-right-icon .fusor-form-control {
+  padding-right: 48px;
+  /* Leave space for the eye toggle */
+}
+
+/* Password Toggle Button */
+.pwd-toggle-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: var(--surface-hover);
+    color: var(--text-primary);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--text-primary);
+    outline-offset: 2px;
+  }
+}
+
+.error-msg {
+  font-size: 13px;
+  color: var(--danger-text);
+  margin-top: 2px;
+}

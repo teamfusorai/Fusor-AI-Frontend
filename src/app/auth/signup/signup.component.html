@@ -47,7 +47,7 @@
       </app-fusor-input>
 
       <!-- Submit Button -->
-      <app-fusor-button type="submit" label="Sign Up" [loading]="isLoading">
+      <app-fusor-button type="submit" label="Sign up" [loading]="(authLoader.isLoading$ | async) ?? false">
       </app-fusor-button>
     </form>
 

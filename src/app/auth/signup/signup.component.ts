@@ -1,22 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../core/services/auth.service';
+import { AuthLoaderService } from '../../core/services/auth-loader.service';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss']
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent implements OnInit, OnDestroy {
   signupForm!: FormGroup;
-  isLoading = false;
   errorMsg = '';
+  private authSub?: Subscription;
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    public authLoader: AuthLoaderService
   ) {}
 
   ngOnInit(): void {
@@ -45,19 +48,21 @@ export class SignupComponent implements OnInit {
       return;
     }
 
-    this.isLoading = true;
     this.errorMsg = '';
 
-    this.authService.signup(this.signupForm.value).subscribe({
+    this.authSub = this.authService.signup(this.signupForm.value).subscribe({
       next: (res) => {
-        this.isLoading = false;
         // On success, redirect to login
         this.router.navigate(['/login']);
       },
       error: (err) => {
-        this.isLoading = false;
         this.errorMsg = err.error?.error?.message || 'Email already registered or another error occurred';
       }
     });
   }
+
+  ngOnDestroy(): void {
+    this.authSub?.unsubscribe();
+  }
 }
+

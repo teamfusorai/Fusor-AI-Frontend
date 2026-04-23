@@ -3,8 +3,8 @@ import { ForgotPasswordComponent } from './forgot-password.component';
 import { ReactiveFormsModule } from '@angular/forms';
 // import { RouterTestingModule } from '@angular/router-testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { AuthService } from '../services/auth.service';
-import { SharedMModule } from '../../shared-m/shared-m.module';
+import { AuthService } from '../../core/services/auth.service';
+import { SharedModule } from '../../shared/shared.module';
 
 describe('ForgotPasswordComponent', () => {
   let component: ForgotPasswordComponent;
@@ -17,7 +17,7 @@ describe('ForgotPasswordComponent', () => {
         ReactiveFormsModule,
         // RouterTestingModule,
         HttpClientTestingModule,
-        SharedMModule
+        SharedModule
       ],
       providers: [AuthService]
     })
@@ -32,3 +32,4 @@ describe('ForgotPasswordComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
