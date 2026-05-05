@@ -1,6 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { SharedModule } from '../../../shared/shared.module';
+import { StepsModule } from 'primeng/steps';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { ReactiveFormsModule } from '@angular/forms';
+
 import { CreateChatbotRoutingModule } from './create-chatbot-routing.module';
 // import { CreateChatbotComponent } from '../create-chatbot.component';
 import { CreateChatbotComponent } from './create-chatbot.component';
@@ -21,7 +26,11 @@ import { PublishComponent } from './components/publish/publish.component';
   ],
   imports: [
     CommonModule,
-    CreateChatbotRoutingModule
+    CreateChatbotRoutingModule,
+    SharedModule,
+    StepsModule,
+    SelectButtonModule,
+    ReactiveFormsModule
   ]
 })
 export class CreateChatbotModule { }

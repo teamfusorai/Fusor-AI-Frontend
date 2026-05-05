@@ -5,6 +5,8 @@ import { SharedModule } from '../shared/shared.module';
 import { WorkspaceLayoutComponent } from './layout/workspace-layout/workspace-layout.component';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
 import { HeaderComponent } from './layout/header/header.component';
+import { SidebarModule } from 'primeng/sidebar';
+import { ButtonModule } from 'primeng/button';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,9 @@ import { HeaderComponent } from './layout/header/header.component';
   imports: [
     CommonModule,
     WorkspaceRoutingModule,
-    SharedModule // Reuse inputs and buttons
+    SharedModule, // Reuse inputs and buttons
+    SidebarModule,
+    ButtonModule
   ]
 })
 export class WorkspaceModule { }

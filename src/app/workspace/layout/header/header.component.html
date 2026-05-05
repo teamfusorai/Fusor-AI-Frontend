@@ -1,18 +1,25 @@
-<div class="header-container">
-  <div class="header-breadcrumb">
-    <!-- Could inject dynamic route name here eventually -->
+<div class="header-container flex align-items-center justify-content-between">
+  <div class="header-left flex align-items-center gap-3">
+    <!-- Hamburger Button (Mobile Only) -->
+    <button pButton type="button" icon="pi pi-bars" class="p-button-rounded p-button-text md:hidden"
+      (click)="toggleSidebar.emit()"></button>
+
+    <div class="header-breadcrumb text-primary font-semibold">
+      <!-- Breadcrumbs -->
+    </div>
   </div>
 
-  <div class="header-actions">
+  <div class="header-actions flex align-items-center gap-4">
     <button class="icon-btn notif-btn">
+      <img src="assets/Media/bell.png" alt="Bell Icon" *ngIf="false" />
       <i class="pi pi-bell"></i>
-      <span class="badge"></span>
+      <div class="badge"></div>
     </button>
-    
-    <div class="user-pill">
-      <span class="user-greeting">Hi, Admin</span>
+
+    <div class="user-pill flex align-items-center gap-2 cursor-pointer">
+      <span class="user-greeting text-sm font-medium">John Doe</span>
       <div class="user-avatar-sm">
-        <i class="pi pi-user"></i>
+        JD
       </div>
     </div>
   </div>

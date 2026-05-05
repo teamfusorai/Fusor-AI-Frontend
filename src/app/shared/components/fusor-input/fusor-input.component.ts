@@ -20,6 +20,8 @@ export class FusorInputComponent implements ControlValueAccessor, OnInit {
   @Input() icon: string = ''; // PrimeIcons class e.g. 'pi pi-user'
   @Input() disabled: boolean = false;
   @Input() showRequiredStar: boolean = false;
+  @Input() multiline: boolean = false;
+  @Input() rows: number = 4;
   
   // To show error messages manually if desired, but mostly we handle it via the bounded control state
   @Input() errorMessage: string = ''; 

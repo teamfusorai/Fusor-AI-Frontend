@@ -1,1 +1,190 @@
-<p>publish works!</p>
+<div class="publish-wrapper" *ngIf="deploymentState$ | async as state; else placeholders">
+  <div class="publish-card">
+    <div class="header-section">
+      <div class="header-icon">
+        <img src="assets/Media/rocketIcon.svg" alt="Rocket Icon" style="width: 32px; height: 32px;" />
+      </div>
+      <h2 class="header-title">Deploy Your Chatbot</h2>
+      <p class="header-subtitle">Choose how you'd like to integrate and deploy your chatbot</p>
+    </div>
+
+    <div class="integration-sections">
+      <!-- QR Code Section -->
+      <div class="integration-box">
+        <div class="box-content">
+          <div class="box-icon dark-icon"></div>
+          <div class="box-details">
+            <h3 class="box-title">QR Code</h3>
+            <p class="box-desc">Generate a QR code that users can scan to access your chatbot instantly</p>
+
+            <div class="qr-action-area">
+              <div class="qr-preview-box">
+                <img [src]="'data:image/png;base64,' + state.qr_code_base64" alt="QR Code"
+                  *ngIf="state.qr_code_base64" />
+              </div>
+              <div class="qr-buttons">
+                <button class="action-btn">Generate QR Code</button>
+                <a *ngIf="state.qr_code_base64" [href]="'data:image/png;base64,' + state.qr_code_base64"
+                  download="chatbot-qr.png" class="download-link">Download PNG</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Embeddable Code Section -->
+      <div class="integration-box">
+        <div class="box-content">
+          <div class="box-icon light-icon">
+            <i class="pi pi-code"></i>
+          </div>
+          <div class="box-details w-full">
+            <h3 class="box-title">Embeddable Code</h3>
+            <p class="box-desc">Copy and paste this code snippet into your website to add the chatbot widget</p>
+
+            <div class="code-snippet-box">
+              <code>{{ state.snippet }}</code>
+            </div>
+
+            <button class="action-btn flex-btn" [cdkCopyToClipboard]="state.snippet">
+              <i class="pi pi-code"></i> Copy Code
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- API Endpoint Section -->
+      <div class="integration-box">
+        <div class="box-content">
+          <div class="box-icon light-icon">
+            <i class="pi pi-globe"></i>
+          </div>
+          <div class="box-details w-full">
+            <h3 class="box-title">API Endpoint</h3>
+            <p class="box-desc">Integrate directly with your application using our REST API</p>
+
+            <div class="api-inputs-area">
+              <app-fusor-copy-input label="Endpoint URL" [value]="state.endpoint_url">
+              </app-fusor-copy-input>
+
+              <app-fusor-copy-input label="API Key" [value]="'sk_live_1234567890abcdef1234567890abcdef'"
+                [isMasked]="true">
+              </app-fusor-copy-input>
+            </div>
+
+            <button class="action-btn">View API Documentation</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ready to Go Live -->
+      <div class="ready-live-box">
+        <div class="box-content">
+          <div class="box-icon check-icon">
+            <i class="pi pi-check"></i>
+          </div>
+          <div class="box-details">
+            <h3 class="box-title">Ready to Go Live</h3>
+            <p class="box-desc mb-0 pr-4">Your chatbot is configured and ready. Choose one or more deployment methods
+              above and click "Publish Chatbot" when you're ready.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #placeholders>
+  <div class="publish-wrapper">
+    <div class="publish-card">
+      <div class="header-section">
+        <div class="header-icon">
+          <img src="assets/Media/rocketIcon.svg" alt="Rocket Icon" style="width: 32px; height: 32px;" />
+        </div>
+        <h2 class="header-title">Deploy Your Chatbot</h2>
+        <p class="header-subtitle">Choose how you'd like to integrate and deploy your chatbot</p>
+      </div>
+
+      <div class="integration-sections">
+        <!-- QR Code Section Placeholder -->
+        <div class="integration-box opacity-80">
+          <div class="box-content">
+            <div class="box-icon dark-icon"></div>
+            <div class="box-details">
+              <h3 class="box-title">QR Code</h3>
+              <p class="box-desc">Generate a QR code that users can scan to access your chatbot instantly</p>
+
+              <div class="qr-action-area">
+                <div class="qr-preview-box">
+                  <span class="preview-text">QR Code<br />Preview</span>
+                </div>
+                <div class="qr-buttons">
+                  <button class="action-btn disabled-btn" disabled>Generate QR Code</button>
+                  <span class="download-link disabled-link">Download PNG</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Embeddable Code Section Placeholder -->
+        <div class="integration-box opacity-80">
+          <div class="box-content">
+            <div class="box-icon light-icon">
+              <i class="pi pi-code"></i>
+            </div>
+            <div class="box-details w-full">
+              <h3 class="box-title">Embeddable Code</h3>
+              <p class="box-desc">Copy and paste this code snippet into your website to add the chatbot widget</p>
+
+              <div class="code-snippet-box">
+                <code>&lt;script src="https://api.fusor.ai/..."&gt;&lt;/script&gt;</code>
+              </div>
+
+              <button class="action-btn flex-btn disabled-btn" disabled>
+                <i class="pi pi-code"></i> Copy Code
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- API Endpoint Section Placeholder -->
+        <div class="integration-box opacity-80">
+          <div class="box-content">
+            <div class="box-icon light-icon">
+              <i class="pi pi-globe"></i>
+            </div>
+            <div class="box-details w-full">
+              <h3 class="box-title">API Endpoint</h3>
+              <p class="box-desc">Integrate directly with your application using our REST API</p>
+
+              <div class="api-inputs-area">
+                <app-fusor-copy-input label="Endpoint URL" [value]="'https://api.fusor.ai/v1/chat/...'">
+                </app-fusor-copy-input>
+
+                <app-fusor-copy-input label="API Key" [value]="'sk_live_........................'" [isMasked]="true">
+                </app-fusor-copy-input>
+              </div>
+
+              <button class="action-btn disabled-btn" disabled>View API Documentation</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ready to Go Live Placeholder -->
+        <div class="ready-live-box">
+          <div class="box-content">
+            <div class="box-icon check-icon">
+              <i class="pi pi-check"></i>
+            </div>
+            <div class="box-details">
+              <h3 class="box-title">Ready to Go Live</h3>
+              <p class="box-desc mb-0 pr-4">Your chatbot is configured and ready. Choose one or more deployment methods
+                above and click "Publish Chatbot" when you're ready.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

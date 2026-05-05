@@ -1,0 +1,58 @@
+.copy-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.copy-input-label {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: #737373;
+}
+
+.copy-input-wrapper {
+  background-color: #fafafa;
+  border: 0.667px solid #e5e5e5;
+  border-radius: 16px;
+  height: 53.333px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12.667px;
+  width: 100%;
+}
+
+.copy-input-field {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: 'Cousine', monospace;
+  font-size: 14px;
+  color: #404040;
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+}
+
+.copy-input-btn {
+  background: transparent;
+  border: none;
+  border-radius: 12px;
+  height: 28px;
+  padding: 0 8px;
+  font-family: 'Cousine', monospace;
+  font-size: 14px;
+  color: #0a0a0a;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.copy-input-btn:hover {
+  background-color: rgba(0,0,0,0.05);
+}

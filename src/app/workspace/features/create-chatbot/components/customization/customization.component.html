@@ -1,1 +1,65 @@
-<p>customization works!</p>
+<div class="customization-card fusor-builder-customizer p-4 md:p-5" [formGroup]="custForm">
+  <div class="header-text">
+    <h4>Appearance</h4>
+  </div>
+
+  <div class="grid step2-layout m-0">
+    <!-- LEFT COLUMN: Form -->
+    <div class="col-12 lg:col-6 left-column flex flex-column gap-4 px-0 lg:pr-4">
+
+      <!-- Primary Color -->
+      <div class="form-group flex flex-column gap-2">
+        <label>Primary Color</label>
+        <div class="color-input-wrapper flex gap-3 align-items-center">
+          <input type="color" formControlName="color" class="native-color-picker">
+          <app-fusor-input class="flex-1" formControlName="color"></app-fusor-input>
+        </div>
+      </div>
+
+      <!-- Color Presets -->
+      <div class="form-group flex flex-column gap-2">
+        <label>Color Presets</label>
+        <div class="presets-grid flex flex-wrap gap-2">
+          <div *ngFor="let preset of colorPresets" class="preset-circle" [style.backgroundColor]="preset"
+            [class.active]="custForm.get('color')?.value === preset" (click)="onPresetClick(preset)">
+          </div>
+        </div>
+      </div>
+
+      <!-- Logo Upload -->
+      <div class="form-group flex flex-column gap-2">
+        <label>Logo</label>
+        <div class="upload-box flex flex-column align-items-center justify-content-center relative"
+          (click)="fileInput.click()">
+          <input type="file" #fileInput (change)="onFileSelected($event)" accept=".png,.jpg,.jpeg" class="hidden">
+          <div class="icon-circle mb-2">
+            <i class="pi pi-upload"></i>
+          </div>
+          <span class="upload-title">Upload Logo</span>
+          <span class="upload-subtitle">PNG, JPG up to 2MB</span>
+        </div>
+      </div>
+
+      <!-- Welcome Message -->
+      <div class="form-group flex flex-column gap-2">
+        <label>Welcome Message</label>
+        <textarea pInputTextarea formControlName="welcome_message" class="fusor-form-control w-full"
+          rows="3"></textarea>
+      </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN: Preview -->
+    <div class="col-12 lg:col-6 right-column flex flex-column px-0 lg:pl-4 mt-4 lg:mt-0">
+      <div class="preview-header-text flex align-items-center gap-2 mb-3">
+        <i class="pi pi-eye text-color-secondary"></i>
+        <h4 class="m-0 font-semibold text-xl">Preview</h4>
+      </div>
+
+      <div class="preview-wrapper flex justify-content-center align-items-center p-4">
+        <!-- Render Shared Preview Component -->
+        <app-chatbot-preview *ngIf="config$ | async as config" [config]="config"></app-chatbot-preview>
+      </div>
+    </div>
+  </div>
+</div>

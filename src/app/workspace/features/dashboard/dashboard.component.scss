@@ -1,0 +1,126 @@
+.dashboard-wrapper {
+  background-color: #FAFAFA;
+  min-height: 100vh;
+  padding: 32px;
+  width: 100%;
+  font-family: var(--font-family, 'Inter', sans-serif);
+}
+
+.dashboard-title {
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  color: var(--text-primary, #000000);
+}
+
+.dashboard-subtitle {
+  font-size: 16px;
+  color: var(--text-secondary, #525252);
+}
+
+:host ::ng-deep .create-btn {
+  background-color: var(--primary-color, #000000) !important;
+  border-color: var(--primary-color, #000000) !important;
+  color: var(--primary-color-text, #ffffff) !important;
+  border-radius: 20px !important;
+  padding: 10px 20px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+
+  .pi {
+    font-size: 14px !important;
+  }
+}
+
+.metric-title {
+  font-size: 14px;
+  color: var(--text-secondary, #525252);
+}
+
+.metric-value {
+  font-size: 30px;
+  color: var(--text-primary, #0a0a0a);
+  line-height: 1.2;
+}
+
+.metric-subtext {
+  font-size: 12px;
+  color: var(--text-muted, #737373);
+}
+
+.list-title {
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--text-primary, #000000);
+}
+
+.chatbots-list-container {
+  max-height: 600px;
+  overflow-y: auto;
+  padding-right: 8px;
+  /* For scrollbar */
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--border-light, #e5e5e5);
+    border-radius: 10px;
+  }
+}
+
+.bot-icon-container {
+  background-color: var(--surface-100, #f5f5f5);
+  width: 48px;
+  height: 48px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary, #0a0a0a);
+}
+
+.bot-name {
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--text-primary, #0a0a0a);
+}
+
+.bot-meta {
+  font-size: 14px;
+  color: var(--text-secondary, #525252);
+
+  i {
+    color: var(--text-muted, #737373);
+  }
+}
+
+:host ::ng-deep .bot-badge-active {
+  background-color: var(--primary-color, #000000) !important;
+  color: var(--primary-color-text, #ffffff) !important;
+  border-radius: 16px !important;
+  padding: 4.6px 12.6px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  border: none !important;
+}
+
+.bot-badge-industry {
+  border: 0.667px solid #d4d4d4;
+  border-radius: 16px;
+  padding: 4.6px 12.6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-primary, #0a0a0a);
+}
+
+.text-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

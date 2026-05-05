@@ -72,7 +72,7 @@
   }
 }
 
-::ng-deep .p-button {
+:host ::ng-deep .p-button {
   padding: 0;
   background: transparent;
   border: none;

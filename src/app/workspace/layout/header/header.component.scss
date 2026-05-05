@@ -3,9 +3,10 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 100%;
+  height: 80px;
   padding: 0 32px;
   background-color: var(--surface-card);
+  border-bottom: 1px solid var(--border-light);
 }
 
 .header-breadcrumb {
@@ -18,7 +19,7 @@
   display: flex;
   align-items: center;
   gap: 24px;
-  
+
   .icon-btn {
     position: relative;
     background: transparent;
@@ -27,7 +28,7 @@
     font-size: 1.2rem;
     cursor: pointer;
     transition: color 0.2s;
-    
+
     &:hover {
       color: var(--text-primary);
     }
@@ -38,7 +39,7 @@
       right: -4px;
       width: 8px;
       height: 8px;
-      background-color: var(--danger-text);
+      background-color: var(--text-primary, #000);
       border-radius: 50%;
     }
   }
@@ -46,26 +47,29 @@
   .user-pill {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
+    /* Based on Figma layout offset 8px distance */
     cursor: pointer;
-    
+
     .user-greeting {
       font-weight: 500;
       font-size: 14px;
+      font-family: 'Inter', sans-serif;
       color: var(--text-primary);
     }
-    
+
     .user-avatar-sm {
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      background: var(--surface-ground);
-      border: 1px solid var(--border-light);
+      background: var(--text-primary, #000);
       display: flex;
       justify-content: center;
       align-items: center;
-      color: var(--text-secondary);
+      color: #fff;
       font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
     }
   }
 }

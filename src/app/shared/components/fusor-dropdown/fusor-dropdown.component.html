@@ -1,1 +1,32 @@
-<p>fusor-dropdown works!</p>
+<div class="fusor-dropdown-wrapper">
+  <div class="label-row" *ngIf="label">
+    <label [class.required]="showRequiredStar">{{ label }}</label>
+  </div>
+
+  <div 
+    class="dropdown-container" 
+    [ngClass]="{
+      'has-focus': isFocused, 
+      'has-error': !!errorMessage,
+      'is-disabled': disabled
+    }">
+    
+    <p-dropdown 
+      [options]="options" 
+      [ngModel]="value" 
+      (ngModelChange)="onModelChange($event)"
+      [placeholder]="placeholder" 
+      [disabled]="disabled"
+      (onFocus)="onFocus()"
+      (onBlur)="onBlur()"
+      optionLabel="label"
+      optionValue="value"
+      styleClass="fusor-p-dropdown">
+    </p-dropdown>
+
+  </div>
+
+  <div class="error-msg" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </div>
+</div>

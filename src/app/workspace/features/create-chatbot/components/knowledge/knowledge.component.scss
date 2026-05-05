@@ -1,0 +1,78 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.knowledge-card {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1024px;
+  background-color: #FFFFFF !important;
+  border: 1px solid var(--border-light, #E5E5E5);
+  border-radius: 16px;
+  margin: 0 auto;
+  margin-top: 16px;
+}
+
+.header-icon-box {
+  background-color: var(--text-primary, #000000);
+  width: 64px;
+  height: 64px;
+
+  i {
+    color: var(--surface-card, #FFFFFF);
+  }
+}
+
+.source-box {
+  border: 2px solid var(--border-light, #E5E5E5);
+  background-color: var(--surface-card, #FFFFFF);
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: var(--surface-hover, #FAFAFA);
+    border-color: var(--text-secondary, #a3a3a3);
+  }
+
+  &.active {
+    border-color: var(--text-primary, #000000) !important;
+    background-color: var(--surface-hover, #FAFAFA);
+  }
+}
+
+.btn-choose-files {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--surface-ground, #f5f5f5);
+  color: var(--text-primary, #0A0A0A);
+  border: 1px solid var(--border-light, #E5E5E5);
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: var(--border-light, #E5E5E5);
+  }
+}
+
+.btn-black {
+  background-color: var(--text-primary, #000000) !important;
+  color: var(--surface-card, #FFFFFF) !important;
+}
+
+/* Ensure no default border issues for inputs inside */
+.url-input-container input {
+  transition: border-color 0.2s ease;
+
+  &:focus {
+    border-color: var(--text-primary, #000000) !important;
+    box-shadow: 0 0 0 1px var(--text-primary, #000000) !important;
+  }
+}

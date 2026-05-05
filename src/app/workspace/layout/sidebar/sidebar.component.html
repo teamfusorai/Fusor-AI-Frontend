@@ -1,6 +1,5 @@
-<aside class="sidebar-container">
-  
-  <!-- Logo Section -->
+<!-- Reusable Sidebar Template -->
+<ng-template #sidebarContent>
   <div class="sidebar-logo-zone" routerLink="/">
     <div class="icon-container">
       <img src="assets/Media/fusorai-logo.png" alt="Fusor AI Logo" class="brand-img">
@@ -10,50 +9,43 @@
 
   <!-- Navigation Links -->
   <nav class="sidebar-nav">
-    <ul class="nav-list">
-      
+    <ul class="nav-list" (click)="closeMobileMenu()">
       <li>
         <a routerLink="/workspace/create-chatbot" routerLinkActive="active-nav" class="nav-link">
           <i class="pi pi-plus-circle nav-icon"></i>
           <span>Create Chatbot</span>
         </a>
       </li>
-
       <li>
         <a routerLink="/workspace/dashboard" routerLinkActive="active-nav" class="nav-link">
           <i class="pi pi-home nav-icon"></i>
           <span>Dashboard</span>
         </a>
       </li>
-
       <li>
         <a routerLink="/workspace/chatbots" routerLinkActive="active-nav" class="nav-link">
           <i class="pi pi-comments nav-icon"></i>
           <span>Chatbots</span>
         </a>
       </li>
-
       <li>
         <a routerLink="/workspace/knowledgebase" routerLinkActive="active-nav" class="nav-link">
           <i class="pi pi-book nav-icon"></i>
           <span>Knowledgebase</span>
         </a>
       </li>
-
       <li>
         <a routerLink="/workspace/analytics" routerLinkActive="active-nav" class="nav-link">
           <i class="pi pi-chart-bar nav-icon"></i>
           <span>Analytics</span>
         </a>
       </li>
-
       <li>
         <a routerLink="/workspace/settings" routerLinkActive="active-nav" class="nav-link">
           <i class="pi pi-cog nav-icon"></i>
           <span>Settings</span>
         </a>
       </li>
-
     </ul>
   </nav>
 
@@ -69,5 +61,16 @@
       </div>
     </div>
   </div>
+</ng-template>
 
+<!-- Desktop Native View -->
+<aside class="sidebar-container hidden md:flex flex-column h-full">
+  <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
 </aside>
+
+<!-- Mobile Overlay View -->
+<p-sidebar [visible]="isMobileVisible" (visibleChange)="isMobileVisibleChange.emit($event)" appendTo="body" styleClass="w-20rem p-0">
+  <aside class="sidebar-container flex flex-column h-full border-none border-noround w-full">
+    <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
+  </aside>
+</p-sidebar>

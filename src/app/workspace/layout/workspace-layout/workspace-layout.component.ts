@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./workspace-layout.component.scss']
 })
 export class WorkspaceLayoutComponent {
-
+  sidebarVisible: boolean = false;
 }

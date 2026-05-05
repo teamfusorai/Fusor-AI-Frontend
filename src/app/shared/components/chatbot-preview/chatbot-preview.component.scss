@@ -1,0 +1,186 @@
+.preview-mockup {
+  width: 296px;
+  height: 617px;
+  background-color: var(--surface-card, #FFFFFF);
+  border-radius: 16px;
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  .mockup-header {
+    height: 84px;
+    display: flex;
+    align-items: center;
+    padding-left: 16px;
+    gap: 12px;
+    flex-shrink: 0;
+    transition: background-color 0.3s ease;
+
+    .mockup-logo-wrapper {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+
+      .mockup-logo {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .fallback-icon {
+        font-size: 20px;
+        color: white;
+      }
+    }
+
+    .mockup-header-text {
+      display: flex;
+      flex-direction: column;
+
+      .bot-name {
+        font-family: var(--font-family, 'Inter', sans-serif);
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 20px;
+        color: white;
+        margin: 0;
+      }
+
+      .bot-status {
+        font-family: var(--font-family, 'Inter', sans-serif);
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 16px;
+        color: white;
+        opacity: 0.9;
+        margin: 0;
+      }
+    }
+  }
+
+  .mockup-body {
+    height: 460px;
+    background-color: var(--surface-card, #FFFFFF);
+    flex-shrink: 0;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .chat-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+
+      &.bot-row {
+        .bot-avatar-sm {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          transition: background-color 0.3s ease;
+
+          .fallback-icon-sm {
+            font-size: 16px;
+            color: white;
+          }
+        }
+
+        .bot-bubble {
+          background-color: var(--surface-ground, #F5F5F5);
+          border-radius: 0 16px 16px 16px;
+          padding: 12px;
+          max-width: 218px;
+
+          p {
+            font-family: var(--font-family, 'Inter', sans-serif);
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+            color: var(--text-primary, #0A0A0A);
+            margin: 0;
+          }
+        }
+      }
+
+      &.user-row {
+        justify-content: flex-end;
+        margin-top: 8px;
+
+        .user-bubble {
+          border-radius: 16px 0 16px 16px;
+          padding: 12px 16px;
+          max-width: 221px;
+          transition: background-color 0.3s ease;
+
+          p {
+            font-family: var(--font-family, 'Inter', sans-serif);
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+            color: white;
+            margin: 0;
+          }
+        }
+      }
+    }
+  }
+
+  .mockup-footer {
+    height: 72.67px;
+    background-color: var(--surface-card, #FFFFFF);
+    border-top: 1px solid var(--border-light, #E5E5E5);
+    padding: 16.67px 16px 0;
+    flex-shrink: 0;
+
+    .mock-input-container {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      height: 40px;
+
+      .mock-input-field {
+        flex: 1;
+        height: 40px;
+        background-color: var(--surface-card, rgba(229, 229, 229, 0.3));
+        border: 1px solid var(--border-light, #E5E5E5);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        padding: 0 12px;
+        opacity: 0.5;
+
+        span {
+          font-family: var(--font-family, 'Inter', sans-serif);
+          font-size: 14px;
+          color: var(--text-secondary, #737373);
+        }
+      }
+
+      .mock-send-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: background-color 0.3s ease;
+
+        i {
+          font-size: 16px;
+          color: white;
+        }
+      }
+    }
+  }
+}

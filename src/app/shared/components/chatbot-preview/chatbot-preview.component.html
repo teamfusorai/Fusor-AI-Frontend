@@ -1,0 +1,46 @@
+<div class="preview-mockup">
+  <!-- Header (Dynamic Color) -->
+  <div class="mockup-header" [style.backgroundColor]="config.color || '#030213'">
+    <div class="mockup-logo-wrapper">
+      <img *ngIf="config.logo_preview" [src]="config.logo_preview" alt="Bot Logo" class="mockup-logo">
+      <!-- Fallback Robot Icon -->
+      <i *ngIf="!config.logo_preview" class="pi pi-android fallback-icon"></i>
+    </div>
+    <div class="mockup-header-text">
+      <p class="bot-name">{{ config.chatbot_name || 'Chatbot' }}</p>
+      <p class="bot-status">Online now</p>
+    </div>
+  </div>
+
+  <!-- Chat Body -->
+  <div class="mockup-body">
+    <!-- Bot Bubble (Dynamic Welcome Message) -->
+    <div class="chat-row bot-row">
+      <div class="bot-avatar-sm" [style.backgroundColor]="config.color || '#030213'">
+        <i class="pi pi-android fallback-icon-sm"></i>
+      </div>
+      <div class="bot-bubble">
+        <p>{{ config.welcome_message || 'Hello! How can I help you today?' }}</p>
+      </div>
+    </div>
+
+    <!-- User Bubble (Static Mock) -->
+    <div class="chat-row user-row">
+      <div class="user-bubble" [style.backgroundColor]="config.color || '#030213'">
+        <p>Hi! I have a question about your products.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chat Footer (Input Mock) -->
+  <div class="mockup-footer">
+    <div class="mock-input-container">
+      <div class="mock-input-field">
+        <span>Type your message...</span>
+      </div>
+      <div class="mock-send-btn" [style.backgroundColor]="config.color || '#030213'">
+        <i class="pi pi-send"></i>
+      </div>
+    </div>
+  </div>
+</div>

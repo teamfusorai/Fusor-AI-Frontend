@@ -1,0 +1,17 @@
+<div class="copy-input-container">
+  <label *ngIf="label" class="copy-input-label">{{ label }}</label>
+  <div class="copy-input-wrapper">
+    <input 
+      [type]="isMasked ? 'password' : 'text'"
+      [value]="value"
+      readonly
+      class="copy-input-field"
+    />
+    <button 
+      class="copy-input-btn"
+      [cdkCopyToClipboard]="value"
+      (cdkCopyToClipboardCopied)="onCopy()">
+      Copy
+    </button>
+  </div>
+</div>

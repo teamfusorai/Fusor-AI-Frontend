@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-sidebar',
@@ -6,5 +6,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent {
+  @Input() isMobileVisible: boolean = false;
+  @Output() isMobileVisibleChange = new EventEmitter<boolean>();
 
+  closeMobileMenu() {
+    if (this.isMobileVisible) {
+      this.isMobileVisible = false;
+      this.isMobileVisibleChange.emit(false);
+    }
+  }
 }

@@ -1,1 +1,40 @@
-<p>basic-info works!</p>
+<div class="basic-info-card mx-auto p-4 md:p-5" [formGroup]="infoForm">
+  
+  <div class="header-text">
+    <h4 class="m-0 font-semibold">Basic Information</h4>
+    <p class="m-0 mt-2">Let's start with the basics of your chatbot</p>
+  </div>
+  
+  <div class="flex flex-column gap-3 w-full">
+    <div class="w-full">
+      <app-fusor-input 
+        label="Chatbot Name" 
+        formControlName="chatbot_name"
+        placeholder="e.g., Customer Support Bot"
+        [showRequiredStar]="true">
+      </app-fusor-input>
+    </div>
+
+    <div class="w-full">
+      <app-fusor-input 
+        label="Description" 
+        formControlName="description"
+        placeholder="Describe what your chatbot does..."
+        [multiline]="true"
+        [rows]="4"
+        [showRequiredStar]="false">
+      </app-fusor-input>
+    </div>
+
+    <div class="w-full">
+      <app-fusor-dropdown
+        label="Industry Preset"
+        formControlName="industry"
+        [options]="industryOptions"
+        placeholder="Select an industry"
+        [showRequiredStar]="true">
+      </app-fusor-dropdown>
+    </div>
+  </div>
+
+</div>

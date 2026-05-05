@@ -1,17 +1,17 @@
-<div class="workspace-shell">
+<div class="workspace-shell flex h-screen overflow-hidden">
   <!-- Sidebar -->
-  <aside class="workspace-sidebar-slot">
-    <app-sidebar></app-sidebar>
+  <aside class="workspace-sidebar-slot w-0 md:w-16rem flex-shrink-0">
+    <app-sidebar [(isMobileVisible)]="sidebarVisible"></app-sidebar>
   </aside>
 
-  <div class="workspace-main-panel">
+  <div class="workspace-main-panel flex-1 flex flex-column overflow-hidden">
     <!-- Top Header -->
     <header class="workspace-header-slot">
-      <app-header></app-header>
+      <app-header (toggleSidebar)="sidebarVisible = !sidebarVisible"></app-header>
     </header>
 
     <!-- Main Dynamic Feature Content -->
-    <main class="workspace-content-scrollable">
+    <main class="workspace-content-scrollable flex-1 overflow-auto">
       <router-outlet></router-outlet>
     </main>
   </div>

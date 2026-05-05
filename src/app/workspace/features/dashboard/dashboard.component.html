@@ -1,1 +1,157 @@
-<p>dashboard works!</p>
+<div class="dashboard-wrapper">
+  <div class="flex flex-column md:flex-row justify-content-between align-items-start md:align-items-center gap-4 mb-5">
+    <div>
+      <h1 class="dashboard-title m-0">Dashboard</h1>
+      <p class="dashboard-subtitle mt-2 mb-0">Manage your chatbots and view analytics</p>
+    </div>
+    <button pButton type="button" label="Create New Chatbot" icon="pi pi-plus" class="p-button-rounded create-btn shrink-0"
+      routerLink="/workspace/create-chatbot"></button>
+  </div>
+
+  <ng-container *ngIf="loading; else content">
+    <!-- Skeletons for Metrics -->
+    <div class="grid mb-5">
+      <div class="col-12 md:col-6 lg:col-3" *ngFor="let i of [1,2,3,4]">
+        <app-fusor-card>
+          <div card-body>
+            <div class="flex justify-content-between align-items-center mb-3">
+              <p-skeleton width="100px" height="20px"></p-skeleton>
+              <p-skeleton shape="circle" size="20px"></p-skeleton>
+            </div>
+            <p-skeleton width="50px" height="36px" class="mb-2 block"></p-skeleton>
+            <p-skeleton width="120px" height="16px"></p-skeleton>
+          </div>
+        </app-fusor-card>
+      </div>
+    </div>
+
+    <!-- Skeletons for List -->
+    <h2 class="list-title mb-4">Your Chatbots</h2>
+    <div class="flex flex-column gap-3">
+      <app-fusor-card *ngFor="let i of [1,2]">
+        <div card-body class="flex align-items-center">
+          <p-skeleton shape="circle" size="48px" class="mr-3"></p-skeleton>
+          <div class="flex-1">
+            <p-skeleton width="200px" height="24px" class="mb-2 block"></p-skeleton>
+            <p-skeleton width="150px" height="16px"></p-skeleton>
+          </div>
+        </div>
+      </app-fusor-card>
+    </div>
+  </ng-container>
+
+  <ng-template #content>
+    <div class="grid mb-5">
+      <!-- Total Chatbots -->
+      <div class="col-12 md:col-6 lg:col-3">
+        <app-fusor-card>
+          <div card-body class="h-full flex flex-column justify-content-between">
+            <div>
+              <div class="flex justify-content-between align-items-start mb-3">
+                <span class="metric-title">Total Chatbots</span>
+                <i class="pi pi-android text-color-secondary"></i>
+              </div>
+              <div class="metric-value">{{ (chatbots$ | async)?.length || 0 }}</div>
+            </div>
+          </div>
+        </app-fusor-card>
+      </div>
+
+      <!-- Conversations -->
+      <div class="col-12 md:col-6 lg:col-3">
+        <app-fusor-card>
+          <div card-body class="h-full flex flex-column justify-content-between">
+            <div>
+              <div class="flex justify-content-between align-items-start mb-3">
+                <span class="metric-title">Conversations</span>
+                <i class="pi pi-comments text-color-secondary"></i>
+              </div>
+              <div class="metric-value">{{ (metrics$ | async)?.total_conversations || 0 | number }}</div>
+            </div>
+          </div>
+        </app-fusor-card>
+      </div>
+
+      <!-- Active Users -->
+      <div class="col-12 md:col-6 lg:col-3">
+        <app-fusor-card>
+          <div card-body class="h-full flex flex-column justify-content-between">
+            <div>
+              <div class="flex justify-content-between align-items-start mb-3">
+                <span class="metric-title">Active Users</span>
+                <i class="pi pi-users text-color-secondary"></i>
+              </div>
+              <div class="metric-value">{{ (metrics$ | async)?.unique_users || 0 | number }}</div>
+            </div>
+          </div>
+        </app-fusor-card>
+      </div>
+
+      <!-- Success Rate -->
+      <div class="col-12 md:col-6 lg:col-3">
+        <app-fusor-card>
+          <div card-body class="h-full flex flex-column justify-content-between">
+            <div>
+              <div class="flex justify-content-between align-items-start mb-3">
+                <span class="metric-title">Success Rate</span>
+                <i class="pi pi-chart-line text-color-secondary"></i>
+              </div>
+              <div class="metric-value">{{ successRate }}</div>
+              <div class="metric-subtext mt-2">Thumbs Up ratio</div>
+            </div>
+          </div>
+        </app-fusor-card>
+      </div>
+    </div>
+
+    <h2 class="list-title mb-4">Your Chatbots</h2>
+
+    <div class="chatbots-list-container flex flex-column gap-3">
+      <ng-container *ngIf="chatbots$ | async as chatbots">
+        <div *ngIf="chatbots.length === 0" class="text-center p-5 text-color-secondary">
+          No chatbots found. Create one to get started!
+        </div>
+
+        <app-fusor-card *ngFor="let bot of chatbots; trackBy: trackByBotId" [hoverable]="true">
+          <div card-body class="flex flex-column md:flex-row align-items-start md:align-items-center justify-content-between w-full gap-3">
+            <div class="flex align-items-center flex-1 min-w-0 w-full md:w-auto">
+              <div class="bot-icon-container mr-3 shrink-0">
+                <i class="pi pi-android text-xl"></i>
+              </div>
+
+              <div class="flex flex-column gap-1 min-w-0 flex-1">
+                <div class="bot-name text-truncate">{{ bot.chatbot_name }}</div>
+                <div class="flex flex-column md:flex-row md:align-items-center gap-1 md:gap-3 bot-meta">
+                  <span class="flex align-items-center gap-2">
+                    <i class="pi pi-comment text-sm"></i>
+                    {{ bot.conversations_count || 0 | number }} conversations
+                  </span>
+                  <span class="text-color-secondary hidden md:inline">&bull;</span>
+                  <span class="text-color-secondary">
+                    Updated {{ bot.created_at | date:'shortDate' }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex align-items-center justify-content-end w-full md:w-auto gap-3 shrink-0 md:ml-4">
+              <p-badge [value]="bot.status || 'active'" [severity]="bot.status === 'active' ? 'success' : 'warning'"
+                styleClass="bot-badge-active"></p-badge>
+              <div class="bot-badge-industry">{{ bot.industry || 'General' }}</div>
+
+              <button pButton pRipple type="button" icon="pi pi-globe"
+                class="p-button-rounded p-button-text p-button-plain w-2rem h-2rem hidden md:inline-flex"></button>
+
+              <button pButton pRipple type="button" icon="pi pi-ellipsis-v"
+                class="p-button-rounded p-button-text p-button-plain w-2rem h-2rem"
+                (click)="menu.toggle($event)"></button>
+              <p-menu #menu [model]="getMenuOptions(bot)" [popup]="true" appendTo="body"></p-menu>
+            </div>
+          </div>
+        </app-fusor-card>
+      </ng-container>
+    </div>
+  </ng-template>
+
+  <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+</div>

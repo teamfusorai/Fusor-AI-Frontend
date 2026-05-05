@@ -210,7 +210,8 @@ $border-width: 1px;
     .feature-card {
       background: var(--surface-card);
       border: $border-width solid var(--border-light);
-      border-radius: var(--radius-xl);
+      // border-radius: var(--radius-xl);
+      border-radius: var(--border-radius);
       padding: 32px;
 
       .card-icon-box {

@@ -1,1 +1,101 @@
-<p>knowledge works!</p>
+<div class="knowledge-card p-4 md:p-5 mx-auto">
+  <div class="header-text flex flex-column align-items-center mb-5 text-center w-full">
+    <div class="header-icon-box flex align-items-center justify-content-center border-round-2xl mb-3">
+      <i class="pi pi-upload text-2xl"></i>
+    </div>
+    <h4 class="m-0 font-semibold text-2xl text-color">Knowledge Sources</h4>
+    <p class="m-0 mt-2 text-color-secondary">Add data to train your chatbot with relevant information</p>
+  </div>
+
+  <div class="sources-container flex flex-column gap-4 w-full mx-auto" style="max-width: 768px;">
+    
+    <!-- Upload Documents Box -->
+    <div class="source-box flex align-items-start gap-3 p-4 border-round-2xl cursor-pointer" 
+         [class.active]="activeBox === 'file'"
+         (click)="setActiveBox('file', fileInput)">
+      <input type="file" #fileInput (change)="onFileSelected($event)" accept=".pdf,.doc,.docx,.txt" multiple class="hidden">
+      
+      <div class="source-icon bg-surface-ground flex align-items-center justify-content-center border-round-xl" style="width: 48px; height: 48px; flex-shrink: 0;">
+        <i class="pi pi-file text-xl text-color-secondary"></i>
+      </div>
+      
+      <div class="source-details flex-1 flex flex-column gap-1">
+        <span class="font-medium text-color flex align-items-center gap-2">
+          Upload Documents
+          <i *ngIf="files.length > 0" class="pi pi-check text-black-alpha-90"></i>
+        </span>
+        <span class="text-sm text-color-secondary">Upload PDF, DOCX, TXT, or other document files to train your chatbot</span>
+        
+        <div class="mt-2">
+          <button class="btn-choose-files" type="button">
+            <i class="pi pi-upload"></i>
+            <span>Choose Files</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Website URLs Box -->
+    <div class="source-box flex flex-column gap-3 p-4 border-round-2xl cursor-pointer" 
+         [class.active]="activeBox === 'url'" 
+         (click)="setActiveBox('url')">
+      
+      <div class="flex align-items-start gap-3 w-full">
+        <div class="source-icon bg-surface-ground flex align-items-center justify-content-center border-round-xl" style="width: 48px; height: 48px; flex-shrink: 0;">
+          <i class="pi pi-globe text-xl text-color-secondary"></i>
+        </div>
+        
+        <div class="source-details flex-1 flex flex-column gap-1">
+          <span class="font-medium text-color">Add Website URLs</span>
+          <span class="text-sm text-color-secondary">Scrape content from your website or documentation pages automatically</span>
+        </div>
+      </div>
+
+      <!-- Inline Expanding URL Input -->
+      <div *ngIf="activeBox === 'url'" class="url-input-container w-full mt-2 fadein animation-duration-200" (click)="$event.stopPropagation()">
+        <div class="flex gap-2 w-full align-items-center">
+          <input pInputText class="flex-1 w-full border-round-lg p-3 border-1 border-300 surface-ground focus:border-900"
+            [formControl]="urlControl"
+            placeholder="https://example.com"
+            style="outline: none;">
+          
+          <button pButton pRipple type="button" icon="pi pi-arrow-right" 
+                  class="p-button-rounded btn-black border-none w-3rem h-3rem"
+                  (click)="addUrl()" [disabled]="urlControl.invalid || !urlControl.value">
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Added Sources Summary -->
+    <div class="added-sources-box flex flex-column gap-3 p-3 border-round-2xl surface-ground border-1 border-300 mt-2">
+      <div class="flex justify-content-between align-items-center w-full">
+        <span class="font-medium text-color text-sm">Added Sources</span>
+        <span class="badge surface-300 text-color border-round-xl text-xs px-2 py-1 font-medium" style="min-width: 24px; text-align: center;">
+          {{ unifiedSources.length }}
+        </span>
+      </div>
+
+      <div *ngIf="unifiedSources.length === 0" class="text-sm text-color-secondary">
+        No sources uploaded yet. Use the options above to add your first source.
+      </div>
+
+      <div *ngIf="unifiedSources.length > 0" class="flex flex-column gap-2 max-h-15rem overflow-y-auto w-full pr-2">
+        <div *ngFor="let item of unifiedSources; let i = index" 
+             class="added-item flex align-items-center justify-content-between p-2 border-round-lg surface-card border-1 border-200 fadein animation-duration-200">
+          <div class="flex align-items-center gap-2 overflow-hidden">
+            <i [class]="item.type === 'file' ? 'pi pi-file' : 'pi pi-link'" class="text-color-secondary"></i>
+            <span class="text-sm text-color white-space-nowrap overflow-hidden text-overflow-ellipsis" [title]="item.name">
+              {{ item.name }}
+            </span>
+          </div>
+          <button pButton pRipple type="button" icon="pi pi-trash" 
+                  class="p-button-rounded p-button-text p-button-danger w-2rem h-2rem flex-shrink-0"
+                  (click)="removeSource(i)">
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

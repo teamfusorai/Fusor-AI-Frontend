@@ -20,10 +20,11 @@
     }">
     
     <!-- Optional Left Icon -->
-    <i *ngIf="icon" [class]="icon + ' left-icon'"></i>
+    <i *ngIf="icon && !multiline" [class]="icon + ' left-icon'"></i>
     
-    <!-- Core Input -->
+    <!-- Core Input Single Line -->
     <input 
+      *ngIf="!multiline"
       pInputText
       [type]="computedType"
       [value]="value"
@@ -34,6 +35,20 @@
       (blur)="onBlur()"
       class="fusor-form-control"
     />
+
+    <!-- Core Textarea Multi Line -->
+    <textarea
+      *ngIf="multiline"
+      pInputTextarea
+      [rows]="rows"
+      [value]="value"
+      [placeholder]="placeholder"
+      [disabled]="disabled"
+      (input)="onInput($event)"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+      class="fusor-form-control fusor-textarea"
+    ></textarea>
 
     <!-- Password visibility toggle (Right Icon) -->
     <button 
