@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Subscription, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { MenuItem } from 'primeng/api';
@@ -29,7 +29,7 @@ export class CreateChatbotComponent implements OnInit, OnDestroy {
     'publish'
   ];
 
-  constructor(private router: Router, private state: ChatbotStateService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private state: ChatbotStateService) { }
 
   ngOnInit() {
     this.items = [
@@ -48,6 +48,14 @@ export class CreateChatbotComponent implements OnInit, OnDestroy {
     if (index !== -1) {
       this.currentStepIndex = index;
     }
+
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      if (id) {
+        // We could add a loading spinner state here
+        this.state.loadBotForEdit(id).subscribe();
+      }
+    });
 
     this.validSub = this.state.isCurrentStepValid$.subscribe((valid: boolean) => {
       this.isNextValid = valid;

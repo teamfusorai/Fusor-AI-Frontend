@@ -35,6 +35,8 @@ export class ChatbotStateService {
   private _config = new BehaviorSubject<ChatbotConfig>(this.defaultConfig);
   public config$ = this._config.asObservable();
 
+  public currentEditId: string | null = null;
+
   private _isCurrentStepValid = new BehaviorSubject<boolean>(false);
   public isCurrentStepValid$ = this._isCurrentStepValid.asObservable();
 
@@ -60,8 +62,36 @@ export class ChatbotStateService {
   }
 
   resetConfig() {
+    this.currentEditId = null;
     this._config.next(this.defaultConfig);
     this._deploymentState.next(null);
+  }
+
+  loadBotForEdit(botId: string): Observable<any> {
+    this.currentEditId = botId;
+    return this.chatbotService.getChatbotById(botId).pipe(
+      tap(response => {
+        // Map backend response back to our frontend config
+        const configToPatch: Partial<ChatbotConfig> = {
+          chatbot_name: response.chatbot_name,
+          description: response.description,
+          industry: response.industry,
+          color: response.color,
+          logo_preview: response.logo_url || '',
+          welcome_message: response.welcome_message,
+          tone: response.tone,
+          system_prompt: response.system_prompt,
+          temperature: response.temperature,
+          urls: response.urls || [],
+          kb_doc_ids: response.kb_doc_ids || []
+        };
+        this.updateConfig(configToPatch);
+      }),
+      catchError(err => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to load chatbot details.' });
+        return throwError(() => err);
+      })
+    );
   }
 
   uploadPendingSources(): Observable<any> {
@@ -80,12 +110,14 @@ export class ChatbotStateService {
       ...pendingUrls.map(u => ({ type: 'url' as const, payload: u, name: u }))
     ];
 
+    const userId = localStorage.getItem('user_id') || 'default_user';
+
     return from(uploadTasks).pipe(
       mergeMap(task => 
-        this.kbService.ingest(task.type, task.payload).pipe(
+        this.kbService.ingest(task.type, task.payload, userId).pipe(
           tap(response => {
             const currentIds = this._config.value.kb_doc_ids || [];
-            this.updateConfig({ kb_doc_ids: [...currentIds, response.id] });
+            this.updateConfig({ kb_doc_ids: [...currentIds, response.kb_id] });
           }),
           catchError(err => {
             this.messageService.add({
@@ -141,9 +173,13 @@ export class ChatbotStateService {
       formData.append('logo_file', config.logo_file);
     }
 
-    return this.chatbotService.createChatbot(formData).pipe(
+    const request$ = this.currentEditId 
+      ? this.chatbotService.updateChatbot(this.currentEditId, formData)
+      : this.chatbotService.createChatbot(formData);
+
+    return request$.pipe(
       switchMap(response => {
-        const botId = response.bot_id;
+        const botId = this.currentEditId || response.bot_id;
         
         return forkJoin({
           qr: this.deploymentService.getQrCode(userId, botId).pipe(

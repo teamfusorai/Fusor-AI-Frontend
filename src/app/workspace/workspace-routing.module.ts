@@ -11,6 +11,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'create-chatbot', pathMatch: 'full' },
       { path: 'create-chatbot', loadChildren: () => import('./features/create-chatbot/create-chatbot.module').then(m => m.CreateChatbotModule) },
+      { path: 'create-chatbot/:id', loadChildren: () => import('./features/create-chatbot/create-chatbot.module').then(m => m.CreateChatbotModule) },
       { path: 'dashboard', loadChildren: () => import('./features/dashboard/dashboard.module').then(m => m.DashboardModule) },
       { path: 'chatbots', loadChildren: () => import('./features/chatbots/chatbots.module').then(m => m.ChatbotsModule) },
       { path: 'knowledgebase', loadChildren: () => import('./features/knowledgebase/knowledgebase.module').then(m => m.KnowledgebaseModule) },

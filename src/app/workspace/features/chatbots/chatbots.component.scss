@@ -1,0 +1,141 @@
+.chatbots-container {
+  background-color: #FAFAFA;
+  font-family: 'Inter', sans-serif;
+}
+
+.page-title {
+  color: #0a0a0a;
+}
+
+.page-subtitle {
+  color: #525252;
+}
+
+.create-btn {
+  background-color: #000 !important;
+  color: #fff !important;
+  border: none !important;
+  padding: 0.75rem 1.5rem !important;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.filter-tab {
+  min-width: 60px;
+  border: 1px solid #E5E5E5;
+  background-color: #F4F4F4;
+  color: #0A0A0A;
+
+  &.active {
+    background-color: #171717;
+    color: #FAFAFA;
+    border-color: #171717;
+  }
+}
+
+.empty-icon-wrapper {
+  width: 80px;
+  height: 80px;
+
+  i {
+    color: #000;
+  }
+}
+
+.empty-title {
+  color: #0a0a0a;
+}
+
+.empty-subtitle {
+  color: #525252;
+  max-width: 400px;
+  line-height: 1.5;
+}
+
+.table-outer {
+  border: 1px solid #e5e5e5;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.table-header {
+  border-bottom: 1px solid #e5e5e5;
+
+  .header-cell {
+    color: #0a0a0a;
+  }
+}
+
+.table-row {
+  border-bottom: 1px solid #e5e5e5;
+
+  &.last-row {
+    border-bottom: none;
+  }
+
+  .cell-title {
+    color: #000;
+  }
+
+  .cell-text {
+    color: #525252;
+  }
+
+  .cell-value {
+    color: #000;
+  }
+}
+
+.status-badge {
+  height: 21.33px;
+
+  &.badge-active {
+    background-color: #000;
+    color: #fff;
+    border: 1px solid transparent;
+  }
+
+  &.badge-inactive {
+    background-color: transparent;
+    color: #737373;
+    border: 0.667px solid #d4d4d4;
+  }
+
+  &.badge-draft {
+    background-color: transparent;
+    color: #525252;
+    border: 0.667px solid #d4d4d4;
+  }
+}
+
+.action-btn {
+  background: transparent !important;
+  border: none !important;
+
+  i {
+    color: #000;
+    font-size: 16px;
+  }
+}
+
+::ng-deep .chatbot-action-menu {
+  border: 0.667px solid #e5e5e5;
+  border-radius: 12px;
+  box-shadow: 0px 4px 6px -1px rgba(0, 0, 0, 0.1);
+  padding: 4.667px;
+  width: 180px;
+
+  .p-menu-list {
+    padding: 0;
+    margin: 0;
+  }
+
+  .menu-item-text {
+    color: #0a0a0a;
+  }
+
+  .menu-item-danger {
+    color: #e7000b;
+  }
+}

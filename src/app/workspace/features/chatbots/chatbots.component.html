@@ -1,1 +1,113 @@
-<p>chatbots works!</p>
+<div class="chatbots-container px-6 py-6 w-full min-h-screen">
+  <!-- Header Area -->
+  <div class="flex flex-column md:flex-row justify-content-between align-items-start md:align-items-center mb-4 gap-4">
+    <div>
+      <h1 class="page-title m-0 text-4xl font-bold tracking-tight">Chatbots</h1>
+      <p class="page-subtitle mt-2 mb-0 text-base font-normal">Manage and monitor all your AI chatbots</p>
+    </div>
+    <button pButton type="button" label="Create Chatbot" icon="pi pi-plus"
+      class="p-button-rounded create-btn shrink-0 w-auto" routerLink="/workspace/create-chatbot">
+    </button>
+  </div>
+
+  <!-- Filters -->
+  <div class="flex gap-2 mb-5 align-items-center h-3rem">
+    <div *ngFor="let tab of tabs"
+      class="filter-tab px-4 py-2 border-round-3xl cursor-pointer transition-colors transition-duration-200 font-medium text-sm flex align-items-center justify-content-center h-full"
+      [ngClass]="{'active': tab.active}">
+      {{ tab.label }}
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="flex justify-content-center align-items-center p-5">
+    <i class="pi pi-spin pi-spinner text-4xl text-color-secondary"></i>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!isLoading && bots.length === 0"
+    class="empty-state flex flex-column align-items-center justify-content-center py-8">
+    <div class="empty-icon-wrapper flex align-items-center justify-content-center mb-4">
+      <i class="pi pi-comments text-5xl"></i>
+    </div>
+    <h3 class="empty-title text-xl font-bold m-0 mb-2">No chatbots yet</h3>
+    <p class="empty-subtitle m-0 mb-4 text-center text-base">
+      You haven't created any chatbots yet. Create your first AI assistant to start automating conversations.
+    </p>
+  </div>
+
+  <!-- Table Layout -->
+  <div *ngIf="!isLoading && bots.length > 0" class="table-outer">
+    <!-- Table Header -->
+    <div class="table-header flex align-items-center px-4 h-3rem">
+      <div class="header-cell font-medium text-sm flex-1">Name</div>
+      <div class="header-cell font-medium text-sm flex-1">Industry</div>
+      <div class="header-cell font-medium text-sm flex-1">Status</div>
+      <div class="header-cell font-medium text-sm flex-1">Conversations</div>
+      <div class="header-cell font-medium text-sm flex-1">Last Updated</div>
+      <div class="header-cell" [style.width]="'48px'"></div>
+    </div>
+
+    <!-- Table Body -->
+    <div *ngFor="let bot of bots; let last = last"
+      class="table-row flex align-items-center px-4 h-4rem transition-colors hover:surface-hover"
+      [ngClass]="{'last-row': last}">
+
+      <!-- Name -->
+      <div class="flex-1 pr-3">
+        <span class="cell-title font-medium text-sm text-overflow-ellipsis overflow-hidden white-space-nowrap block">{{
+          bot.chatbot_name }}</span>
+      </div>
+
+      <!-- Industry -->
+      <div class="flex-1 pr-3">
+        <span class="cell-text text-sm font-normal">{{ bot.industry || 'General' }}</span>
+      </div>
+
+      <!-- Status -->
+      <div class="flex-1 pr-3 flex align-items-center">
+        <span
+          class="status-badge text-xs px-2 py-1 border-round-2xl font-medium inline-flex align-items-center justify-content-center"
+          [ngClass]="{
+                'badge-active': bot.status === 'active',
+                'badge-inactive': bot.status === 'inactive',
+                'badge-draft': bot.status !== 'active' && bot.status !== 'inactive'
+              }">
+          {{ bot.status || 'draft' }}
+        </span>
+      </div>
+
+      <!-- Conversations -->
+      <div class="flex-1 pr-3">
+        <span class="cell-value text-sm font-normal">{{ bot.conversations_count || 0 }}</span>
+      </div>
+
+      <!-- Last Updated -->
+      <div class="flex-1 pr-3">
+        <span class="cell-text text-sm font-normal">{{ formatDate(bot.created_at) }}</span>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex justify-content-end align-items-center" [style.width]="'48px'">
+        <button type="button"
+          class="action-btn p-link w-2rem h-2rem border-round-xl hover:surface-200 transition-colors cursor-pointer flex align-items-center justify-content-center"
+          (click)="toggleMenu(menu, $event, bot)">
+          <i class="pi pi-ellipsis-v"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Single Context Menu Instance -->
+  <p-menu #menu [popup]="true" [model]="menuItems" [appendTo]="'body'" styleClass="chatbot-action-menu bg-white">
+    <ng-template pTemplate="item" let-item>
+      <a class="flex align-items-center px-3 py-2 cursor-pointer w-full hover:surface-100 transition-colors border-round-md"
+        (click)="item.command()" [ngClass]="{'mt-1 pt-2': item.separator}">
+        <i [class]="item.icon + ' mr-2 text-base'"
+          [ngClass]="item.label === 'Delete' ? 'menu-item-danger' : 'menu-item-text'"></i>
+        <span class="text-sm font-normal font-family-inter"
+          [ngClass]="item.label === 'Delete' ? 'menu-item-danger' : 'menu-item-text'">{{item.label}}</span>
+      </a>
+    </ng-template>
+  </p-menu>
+</div>

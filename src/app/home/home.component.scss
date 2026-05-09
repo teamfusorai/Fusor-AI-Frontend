@@ -101,7 +101,7 @@ $border-width: 1px;
     gap: 8px;
     padding: 8px 16px;
     background: var(--surface-ground);
-    border-radius: var(--radius-full);
+    border-radius: var(--border-radius);
     margin-bottom: 24px;
 
     .badge-dot {
@@ -175,7 +175,7 @@ $border-width: 1px;
 // --- Features Section ---
 .features-section {
   width: 100%;
-  background: $color-bg-light;
+  background: #FAFAFA;
   padding: 96px 0;
 
   .features-inner {
@@ -218,15 +218,15 @@ $border-width: 1px;
         width: 48px;
         height: 48px;
         background: var(--primary-color);
-        border-radius: var(--radius-lg);
+        border-radius: var(--border-radius);
         display: flex;
         justify-content: center;
         align-items: center;
         margin-bottom: 24px;
 
         img {
-          width: 24px;
-          height: 24px;
+          width: 43px;
+          height: 43px;
         }
 
         &.smart-ai-icon img {

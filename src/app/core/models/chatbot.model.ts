@@ -31,3 +31,11 @@ export interface ChatbotSummary {
   created_at: string;
   status: string;
 }
+
+export interface FeedbackRequest {
+  type: 'up' | 'down';
+}
+
+export interface TrackConversationRequest {
+  visitor_id: string;
+}

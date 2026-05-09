@@ -1,1 +1,170 @@
-<p>knowledgebase works!</p>
+<div class="kb-wrapper">
+  <!-- Header -->
+  <div class="flex flex-column md:flex-row justify-content-between align-items-start md:align-items-center mb-5 gap-3">
+    <div>
+      <h1 class="page-title m-0">Knowledge Base</h1>
+      <p class="page-subtitle mt-2 mb-0">Manage documents and data sources for your chatbots</p>
+    </div>
+    <div class="flex-shrink-0">
+      <app-fusor-button label="Upload Document" icon="pi pi-upload" [fullWidth]="false" [loading]="isUploading"
+        (onClick)="triggerFileInput()">
+      </app-fusor-button>
+      <input type="file" #fileInput class="hidden" accept=".pdf,.docx,.txt" (change)="onFileSelected($event)">
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="flex justify-content-center align-items-center p-8">
+    <p-progressSpinner strokeWidth="3" animationDuration="1s"></p-progressSpinner>
+  </div>
+
+  <!-- Main Content -->
+  <ng-container *ngIf="!isLoading">
+
+    <!-- Stats Cards Row -->
+    <div class="grid mb-4">
+      <div class="col-12 md:col-6 lg:col-3">
+        <app-fusor-card [hoverable]="true">
+          <div card-body class="flex flex-column gap-2">
+            <div class="stat-value">{{ stats.total_docs }}</div>
+            <div class="text-secondary text-sm">Total Documents</div>
+          </div>
+        </app-fusor-card>
+      </div>
+      <div class="col-12 md:col-6 lg:col-3">
+        <app-fusor-card [hoverable]="true">
+          <div card-body class="flex flex-column gap-2">
+            <div class="stat-value">{{ formatSize(stats.total_size) }}</div>
+            <div class="text-secondary text-sm">Total Size</div>
+          </div>
+        </app-fusor-card>
+      </div>
+      <div class="col-12 md:col-6 lg:col-3">
+        <app-fusor-card [hoverable]="true">
+          <div card-body class="flex flex-column gap-2">
+            <div class="stat-value">{{ stats.processing_count }}</div>
+            <div class="text-secondary text-sm">Processing</div>
+          </div>
+        </app-fusor-card>
+      </div>
+      <div class="col-12 md:col-6 lg:col-3">
+        <app-fusor-card [hoverable]="true">
+          <div card-body class="flex flex-column gap-2">
+            <div class="stat-value">{{ stats.success_rate }}%</div>
+            <div class="text-secondary text-sm">Embedding Success</div>
+          </div>
+        </app-fusor-card>
+      </div>
+    </div>
+
+    <!-- Action Cards Row -->
+    <div class="grid mb-4">
+      <!-- Upload Zone -->
+      <div class="col-12 lg:col-6">
+        <div class="action-zone" [class.drag-over]="isDragOver" (click)="triggerFileInput()"
+          (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
+          <div class="flex flex-column align-items-center justify-content-center gap-3">
+            <i class="pi pi-upload text-3xl"></i>
+            <h3 class="zone-title m-0">Upload Documents</h3>
+            <p class="text-secondary m-0 text-center">Drag and drop files here or click to browse</p>
+            <p class="text-muted text-sm m-0 text-center">Supports PDF, DOCX, TXT files up to 10MB</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add URL Zone -->
+      <div class="col-12 lg:col-6">
+        <div class="action-zone flex flex-column align-items-center justify-content-center gap-3">
+          <i class="pi pi-globe text-3xl"></i>
+          <h3 class="zone-title m-0">Add Web URL</h3>
+          <p class="text-secondary m-0 text-center">We will scrape and vectorize the page</p>
+          <div class="url-input-row flex align-items-center gap-2">
+            <input type="text" class="url-text-input" placeholder="https://example.com" [(ngModel)]="urlInput"
+              (keydown.enter)="onAddUrl()">
+            <button class="url-add-btn" (click)="onAddUrl()" [disabled]="isAddingUrl">
+              <span *ngIf="!isAddingUrl">Add</span>
+              <i *ngIf="isAddingUrl" class="pi pi-spinner pi-spin"></i>
+            </button>
+          </div>
+          <small *ngIf="urlError" class="url-error">{{ urlError }}</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Documents Table -->
+    <div class="grid" *ngIf="(documents$ | async) as documents">
+      <div class="col-12" *ngIf="documents.length > 0">
+        <app-fusor-card>
+          <div card-body class="table-card-body">
+            <p-table [value]="documents" styleClass="kb-table" [responsive]="true">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Size</th>
+                  <th>Status</th>
+                  <th>Uploaded</th>
+                  <th class="actions-col"></th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-doc>
+                <tr>
+                  <td>
+                    <div class="flex align-items-center gap-3">
+                      <div class="doc-icon flex align-items-center justify-content-center">
+                        <i class="pi pi-file text-base"></i>
+                      </div>
+                      <span class="font-medium">{{ doc.name }}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge badge-outline">{{ doc.type }}</span>
+                  </td>
+                  <td>
+                    <span class="text-secondary">{{ formatSize(doc.size) }}</span>
+                  </td>
+                  <td>
+                    <div class="flex flex-column align-items-start gap-1">
+                      <span *ngIf="doc.status === 'Completed'" class="badge badge-filled">Completed</span>
+                      <ng-container *ngIf="doc.status === 'Processing'">
+                        <span class="badge badge-outline">Processing</span>
+                        <div class="progress-track">
+                          <div class="progress-fill"></div>
+                        </div>
+                      </ng-container>
+                      <span *ngIf="doc.status === 'Failed'" class="badge badge-failed">Failed</span>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="text-secondary">{{ formatDate(doc.uploaded_at) }}</span>
+                  </td>
+                  <td class="actions-col">
+                    <button class="action-btn" (click)="openMenu($event, doc)">
+                      <i class="pi pi-ellipsis-v"></i>
+                    </button>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </app-fusor-card>
+      </div>
+
+      <!-- Empty State -->
+      <div class="col-12" *ngIf="documents.length === 0">
+        <div class="flex flex-column align-items-center justify-content-center py-6">
+          <i class="pi pi-folder-open text-5xl mb-3"></i>
+          <h3 class="text-xl font-bold m-0 mb-2">No knowledge sources found</h3>
+          <p class="text-secondary m-0 text-center">
+            Upload documents or add URLs to build your knowledge base.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </ng-container>
+
+  <p-menu #actionMenu [popup]="true" [model]="menuItems"></p-menu>
+  <p-confirmDialog></p-confirmDialog>
+  <p-toast></p-toast>
+</div>

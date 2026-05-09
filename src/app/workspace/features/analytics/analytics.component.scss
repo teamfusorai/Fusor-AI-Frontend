@@ -1,0 +1,157 @@
+.analytics-wrapper {
+  background-color: var(--analytics-bg, #FAFAFA);
+  min-height: 100vh;
+  padding: 32px;
+  width: 100%;
+}
+
+.page-title {
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+  color: var(--text-primary, #000);
+  line-height: 48px;
+}
+
+.page-subtitle {
+  font-size: 16px;
+  color: var(--text-secondary, #525252);
+}
+
+.filter-controls {
+  min-width: 200px;
+}
+
+// Fix dropdown text color consistency
+:host ::ng-deep {
+  .fusor-p-dropdown {
+    .p-dropdown-label {
+      color: var(--text-primary, #000) !important;
+    }
+
+    .p-dropdown-trigger {
+      color: var(--text-primary, #000) !important;
+    }
+  }
+}
+
+// Empty state
+.empty-subtitle {
+  color: var(--text-secondary, #525252);
+  max-width: 400px;
+  line-height: 1.5;
+}
+
+// KPI Cards
+.kpi-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.kpi-highlighted {
+  background-color: #F5F5F5;
+  margin: -24px;
+  padding: 24px;
+  border-radius: 15px;
+}
+
+.kpi-icon {
+  width: 48px;
+  height: 48px;
+  background: #F5F5F5;
+  border-radius: 20px;
+}
+
+.kpi-value {
+  font-size: 30px;
+  color: var(--text-primary, #0a0a0a);
+  line-height: 36px;
+}
+
+.kpi-label {
+  font-size: 14px;
+  color: var(--text-secondary, #525252);
+}
+
+.change-positive {
+  color: var(--color-positive, #00A63E);
+}
+
+.change-negative {
+  color: var(--color-negative, #E7000B);
+}
+
+// Charts
+.chart-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-primary, #0a0a0a);
+}
+
+.chart-container {
+  height: 280px;
+  position: relative;
+}
+
+// Top User Intents
+.intent-label {
+  font-size: 14px;
+  color: var(--text-primary, #0a0a0a);
+}
+
+.intent-count {
+  font-size: 14px;
+  color: var(--text-secondary, #525252);
+}
+
+.intent-bar-track {
+  width: 100%;
+  height: 8px;
+  background: #F5F5F5;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.intent-bar-fill {
+  height: 100%;
+  background: #000;
+  border-radius: 9999px;
+  transition: width 0.4s ease;
+}
+
+// Queries Table
+:host ::ng-deep .queries-table {
+  .p-datatable-thead>tr>th {
+    background: transparent;
+    border: none;
+    border-bottom: 0.667px solid var(--border-light, #e5e5e5);
+    padding: 10px 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary, #0a0a0a);
+  }
+
+  .p-datatable-tbody>tr {
+    border-bottom: 0.667px solid var(--border-light, #e5e5e5);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    >td {
+      background: transparent;
+      border: none;
+      padding: 8px;
+      font-size: 14px;
+    }
+
+    &:hover {
+      background: transparent;
+    }
+  }
+}
+
+.text-secondary {
+  color: var(--text-secondary, #525252);
+}
