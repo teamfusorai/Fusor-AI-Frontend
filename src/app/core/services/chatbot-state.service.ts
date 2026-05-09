@@ -165,7 +165,7 @@ export class ChatbotStateService {
       formData.append('urls', JSON.stringify(config.urls));
     }
     if (config.kb_doc_ids && config.kb_doc_ids.length) {
-      formData.append('kb_doc_ids', JSON.stringify(config.kb_doc_ids));
+      formData.append('kb_ids', JSON.stringify(config.kb_doc_ids));
     }
 
     // Logo
