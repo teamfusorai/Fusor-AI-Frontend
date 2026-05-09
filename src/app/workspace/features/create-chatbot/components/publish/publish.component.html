@@ -19,12 +19,12 @@
 
             <div class="qr-action-area">
               <div class="qr-preview-box">
-                <img [src]="'data:image/png;base64,' + state.qr_code_base64" alt="QR Code"
+                <img [src]="state.qr_code_base64" alt="QR Code"
                   *ngIf="state.qr_code_base64" />
               </div>
               <div class="qr-buttons">
                 <button class="action-btn">Generate QR Code</button>
-                <a *ngIf="state.qr_code_base64" [href]="'data:image/png;base64,' + state.qr_code_base64"
+                <a *ngIf="state.qr_code_base64" [href]="state.qr_code_base64"
                   download="chatbot-qr.png" class="download-link">Download PNG</a>
               </div>
             </div>
