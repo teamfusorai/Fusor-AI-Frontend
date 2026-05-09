@@ -16,7 +16,10 @@ export class AuthService {
   login(payload: LoginRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, payload).pipe(
       tap(response => {
-        if (response.user_id) localStorage.setItem('user_id', response.user_id);
+        if (response.user_id) {
+          localStorage.setItem('user_id', response.user_id);
+          localStorage.setItem('token', 'session_' + response.user_id);
+        }
         if (response.name) localStorage.setItem('name', response.name);
       })
     );
@@ -25,7 +28,10 @@ export class AuthService {
   signup(payload: SignupRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/signup`, payload).pipe(
       tap(response => {
-        if (response.user_id) localStorage.setItem('user_id', response.user_id);
+        if (response.user_id) {
+          localStorage.setItem('user_id', response.user_id);
+          localStorage.setItem('token', 'session_' + response.user_id);
+        }
         if (response.name) localStorage.setItem('name', response.name);
       })
     );
@@ -34,6 +40,7 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('user_id');
     localStorage.removeItem('name');
+    localStorage.removeItem('token');
   }
 
   forgotPassword(email: string): Observable<any> {

@@ -41,8 +41,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.authSub = this.authService.login(this.loginForm.value).subscribe({
       next: (res) => {
-        // Proceed to dashboard or home
-        this.router.navigate(['/']);
+        // Proceed to dashboard
+        this.router.navigate(['/workspace/dashboard']);
       },
       error: (err) => {
         this.errorMsg = err.error?.error?.message || 'Invalid email or password';

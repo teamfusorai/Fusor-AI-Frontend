@@ -52,8 +52,8 @@ export class SignupComponent implements OnInit, OnDestroy {
 
     this.authSub = this.authService.signup(this.signupForm.value).subscribe({
       next: (res) => {
-        // On success, redirect to login
-        this.router.navigate(['/login']);
+        // On success, redirect to dashboard
+        this.router.navigate(['/workspace/dashboard']);
       },
       error: (err) => {
         this.errorMsg = err.error?.error?.message || 'Email already registered or another error occurred';
