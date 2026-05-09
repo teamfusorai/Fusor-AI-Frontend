@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://api.fusor.ai/api/v1'
+  apiUrl: 'https://api.fusorai.com/api/v1'
 };
