@@ -20,13 +20,15 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
       position: fixed;
       top: 0;
       left: 0;
-      width: 100vw;
-      height: 100vh;
+      width: 100%;
+      height: 100vh; /* Fallback */
+      height: 100dvh; /* Dynamic viewport height for mobile */
       overflow: hidden;
       background: #fff;
       z-index: 9999;
     }
     iframe {
+      display: block;
       width: 100%;
       height: 100%;
       border: none;
