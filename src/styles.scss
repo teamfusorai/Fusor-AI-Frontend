@@ -124,4 +124,99 @@ body {
 .mix-blend-multiply { mix-blend-mode: multiply; }
 .overflow-wrap-anywhere { overflow-wrap: anywhere; word-wrap: break-word; }
 
-
+/* Global Confirm Dialog Styling */
+.p-dialog.p-confirm-dialog {
+    border-radius: 24px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--border-light);
+    background: var(--surface-card);
+    width: 400px !important; /* Slightly wider to match image */
+    overflow: hidden;
+    
+    .p-dialog-header {
+        background: transparent;
+        border-bottom: none;
+        padding: 32px 32px 16px 32px;
+        
+        .p-dialog-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .p-dialog-header-icon {
+            color: var(--text-muted);
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            transition: background-color 0.2s, color 0.2s;
+            
+            &:hover {
+                background: var(--input-bg);
+                color: var(--text-primary);
+            }
+        }
+    }
+    
+    .p-dialog-content {
+        background: transparent;
+        padding: 0 32px 32px 32px;
+        color: var(--text-secondary);
+        font-size: 15px;
+        line-height: 1.5;
+        
+        .p-confirm-dialog-icon {
+            display: none; /* Clean typography-based design */
+        }
+        
+        .p-confirm-dialog-message {
+            margin-left: 0;
+            font-family: var(--font-family);
+        }
+    }
+    
+    .p-dialog-footer {
+        background: transparent;
+        border-top: none;
+        padding: 0 32px 32px 32px;
+        display: flex;
+        gap: 16px;
+        
+        button {
+            flex: 1; /* Make buttons take up equal half of the width */
+            margin: 0;
+            padding: 0.85rem 1.5rem !important; /* Taller buttons */
+            border-radius: 30px !important; /* Pill shape */
+            font-weight: 700;
+            font-size: 15px;
+            font-family: var(--font-family);
+            
+            &.p-button-text {
+                background: transparent !important;
+                color: var(--text-secondary) !important;
+                border: 1px solid var(--border-light) !important;
+                
+                &:hover {
+                    background: var(--input-bg) !important;
+                    color: var(--text-primary) !important;
+                }
+            }
+            
+            &.p-button-danger {
+                background: var(--color-negative) !important;
+                color: #fff !important;
+                border: none !important;
+                
+                &:hover {
+                    opacity: 0.9;
+                }
+            }
+        }
+    }
+}
+
+/* Mask background for dialogs */
+.p-dialog-mask {
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+}

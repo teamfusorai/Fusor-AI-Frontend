@@ -46,7 +46,7 @@
 .kpi-card-body {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
 }
 
 
@@ -117,6 +117,7 @@
 .chart-container {
   flex: 1;
   width: 100%;
+  min-height: 300px; // CRITICAL: Gives Chart.js a bounded area to render into
   position: relative; // Anchor for absolute chart
 
   ::ng-deep {

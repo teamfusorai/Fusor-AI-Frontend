@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MenuItem, MessageService } from 'primeng/api';
+import { MenuItem, MessageService, ConfirmationService } from 'primeng/api';
 import { ChatbotService } from '../../../core/services/chatbot.service';
 import { ChatbotSummary } from '../../../core/models/chatbot.model';
 import { Menu } from 'primeng/menu';
@@ -9,7 +9,7 @@ import { Menu } from 'primeng/menu';
   selector: 'app-chatbots',
   templateUrl: './chatbots.component.html',
   styleUrls: ['./chatbots.component.scss'],
-  providers: [MessageService] // Local provider for toasts just in case, though usually root
+  providers: [MessageService, ConfirmationService] // Local provider for toasts just in case, though usually root
 })
 export class ChatbotsComponent implements OnInit {
   bots: ChatbotSummary[] = [];
@@ -28,7 +28,8 @@ export class ChatbotsComponent implements OnInit {
   constructor(
     private chatbotService: ChatbotService,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
   ) { }
 
   ngOnInit() {
@@ -85,17 +86,28 @@ export class ChatbotsComponent implements OnInit {
   }
 
   deleteBot(botId: string) {
-    if (confirm('Are you sure you want to delete this chatbot?')) {
-      this.chatbotService.deleteChatbot(this.userId, botId).subscribe({
-        next: () => {
-          this.messageService.add({ severity: 'success', summary: 'Deleted', detail: 'Chatbot deleted successfully' });
-          this.loadChatbots(); // Refresh the list
-        },
-        error: () => {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to delete chatbot' });
-        }
-      });
-    }
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete this chatbot? This action cannot be undone.',
+      header: 'Delete Chatbot',
+      icon: 'pi pi-exclamation-triangle',
+      acceptIcon: 'none',
+      rejectIcon: 'none',
+      rejectButtonStyleClass: 'p-button-text',
+      acceptButtonStyleClass: 'p-button-danger',
+      acceptLabel: 'Delete',
+      rejectLabel: 'Cancel',
+      accept: () => {
+        this.chatbotService.deleteChatbot(this.userId, botId).subscribe({
+          next: () => {
+            this.messageService.add({ severity: 'success', summary: 'Deleted', detail: 'Chatbot deleted successfully' });
+            this.loadChatbots(); // Refresh the list
+          },
+          error: () => {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to delete chatbot' });
+          }
+        });
+      }
+    });
   }
 
   formatDate(dateString: string): string {

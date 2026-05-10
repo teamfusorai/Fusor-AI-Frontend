@@ -49,6 +49,10 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
   kpiCards: KpiCard[] = [];
   trendChartData: any = {};
   trendChartOptions: any = {};
+  costChartData: any = {};
+  costChartOptions: any = {};
+  intentChartData: any = {};
+  intentChartOptions: any = {};
   intents: TopIntent[] = [];
   maxIntentCount = 1;
   topQueries: TopQuery[] = [];
@@ -140,7 +144,7 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
       },
       {
         icon: 'pi pi-dollar',
-        value: '$' + this.formatNumber(Math.round(data.total_cost || 0)),
+        value: this.formatCost(data.total_cost || 0),
         label: 'AI Cost Usage',
         change: '',
         isPositive: true,
@@ -154,7 +158,7 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
       labels: monthlyData.labels,
       datasets: [{
         label: 'Conversations',
-        data: monthlyData.values,
+        data: monthlyData.counts,
         fill: true,
         borderColor: '#0a0a0a',
         backgroundColor: 'rgba(10, 10, 10, 0.05)',
@@ -169,14 +173,50 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
       }]
     };
 
+    this.costChartData = {
+      labels: monthlyData.labels,
+      datasets: [{
+        label: 'Cost (USD)',
+        data: monthlyData.costs,
+        fill: true,
+        borderColor: '#0a0a0a',
+        backgroundColor: 'rgba(10, 10, 10, 0.05)',
+        tension: 0.4,
+        pointBackgroundColor: '#0a0a0a',
+        pointBorderColor: '#fff',
+        pointBorderWidth: 2,
+        pointRadius: 4,
+        pointHoverRadius: 6,
+        borderWidth: 2,
+        clip: false
+      }]
+    };
+
     // Top intents
     this.intents = data.top_intents || [];
     this.maxIntentCount = this.intents.length > 0
       ? Math.max(...this.intents.map(i => i.count))
       : 1;
 
-    // Top queries
-    this.topQueries = data.top_queries || [];
+    // Radar Chart Data for Intents
+    this.intentChartData = {
+      labels: this.intents.map(i => i.name),
+      datasets: [
+        {
+          label: 'Queries',
+          backgroundColor: 'rgba(10, 10, 10, 0.1)',
+          borderColor: '#0a0a0a',
+          pointBackgroundColor: '#0a0a0a',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: '#0a0a0a',
+          data: this.intents.map(i => i.count)
+        }
+      ]
+    };
+
+    // Top queries (Slice to 5 so it immediately truncates even if backend sends 10)
+    this.topQueries = (data.top_queries || []).slice(0, 5);
   }
 
   private initChartOptions(): void {
@@ -236,29 +276,99 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
         }
       }
     };
+
+    this.costChartOptions = {
+      ...this.trendChartOptions,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#000',
+          titleFont: { family: 'Inter', size: 13, weight: '600' },
+          bodyFont: { family: 'Inter', size: 12 },
+          padding: 12,
+          cornerRadius: 10,
+          displayColors: false,
+          callbacks: {
+            label: (context: any) => ` Cost: $${context.parsed.y.toFixed(4)}`
+          }
+        }
+      },
+      scales: {
+        x: this.trendChartOptions.scales.x,
+        y: {
+          beginAtZero: true,
+          grid: { color: '#F5F5F5', drawTicks: false },
+          ticks: {
+            color: '#737373',
+            font: { family: 'Inter', size: 11 },
+            padding: 10,
+            callback: (value: any) => '$' + Number(value).toFixed(2),
+            autoSkip: true,
+            maxTicksLimit: 5
+          },
+          min: 0,
+          suggestedMax: 0.10,
+          border: { display: false }
+        }
+      }
+    };
+
+    this.intentChartOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#000',
+          titleFont: { family: 'Inter', size: 13, weight: '600' },
+          bodyFont: { family: 'Inter', size: 12 },
+          padding: 12,
+          cornerRadius: 10,
+          displayColors: false,
+        }
+      },
+      scales: {
+        r: {
+          angleLines: { color: '#d4d4d4' },
+          grid: { color: '#e0e0e0' },
+          pointLabels: {
+            font: { family: 'Inter', size: 12 },
+            color: '#737373'
+          },
+          ticks: {
+            display: false, // hide the numbers on the spider web
+            min: 0,
+            stepSize: 1
+          }
+        }
+      }
+    };
   }
 
-  private aggregateMonthly(trend: { day: string; count: number }[]): { labels: string[]; values: number[] } {
+  private aggregateMonthly(trend: any[]): { labels: string[]; counts: number[]; costs: number[] } {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const monthMap = new Map<number, number>();
+    const countMap = new Map<number, number>();
+    const costMap = new Map<number, number>();
 
     for (const item of trend) {
       const monthIdx = new Date(item.day).getMonth();
-      monthMap.set(monthIdx, (monthMap.get(monthIdx) || 0) + item.count);
+      countMap.set(monthIdx, (countMap.get(monthIdx) || 0) + item.count);
+      costMap.set(monthIdx, (costMap.get(monthIdx) || 0) + (item.cost || 0));
     }
 
-    // If we have data, show only months with data; otherwise show all 12
-    if (monthMap.size > 0) {
+    if (countMap.size > 0 || costMap.size > 0) {
       const labels: string[] = [];
-      const values: number[] = [];
+      const counts: number[] = [];
+      const costs: number[] = [];
       for (let i = 0; i < 12; i++) {
         labels.push(months[i]);
-        values.push(monthMap.get(i) || 0);
+        counts.push(countMap.get(i) || 0);
+        costs.push(costMap.get(i) || 0);
       }
-      return { labels, values };
+      return { labels, counts, costs };
     }
 
-    return { labels: months, values: new Array(12).fill(0) };
+    return { labels: months, counts: new Array(12).fill(0), costs: new Array(12).fill(0) };
   }
 
   getIntentBarWidth(count: number): string {
@@ -275,5 +385,11 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
   private formatLatency(ms: number): string {
     if (!ms || ms === 0) return '0s';
     return (ms / 1000).toFixed(1) + 's';
+  }
+
+  private formatCost(cost: number): string {
+    if (!cost || cost === 0) return '$0.00';
+    if (cost < 0.01) return '< $0.01';
+    return '$' + cost.toFixed(2);
   }
 }

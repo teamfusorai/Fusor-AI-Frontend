@@ -125,14 +125,16 @@
                   </td>
                   <td>
                     <div class="flex flex-column align-items-start gap-1">
-                      <span *ngIf="doc.status?.toLowerCase() === 'completed' || doc.status?.toLowerCase() === 'success'" class="badge badge-filled">Completed</span>
+                      <span *ngIf="doc.status?.toLowerCase() === 'completed' || doc.status?.toLowerCase() === 'success'"
+                        class="badge badge-filled">Completed</span>
                       <ng-container *ngIf="doc.status?.toLowerCase() === 'processing'">
                         <span class="badge badge-outline">Processing</span>
                         <div class="progress-track">
                           <div class="progress-fill"></div>
                         </div>
                       </ng-container>
-                      <span *ngIf="doc.status?.toLowerCase() === 'failed' || doc.status?.toLowerCase() === 'error'" class="badge badge-failed">Failed</span>
+                      <span *ngIf="doc.status?.toLowerCase() === 'failed' || doc.status?.toLowerCase() === 'error'"
+                        class="badge badge-failed">Failed</span>
                     </div>
                   </td>
                   <td>
@@ -166,8 +168,8 @@
 
   <p-menu #actionMenu [popup]="true" [model]="menuItems" styleClass="chatbot-action-menu" appendTo="body">
     <ng-template pTemplate="item" let-item>
-      <a class="flex align-items-center px-3 py-2 cursor-pointer w-full transition-colors"
-        (click)="item.command()" [ngClass]="{'mt-1 pt-2': item.separator}">
+      <a class="flex align-items-center px-3 py-2 cursor-pointer w-full transition-colors" (click)="item.command()"
+        [ngClass]="{'mt-1 pt-2': item.separator}">
         <i [class]="item.icon + ' mr-2 text-base'"
           [ngClass]="item.label === 'Delete' ? 'menu-item-danger' : 'menu-item-text'"></i>
         <span class="text-sm font-normal font-family-inter"

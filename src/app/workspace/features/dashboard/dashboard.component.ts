@@ -96,6 +96,9 @@ export class DashboardComponent implements OnInit {
       acceptIcon: 'none',
       rejectIcon: 'none',
       rejectButtonStyleClass: 'p-button-text',
+      acceptButtonStyleClass: 'p-button-danger',
+      acceptLabel: 'Delete',
+      rejectLabel: 'Cancel',
       accept: () => {
         if (!this.userId) return;
 
@@ -141,6 +144,37 @@ export class DashboardComponent implements OnInit {
         };
         this.loadingDeploymentMap[botId] = false;
       });
+    }
+  }
+
+  formatDate(dateString: string): string {
+    if (!dateString) return 'N/A';
+    
+    // If the date string doesn't have a timezone indicator (Z or +/-), 
+    // append 'Z' to treat it as UTC from the server.
+    let cleanDate = dateString;
+    if (!dateString.includes('Z') && !dateString.includes('+') && !dateString.match(/-\d{2}:\d{2}$/)) {
+      cleanDate = dateString.replace(' ', 'T') + 'Z';
+    }
+
+    const date = new Date(cleanDate);
+    const now = new Date();
+    const diffTime = Math.abs(now.getTime() - date.getTime());
+    const diffSeconds = Math.floor(diffTime / 1000);
+    const diffMinutes = Math.floor(diffSeconds / 60);
+    const diffHours = Math.floor(diffMinutes / 60);
+    const diffDays = Math.floor(diffHours / 24);
+
+    if (diffDays === 0) {
+      if (diffHours === 0) {
+        if (diffMinutes === 0) return 'Just now';
+        return `${diffMinutes} min${diffMinutes > 1 ? 's' : ''} ago`;
+      }
+      return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+    } else if (diffDays < 7) {
+      return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+    } else {
+      return date.toLocaleDateString();
     }
   }
 }

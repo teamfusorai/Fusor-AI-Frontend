@@ -19,6 +19,7 @@ export interface AnalyticsResponse {
 export interface ConvoTrendItem {
   day: string;
   count: number;
+  cost?: number;
 }
 
 export interface TopQuery {

@@ -56,7 +56,7 @@ export class KnowledgebaseComponent implements OnInit, OnDestroy {
     private kbService: KnowledgeBaseService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.userId = localStorage.getItem('user_id') || 'test_user_id';
@@ -322,6 +322,9 @@ export class KnowledgebaseComponent implements OnInit, OnDestroy {
       acceptIcon: 'none',
       rejectIcon: 'none',
       rejectButtonStyleClass: 'p-button-text',
+      acceptButtonStyleClass: 'p-button-danger',
+      acceptLabel: 'Delete',
+      rejectLabel: 'Cancel',
       accept: () => {
         this.kbService.deleteDocument(doc.id).pipe(
           catchError(() => {
@@ -380,7 +383,7 @@ export class KnowledgebaseComponent implements OnInit, OnDestroy {
 
   formatDate(dateStr: string): string {
     if (!dateStr) return '';
-    
+
     // If the date string doesn't have a timezone indicator (Z or +/-), 
     // append 'Z' to treat it as UTC from the server.
     let cleanDate = dateStr;
