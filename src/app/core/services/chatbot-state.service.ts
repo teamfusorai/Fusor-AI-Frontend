@@ -129,8 +129,8 @@ export class ChatbotStateService {
       toArray(),
       tap(responses => {
         const newIds = responses
-          .filter(r => r && r.kb_id)
-          .map(r => r.kb_id);
+          .filter(r => r && (r.kb_id || r.id))
+          .map(r => r.kb_id || r.id);
         
         if (newIds.length > 0) {
           const currentIds = this._config.value.kb_doc_ids || [];

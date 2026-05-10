@@ -102,15 +102,22 @@ export class CreateChatbotComponent implements OnInit, OnDestroy {
 
     if ((this.currentStepIndex === 2 || this.currentStepIndex === 3) && this.isNextValid) {
       this.isNextLoading = true;
-      if (this.currentStepIndex === 2) {
-        this.state.uploadPendingSources().subscribe();
-      }
       
-      setTimeout(() => {
+      const navigateNext = () => {
         this.isNextLoading = false;
         this.currentStepIndex++;
         this.router.navigate(['/workspace/create-chatbot', this.routesPath[this.currentStepIndex]]);
-      }, 2500);
+      };
+
+      if (this.currentStepIndex === 2) {
+        // Wait for uploads to complete before moving to the next step
+        this.state.uploadPendingSources().subscribe({
+          next: () => navigateNext(),
+          error: () => navigateNext() // Navigate anyway even on error so user isn't stuck
+        });
+      } else {
+        navigateNext();
+      }
       return;
     }
 
