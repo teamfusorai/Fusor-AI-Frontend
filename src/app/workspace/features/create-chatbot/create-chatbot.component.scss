@@ -21,42 +21,64 @@
 
   .back-btn {
     background: transparent;
-    border: none;
-    font-family: 'Inter', sans-serif;
+    border: 1px solid var(--border-light, #E5E5E5);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-family: var(--font-family, 'Inter', sans-serif);
     font-weight: 500;
     font-size: 14px;
     color: var(--text-primary, #000);
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 0;
+    gap: 10px;
+    transition: all 0.2s;
+
+    &:hover {
+      background: var(--surface-hover, #F8F9FA);
+    }
+    
+    i {
+      font-size: 12px;
+    }
   }
 }
 
 /* CUSTOM HORIZONTAL STEPPER */
 .stepper-wrapper {
   position: relative;
+  // N = 5 steps
+  // Center of node 1 is at (1/10 * 100%) = 10%
+  // Center of node 5 is at (9/10 * 100%) = 90%
+  // Track starts at 10%, width is 80%
 
   .stepper-track-bg {
     position: absolute;
-    top: 20px;
-    left: 10%;
-    width: 80%;
+    top: 16px; 
+    left: calc(100% / 10);
+    width: calc(100% * 8 / 10);
     height: 2px;
     background: var(--border-light, #E5E5E5);
     z-index: 1;
+
+    @media screen and (min-width: 768px) {
+      top: 20px;
+    }
   }
 
   .stepper-track-fill {
     position: absolute;
-    top: 20px;
-    left: 10%;
-    height: 3px;
+    top: 16px;
+    left: calc(100% / 10);
+    height: 2px;
     background: var(--text-primary, #000000);
     z-index: 2;
     transition: width 0.3s ease;
     width: 0%;
+
+    @media screen and (min-width: 768px) {
+      top: 20px;
+    }
   }
 
   .stepper-nodes {

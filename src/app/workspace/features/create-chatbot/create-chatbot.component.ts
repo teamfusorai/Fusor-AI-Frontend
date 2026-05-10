@@ -134,11 +134,18 @@ export class CreateChatbotComponent implements OnInit, OnDestroy {
     }
   }
 
+  goBack() {
+    this.router.navigate(['/workspace/chatbots']);
+  }
+
   getProgressWidth(): number {
     if (this.currentStepIndex === 0 || this.items.length <= 1) {
       return 0;
     }
-    return (this.currentStepIndex / (this.items.length - 1)) * 100;
+    // With 5 steps, the nodes are at 10%, 30%, 50%, 70%, 90%
+    // The track starts at 10%. To reach the center of node I, width must be:
+    // ((I / (N-1)) * 80)
+    return (this.currentStepIndex / (this.items.length - 1)) * 80;
   }
 
   ngOnDestroy() {

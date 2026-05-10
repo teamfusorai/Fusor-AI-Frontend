@@ -1,29 +1,30 @@
-<div class="header-container flex align-items-center justify-content-between">
-  <div class="header-left flex align-items-center gap-3">
-    <!-- Hamburger Button (Mobile Only) -->
-    <button pButton type="button" icon="pi pi-bars" class="p-button-rounded p-button-text md:hidden"
-      (click)="toggleSidebar.emit()"></button>
+<div class="header-container">
+  <div class="max-w-7xl mx-auto w-full flex align-items-center justify-content-between h-full px-3 md:px-5">
+    <div class="header-left flex align-items-center gap-3">
+      <!-- Hamburger Button (Mobile Only) -->
+      <button pButton type="button" icon="pi pi-bars" class="p-button-rounded p-button-text md:hidden"
+        (click)="toggleSidebar.emit()"></button>
 
-    <!-- Back Button (Create Flow Only) -->
-    <button *ngIf="showBackButton" pButton type="button" label="Back" icon="pi pi-chevron-left" 
-      class="p-button-text text-color font-semibold p-0" routerLink="/workspace/dashboard"></button>
+      <!-- Back Button (Create Flow Only) -->
+      <button *ngIf="showBackButton" pButton type="button" label="Back" icon="pi pi-chevron-left" 
+        class="p-button-text text-color font-semibold p-0" routerLink="/workspace/dashboard"></button>
 
-    <div class="header-breadcrumb text-primary font-semibold" *ngIf="!showBackButton">
-      <!-- Breadcrumbs -->
+      <div class="header-breadcrumb text-primary font-semibold" *ngIf="!showBackButton">
+        <!-- Breadcrumbs -->
+      </div>
     </div>
-  </div>
 
-  <div class="header-actions flex align-items-center gap-4">
-    <button class="icon-btn notif-btn">
-      <img src="assets/Media/bell.png" alt="Bell Icon" *ngIf="false" />
-      <i class="pi pi-bell"></i>
-      <div class="badge"></div>
-    </button>
+    <div class="header-actions flex align-items-center gap-4">
+      <button class="icon-btn notif-btn">
+        <i class="pi pi-bell"></i>
+        <div class="badge"></div>
+      </button>
 
-    <div class="user-pill flex align-items-center gap-2 cursor-pointer">
-      <span class="user-greeting text-sm font-medium">{{ userName }}</span>
-      <div class="user-avatar-sm">
-        {{ userInitials }}
+      <div class="user-pill flex align-items-center gap-2 cursor-pointer">
+        <span class="user-greeting text-sm font-medium">{{ userName }}</span>
+        <div class="user-avatar-sm">
+          {{ userInitials }}
+        </div>
       </div>
     </div>
   </div>

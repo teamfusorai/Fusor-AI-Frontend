@@ -1,8 +1,8 @@
 <div class="wizard-container">
   <!-- STICKY HEADER -->
   <header class="wizard-sticky-header">
-    <div class="max-w-5xl mx-auto px-3 md:px-5 pt-5 pb-2">
-      <div class="pl-0 md:pl-5">
+    <div class="max-w-7xl mx-auto px-3 md:px-5 pt-5 pb-2">
+      <div class="header-text pl-0 md:pl-2">
         <h3 class="m-0 text-2xl md:text-3xl font-semibold text-color">Create New Chatbot</h3>
         <p class="m-0 text-sm md:text-base text-color-secondary mt-1">Step {{ currentStepIndex + 1 }} of {{ items.length }}</p>
       </div>
@@ -10,7 +10,7 @@
 
     <!-- CUSTOM STEPPER -->
     <div class="w-full">
-      <div class="stepper-wrapper max-w-5xl mx-auto mt-2 px-3 md:px-4 pb-4">
+      <div class="stepper-wrapper max-w-7xl mx-auto mt-2 px-3 md:px-4 pb-4">
         <div class="stepper-track-bg"></div>
         <div class="stepper-track-fill" [style.width.%]="getProgressWidth()"></div>
 
@@ -31,27 +31,29 @@
 
   <!-- NATURAL FLOW MAIN CONTENT -->
   <main class="wizard-main-content flex justify-content-center p-3 md:p-6">
-    <div class="content-wrapper w-full max-w-4xl">
+    <div class="content-wrapper w-full max-w-7xl">
       <router-outlet></router-outlet>
     </div>
   </main>
 
   <!-- FOOTER NAVIGATION -->
-  <footer class="wizard-natural-footer px-3 md:px-6 py-4 flex justify-content-between align-items-center">
-    <button class="nav-btn prev-btn" [disabled]="currentStepIndex === 0" (click)="goToPreviousStep()">
-      <i class="pi pi-chevron-left mr-2"></i> Previous
-    </button>
+  <footer class="wizard-natural-footer px-3 md:px-6 py-4">
+    <div class="max-w-7xl mx-auto w-full flex justify-content-between align-items-center">
+      <button class="nav-btn prev-btn" [disabled]="currentStepIndex === 0" (click)="goToPreviousStep()">
+        <i class="pi pi-chevron-left mr-2"></i> Previous
+      </button>
 
-    <button class="nav-btn next-btn" [disabled]="!isNextValid || isNextLoading || (isUploading$ | async)"
-      (click)="goToNextStep()">
-      <span *ngIf="isNextLoading" class="pi pi-spinner pi-spin mr-2"></span>
-      <ng-container *ngIf="currentStepIndex !== 4">
-        Next <i *ngIf="!isNextLoading" class="pi pi-chevron-right ml-2"></i>
-      </ng-container>
-      <ng-container *ngIf="currentStepIndex === 4">
-        {{ isPublished ? 'Go to Dashboard' : (isNextLoading ? 'Deploying...' : 'Publish Chatbot') }}
-        <i *ngIf="!isNextLoading && !isPublished" class="pi pi-check ml-2"></i>
-      </ng-container>
-    </button>
+      <button class="nav-btn next-btn" [disabled]="!isNextValid || isNextLoading || (isUploading$ | async)"
+        (click)="goToNextStep()">
+        <span *ngIf="isNextLoading" class="pi pi-spinner pi-spin mr-2"></span>
+        <ng-container *ngIf="currentStepIndex !== 4">
+          Next <i *ngIf="!isNextLoading" class="pi pi-chevron-right ml-2"></i>
+        </ng-container>
+        <ng-container *ngIf="currentStepIndex === 4">
+          {{ isPublished ? 'Go to Dashboard' : (isNextLoading ? 'Deploying...' : 'Publish Chatbot') }}
+          <i *ngIf="!isNextLoading && !isPublished" class="pi pi-check ml-2"></i>
+        </ng-container>
+      </button>
+    </div>
   </footer>
 </div>
