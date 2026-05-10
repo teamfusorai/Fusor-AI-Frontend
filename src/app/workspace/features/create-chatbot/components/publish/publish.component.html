@@ -3,11 +3,11 @@
     <div card-body class="p-4 md:p-5">
       <!-- Figma Design Header -->
       <div class="flex flex-column align-items-center mb-5 text-center">
-        <div class="flex align-items-center justify-content-center bg-black border-round-2xl mb-4" style="width: 64px; height: 64px; background: #000;">
-          <img src="assets/Media/rocketIcon.svg" alt="Rocket Icon" style="width: 32px; height: 32px; filter: brightness(0) invert(1);" />
+        <div class="flex align-items-center justify-content-center bg-black-alpha-90 border-round-2xl mb-4 w-4rem h-4rem">
+          <img src="assets/Media/rocketIcon.svg" alt="Rocket Icon" class="w-2rem h-2rem filter-invert" />
         </div>
-        <h2 class="m-0 mb-2 font-semibold text-gray-900" style="font-size: 24px; line-height: 33.6px; font-family: 'Inter', sans-serif;">Deploy Your Chatbot</h2>
-        <p class="m-0 font-normal text-gray-600" style="font-size: 16px; line-height: 25.6px; font-family: 'Inter', sans-serif;">Choose how you'd like to integrate and deploy your chatbot</p>
+        <h2 class="m-0 mb-2 font-semibold text-900 text-3xl">Deploy Your Chatbot</h2>
+        <p class="m-0 font-normal text-600 text-base">Choose how you'd like to integrate and deploy your chatbot</p>
       </div>
 
       <app-fusor-deployment-options mode="builder" [data]="data" [isLoading]="false"></app-fusor-deployment-options>

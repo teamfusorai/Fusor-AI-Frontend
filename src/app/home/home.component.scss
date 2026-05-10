@@ -142,7 +142,39 @@ $border-width: 1px;
     gap: 16px;
     margin-bottom: 64px;
   }
+
+  .features-preview {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 24px;
+    animation-delay: 0.4s;
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+
+      .feature-icon {
+        width: 24px;
+        height: 24px;
+        background: var(--surface-200);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+      }
+
+      span {
+        font-size: 14px;
+        font-weight: 500;
+      }
+    }
+  }
 }
+
 
 // Removed obsolete .btn-black and .btn-outline rules
 

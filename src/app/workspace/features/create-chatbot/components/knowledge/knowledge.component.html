@@ -7,7 +7,7 @@
     <p class="m-0 mt-2 text-color-secondary">Add data to train your chatbot with relevant information</p>
   </div>
 
-  <div class="sources-container flex flex-column gap-4 w-full mx-auto" style="max-width: 768px;">
+  <div class="sources-container flex flex-column gap-4 w-full mx-auto max-w-3xl">
     
     <!-- Upload Documents Box -->
     <div class="source-box flex align-items-start gap-3 p-4 border-round-2xl cursor-pointer" 
@@ -15,7 +15,7 @@
          (click)="setActiveBox('file', fileInput)">
       <input type="file" #fileInput (change)="onFileSelected($event)" accept=".pdf,.doc,.docx,.txt" multiple class="hidden">
       
-      <div class="source-icon bg-surface-ground flex align-items-center justify-content-center border-round-xl" style="width: 48px; height: 48px; flex-shrink: 0;">
+      <div class="source-icon bg-surface-ground flex align-items-center justify-content-center border-round-xl w-3rem h-3rem flex-shrink-0">
         <i class="pi pi-file text-xl text-color-secondary"></i>
       </div>
       
@@ -41,7 +41,7 @@
          (click)="setActiveBox('url')">
       
       <div class="flex align-items-start gap-3 w-full">
-        <div class="source-icon bg-surface-ground flex align-items-center justify-content-center border-round-xl" style="width: 48px; height: 48px; flex-shrink: 0;">
+        <div class="source-icon bg-surface-ground flex align-items-center justify-content-center border-round-xl w-3rem h-3rem flex-shrink-0">
           <i class="pi pi-globe text-xl text-color-secondary"></i>
         </div>
         
@@ -54,10 +54,9 @@
       <!-- Inline Expanding URL Input -->
       <div *ngIf="activeBox === 'url'" class="url-input-container w-full mt-2 fadein animation-duration-200" (click)="$event.stopPropagation()">
         <div class="flex gap-2 w-full align-items-center">
-          <input pInputText class="flex-1 w-full border-round-lg p-3 border-1 border-300 surface-ground focus:border-900"
+          <input pInputText class="flex-1 w-full border-round-lg p-3 border-1 border-300 surface-ground focus:border-900 outline-none"
             [formControl]="urlControl"
-            placeholder="https://example.com"
-            style="outline: none;">
+            placeholder="https://example.com">
           
           <button pButton pRipple type="button" icon="pi pi-arrow-right" 
                   class="p-button-rounded btn-black border-none w-3rem h-3rem"
@@ -71,7 +70,7 @@
     <div class="added-sources-box flex flex-column gap-3 p-3 border-round-2xl surface-ground border-1 border-300 mt-2">
       <div class="flex justify-content-between align-items-center w-full">
         <span class="font-medium text-color text-sm">Added Sources</span>
-        <span class="badge surface-300 text-color border-round-xl text-xs px-2 py-1 font-medium" style="min-width: 24px; text-align: center;">
+        <span class="badge surface-300 text-color border-round-xl text-xs px-2 py-1 font-medium min-w-2 text-center">
           {{ unifiedSources.length }}
         </span>
       </div>

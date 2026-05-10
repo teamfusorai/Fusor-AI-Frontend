@@ -109,3 +109,19 @@ body {
         color: #e7000b !important;
     }
 }
+
+/* Global Utility Classes */
+.max-w-3xl { max-width: 48rem; } // ~768px
+.max-w-4xl { max-width: 56rem; } // ~896px
+.max-w-5xl { max-width: 64rem; } // ~1024px
+
+.bg-black-alpha-90 { background-color: rgba(0, 0, 0, 0.9); }
+.bg-surface-ground { background-color: #FAFAFA; }
+
+.resize-none { resize: none; }
+.-mx-2 { margin-left: -0.5rem; margin-right: -0.5rem; }
+.filter-invert { filter: brightness(0) invert(1); }
+.mix-blend-multiply { mix-blend-mode: multiply; }
+.overflow-wrap-anywhere { overflow-wrap: anywhere; word-wrap: break-word; }
+
+
