@@ -17,7 +17,7 @@
 
   <!-- Loading State -->
   <div *ngIf="isLoading" class="flex justify-content-center align-items-center p-8">
-    <p-progressSpinner strokeWidth="3" animationDuration="1s"></p-progressSpinner>
+    <i class="pi pi-spin pi-spinner text-3xl text-color-secondary"></i>
   </div>
 
   <!-- Main Content (always show when not loading) -->
@@ -54,9 +54,9 @@
       <!-- Conversation Trend Line Chart -->
       <div class="col-12 lg:col-6">
         <app-fusor-card>
-          <div card-body>
+          <div card-body class="flex flex-column flex-1 h-full">
             <h2 class="chart-title mt-0 mb-4">Conversation Trend</h2>
-            <div class="chart-container">
+            <div class="chart-container flex-1">
               <p-chart type="line" [data]="trendChartData" [options]="trendChartOptions"></p-chart>
             </div>
           </div>
@@ -68,7 +68,7 @@
         <app-fusor-card>
           <div card-body>
             <h2 class="chart-title mt-0 mb-4">Top User Intents</h2>
-            <div class="flex flex-column gap-3">
+            <div class="intents-list">
               <div *ngFor="let intent of intents" class="intent-item">
                 <div class="flex justify-content-between align-items-center mb-2">
                   <span class="intent-label">{{ intent.name }}</span>

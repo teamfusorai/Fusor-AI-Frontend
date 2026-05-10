@@ -83,23 +83,67 @@
   color: var(--text-primary, #0a0a0a);
 }
 
-.chart-container {
-  height: 480px;
-  position: relative;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
+.grid {
+  align-items: stretch; // Ensure cards match height
+  
+  .col-12.lg:col-6 {
+    display: flex;
+    flex-direction: column;
+    
+    app-fusor-card {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      height: 100%;
+      width: 100%;
+      
+      ::ng-deep .fusor-card-wrapper {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        height: 100%;
+
+        > [card-body] {
+          display: flex;
+          flex-direction: column;
+          flex: 1;
+          height: 100%;
+        }
+      }
+    }
+  }
 }
 
-// Ensure the card body itself stretches
-:host ::ng-deep app-fusor-card .fusor-card-wrapper {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 0 !important; // Stick to the very bottom
+.chart-container {
+  flex: 1;
+  width: 100%;
+  position: relative; // Anchor for absolute chart
+
+  ::ng-deep {
+    p-chart {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      > div {
+        height: 100% !important;
+        width: 100% !important;
+        position: relative;
+      }
+    }
+  }
 }
 
 // Top User Intents
+.intents-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 24px; // Bottom padding for the list
+}
 .intent-label {
   font-size: 14px;
   color: var(--text-primary, #0a0a0a);
@@ -127,32 +171,42 @@
 
 // Queries Table
 :host ::ng-deep .queries-table {
+  border: 1px solid var(--border-light, #e5e5e5);
+  border-radius: 16px;
+  overflow: hidden;
+  display: block; // Ensures the outer box takes shape
+  
+  .p-datatable-wrapper {
+    border-radius: 16px;
+  }
+
   .p-datatable-thead>tr>th {
     background: transparent;
     border: none;
-    border-bottom: 0.667px solid var(--border-light, #e5e5e5);
-    padding: 10px 8px;
+    border-bottom: 1px solid var(--border-light, #e5e5e5);
+    padding: 14px 24px; // Match h-3rem
     font-size: 14px;
     font-weight: 500;
     color: var(--text-primary, #0a0a0a);
   }
 
   .p-datatable-tbody>tr {
-    border-bottom: 0.667px solid var(--border-light, #e5e5e5);
-
-    &:last-child {
-      border-bottom: none;
-    }
+    background: transparent;
 
     >td {
       background: transparent;
       border: none;
-      padding: 8px;
+      border-bottom: 1px solid var(--border-light, #e5e5e5);
+      padding: 22px 24px; // Match h-4rem
       font-size: 14px;
     }
 
+    &:last-child > td {
+      border-bottom: none;
+    }
+
     &:hover {
-      background: transparent;
+      background: transparent !important;
     }
   }
 }

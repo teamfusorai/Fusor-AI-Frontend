@@ -141,30 +141,31 @@
   .p-datatable-thead>tr>th {
     background: transparent;
     border: none;
-    border-bottom: 0.667px solid var(--border-light, #E5E5E5);
-    padding: 10px 8px;
+    border-bottom: 1px solid var(--border-light, #E5E5E5);
+    padding: 14px 24px; // Match h-3rem
     font-size: 14px;
     font-weight: 500;
     color: var(--text-primary, #0a0a0a);
   }
 
   .p-datatable-tbody>tr {
-    border-bottom: 0.667px solid var(--border-light, #E5E5E5);
-
-    &:last-child {
-      border-bottom: none;
-    }
+    background: transparent;
 
     >td {
       background: transparent;
       border: none;
-      padding: 8px;
+      border-bottom: 1px solid var(--border-light, #E5E5E5);
+      padding: 22px 24px; // Match h-4rem
       font-size: 14px;
       vertical-align: middle;
     }
 
+    &:last-child > td {
+      border-bottom: none;
+    }
+
     &:hover {
-      background: transparent;
+      background: transparent !important;
     }
   }
 }

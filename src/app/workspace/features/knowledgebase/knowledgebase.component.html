@@ -15,7 +15,7 @@
 
   <!-- Loading State -->
   <div *ngIf="isLoading" class="flex justify-content-center align-items-center p-8">
-    <p-progressSpinner strokeWidth="3" animationDuration="1s"></p-progressSpinner>
+    <i class="pi pi-spin pi-spinner text-3xl text-color-secondary"></i>
   </div>
 
   <!-- Main Content -->
@@ -125,14 +125,14 @@
                   </td>
                   <td>
                     <div class="flex flex-column align-items-start gap-1">
-                      <span *ngIf="doc.status === 'Completed'" class="badge badge-filled">Completed</span>
-                      <ng-container *ngIf="doc.status === 'Processing'">
+                      <span *ngIf="doc.status?.toLowerCase() === 'completed' || doc.status?.toLowerCase() === 'success'" class="badge badge-filled">Completed</span>
+                      <ng-container *ngIf="doc.status?.toLowerCase() === 'processing'">
                         <span class="badge badge-outline">Processing</span>
                         <div class="progress-track">
                           <div class="progress-fill"></div>
                         </div>
                       </ng-container>
-                      <span *ngIf="doc.status === 'Failed'" class="badge badge-failed">Failed</span>
+                      <span *ngIf="doc.status?.toLowerCase() === 'failed' || doc.status?.toLowerCase() === 'error'" class="badge badge-failed">Failed</span>
                     </div>
                   </td>
                   <td>

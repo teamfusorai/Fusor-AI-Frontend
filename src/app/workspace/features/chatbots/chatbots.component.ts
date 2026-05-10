@@ -100,14 +100,27 @@ export class ChatbotsComponent implements OnInit {
 
   formatDate(dateString: string): string {
     if (!dateString) return 'N/A';
-    const date = new Date(dateString);
+    
+    // If the date string doesn't have a timezone indicator (Z or +/-), 
+    // append 'Z' to treat it as UTC from the server.
+    let cleanDate = dateString;
+    if (!dateString.includes('Z') && !dateString.includes('+') && !dateString.match(/-\d{2}:\d{2}$/)) {
+      cleanDate = dateString.replace(' ', 'T') + 'Z';
+    }
+
+    const date = new Date(cleanDate);
     const now = new Date();
     const diffTime = Math.abs(now.getTime() - date.getTime());
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    const diffSeconds = Math.floor(diffTime / 1000);
+    const diffMinutes = Math.floor(diffSeconds / 60);
+    const diffHours = Math.floor(diffMinutes / 60);
+    const diffDays = Math.floor(diffHours / 24);
 
     if (diffDays === 0) {
-      const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
-      if (diffHours === 0) return 'Just now';
+      if (diffHours === 0) {
+        if (diffMinutes === 0) return 'Just now';
+        return `${diffMinutes} min${diffMinutes > 1 ? 's' : ''} ago`;
+      }
       return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
     } else if (diffDays < 7) {
       return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;

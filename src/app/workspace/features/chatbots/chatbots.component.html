@@ -21,7 +21,7 @@
 
   <!-- Loading State -->
   <div *ngIf="isLoading" class="flex justify-content-center align-items-center p-5">
-    <i class="pi pi-spin pi-spinner text-4xl text-color-secondary"></i>
+    <i class="pi pi-spin pi-spinner text-3xl text-color-secondary"></i>
   </div>
 
   <!-- Empty State -->
@@ -84,7 +84,7 @@
 
       <!-- Last Updated -->
       <div class="flex-1 pr-3">
-        <span class="cell-text text-sm font-normal">{{ formatDate(bot.created_at) }}</span>
+        <span class="cell-text text-sm font-normal">{{ formatDate(bot.updated_at) }}</span>
       </div>
 
       <!-- Actions -->

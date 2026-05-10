@@ -164,7 +164,8 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
         pointBorderWidth: 2,
         pointRadius: 4,
         pointHoverRadius: 6,
-        borderWidth: 2
+        borderWidth: 2,
+        clip: false // Prevent dots and lines at exactly 0 from being cut off
       }]
     };
 
@@ -184,10 +185,10 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
       maintainAspectRatio: false, // Crucial for stretching
       layout: {
         padding: {
-          bottom: 20, // Extra space at the bottom for labels
-          top: 20,
-          left: 10,
-          right: 10
+          bottom: 5,
+          top: 5, // Reduced padding to bring chart closer to title (clipping handled by clip: false)
+          left: 5,
+          right: 5
         }
       },
       plugins: {
@@ -210,7 +211,7 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
           ticks: {
             color: '#737373',
             font: { family: 'Inter', size: 12 },
-            padding: 15,
+            padding: 5,
             align: 'center'
           },
           border: { display: false }
@@ -224,9 +225,13 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
           ticks: {
             color: '#737373',
             font: { family: 'Inter', size: 11 },
-            stepSize: 1,
-            padding: 10
+            padding: 10,
+            stepSize: 5,
+            precision: 0,
+            autoSkip: false
           },
+          min: 0,
+          suggestedMax: 40,
           border: { display: false }
         }
       }
