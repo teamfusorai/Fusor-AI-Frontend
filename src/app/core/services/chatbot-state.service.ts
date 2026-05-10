@@ -26,7 +26,7 @@ export class ChatbotStateService {
     welcome_message: 'Hello! How can I help you today?',
     tone: 'Friendly',
     system_prompt: '',
-    temperature: 0.7,
+    temperature: 0.5,
     urls: [],
     kb_doc_ids: [],
     kb_files: []

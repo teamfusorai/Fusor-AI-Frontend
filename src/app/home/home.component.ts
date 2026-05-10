@@ -18,6 +18,24 @@ export class HomeComponent {
     this.router.navigate(['/auth/signup']);
   }
 
+  handleGetStarted(): void {
+    const isLoggedIn = !!localStorage.getItem('user_id');
+    if (isLoggedIn) {
+      this.router.navigate(['/workspace/dashboard']);
+    } else {
+      this.router.navigate(['/auth/signup']);
+    }
+  }
+
+  handleCreateChatbot(): void {
+    const isLoggedIn = !!localStorage.getItem('user_id');
+    if (isLoggedIn) {
+      this.router.navigate(['/workspace/create-chatbot']);
+    } else {
+      this.router.navigate(['/auth/signup']);
+    }
+  }
+
   // Placeholder for demo functionality
   viewDemo(): void {
     console.log('View Demo Clicked');

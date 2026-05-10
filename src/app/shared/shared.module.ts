@@ -19,6 +19,7 @@ import { MenuModule } from 'primeng/menu';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { SkeletonModule } from 'primeng/skeleton';
 import { BadgeModule } from 'primeng/badge';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 import { FusorInputComponent } from './components/fusor-input/fusor-input.component';
 import { FusorButtonComponent } from './components/fusor-button/fusor-button.component';
@@ -26,6 +27,7 @@ import { FusorDropdownComponent } from './components/fusor-dropdown/fusor-dropdo
 import { ChatbotPreviewComponent } from './components/chatbot-preview/chatbot-preview.component';
 import { FusorCopyInputComponent } from './components/fusor-copy-input/fusor-copy-input.component';
 import { FusorCardComponent } from './components/fusor-card/fusor-card.component';
+import { DeploymentOptionsComponent } from './components/deployment-options/deployment-options.component';
 
 const COMPONENTS = [
   FusorInputComponent,
@@ -33,7 +35,8 @@ const COMPONENTS = [
   FusorDropdownComponent,
   ChatbotPreviewComponent,
   FusorCopyInputComponent,
-  FusorCardComponent
+  FusorCardComponent,
+  DeploymentOptionsComponent
 ];
 
 const PRIMENG_MODULES = [
@@ -51,7 +54,8 @@ const PRIMENG_MODULES = [
   MenuModule,
   ConfirmDialogModule,
   SkeletonModule,
-  BadgeModule
+  BadgeModule,
+  ProgressSpinnerModule
 ];
 
 @NgModule({

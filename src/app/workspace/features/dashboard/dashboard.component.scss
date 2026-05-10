@@ -14,9 +14,13 @@
 }
 
 .dashboard-subtitle {
-  font-size: 16px;
-  color: var(--text-secondary, #525252);
+  .metric-subtext {
+    color: var(--text-color-secondary);
+    font-size: 0.875rem;
+  }
 }
+
+
 
 :host ::ng-deep .create-btn {
   background-color: var(--primary-color, #000000) !important;
@@ -58,7 +62,7 @@
 .chatbots-list-container {
   max-height: 600px;
   overflow-y: auto;
-  padding-right: 8px;
+  padding: 4px 8px 4px 4px;
   /* For scrollbar */
 
   &::-webkit-scrollbar {
@@ -105,10 +109,42 @@
   background-color: var(--primary-color, #000000) !important;
   color: var(--primary-color-text, #ffffff) !important;
   border-radius: 16px !important;
-  padding: 4.6px 12.6px !important;
+  padding: 0 12px !important;
   font-size: 12px !important;
   font-weight: 500 !important;
   border: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 24px !important;
+}
+
+/* Delete Menu Item Styling */
+:host ::ng-deep .p-menu {
+  .delete-menu-item {
+    margin-top: 2px;
+
+    .p-menuitem-link {
+      padding: 0.75rem 1rem !important;
+      border-radius: 8px !important;
+      transition: background-color 0.2s, color 0.2s;
+      border: none !important;
+      box-shadow: none !important;
+      outline: none !important;
+
+      &:hover {
+        background-color: #f3f4f6 !important;
+        /* Gray hover effect */
+      }
+
+      .p-menuitem-text,
+      .p-menuitem-icon {
+        color: #ef4444 !important;
+        /* Red text and icon */
+        transition: color 0.2s;
+      }
+    }
+  }
 }
 
 .bot-badge-industry {

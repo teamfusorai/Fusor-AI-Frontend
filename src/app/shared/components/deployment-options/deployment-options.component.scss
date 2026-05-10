@@ -1,0 +1,37 @@
+.deployment-container {
+  background: transparent;
+}
+
+.responsive-code-box {
+  resize: none;
+  word-break: break-all;
+  background-color: #1e1e1e !important;
+  color: #4ade80 !important; /* Green text for code */
+  font-family: monospace;
+  font-size: 13px;
+}
+
+.bg-black {
+  background-color: #1e1e1e !important;
+}
+
+.bg-gray-50 {
+  background-color: #f9fafb !important;
+}
+
+:host ::ng-deep .deployment-card:not(.border-none) {
+  .p-card {
+    border: 1px solid #e5e7eb !important;
+    box-shadow: none !important;
+    border-radius: 12px !important;
+  }
+}
+
+:host ::ng-deep .deployment-card.border-none {
+  .p-card {
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 12px !important;
+    background-color: transparent !important;
+  }
+}

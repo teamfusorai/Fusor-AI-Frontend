@@ -36,22 +36,24 @@
 
       <div class="cta-container">
         <app-fusor-button label="Get Started Free" [fullWidth]="false"
-          routerLink="/workspace/create-chatbot"></app-fusor-button>
-        <app-fusor-button variant="outline" label="View Demo" [fullWidth]="false"></app-fusor-button>
+          (onClick)="handleGetStarted()"></app-fusor-button>
+        <button pButton type="button" label="View Demo" icon="pi pi-play"
+          class="p-button-outlined p-button-secondary border-round-3xl border-2" (click)="viewDemo()"></button>
       </div>
 
-      <div class="stats-container">
-        <div class="stat-group">
-          <span class="stat-num">10K+</span>
-          <span class="stat-label">Active Chatbots</span>
+      <!-- Features Preview -->
+      <div class="features-preview fade-in-up" style="animation-delay: 0.4s">
+        <div class="feature-item">
+          <div class="feature-icon"><i class="pi pi-bolt"></i></div>
+          <span>Setup in minutes</span>
         </div>
-        <div class="stat-group">
-          <span class="stat-num">1M+</span>
-          <span class="stat-label">Conversations</span>
+        <div class="feature-item">
+          <div class="feature-icon"><i class="pi pi-code"></i></div>
+          <span>No coding required</span>
         </div>
-        <div class="stat-group">
-          <span class="stat-num">99.9%</span>
-          <span class="stat-label">Uptime</span>
+        <div class="feature-item">
+          <div class="feature-icon"><i class="pi pi-chart-line"></i></div>
+          <span>Advanced analytics</span>
         </div>
       </div>
     </section>
@@ -104,7 +106,7 @@
       <h2>Ready to Get Started?</h2>
       <p>Join thousands of teams building better customer experiences.</p>
       <app-fusor-button label="Create Your First Chatbot" [fullWidth]="false" class="big-cta"
-        routerLink="/workspace/create-chatbot"></app-fusor-button>
+        (onClick)="handleCreateChatbot()"></app-fusor-button>
     </section>
 
   </main>

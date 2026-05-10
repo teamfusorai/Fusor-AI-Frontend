@@ -6,17 +6,11 @@
       <p class="page-subtitle mt-2 mb-0">Track performance and insights across all chatbots</p>
     </div>
     <div class="flex flex-column sm:flex-row gap-2 align-items-stretch sm:align-items-center filter-controls">
-      <app-fusor-dropdown
-        [options]="botOptions"
-        [(ngModel)]="selectedBot"
-        (ngModelChange)="onBotChange($event)"
+      <app-fusor-dropdown [options]="botOptions" [(ngModel)]="selectedBot" (ngModelChange)="onBotChange($event)"
         placeholder="All Chatbots">
       </app-fusor-dropdown>
-      <app-fusor-dropdown
-        [options]="dateRangeOptions"
-        [(ngModel)]="selectedDateRange"
-        (ngModelChange)="onDateRangeChange($event)"
-        placeholder="Last 30 Days">
+      <app-fusor-dropdown [options]="dateRangeOptions" [(ngModel)]="selectedDateRange"
+        (ngModelChange)="onDateRangeChange($event)" placeholder="Last 30 Days">
       </app-fusor-dropdown>
     </div>
   </div>
@@ -33,20 +27,17 @@
     <div class="grid mb-4">
       <div *ngFor="let card of kpiCards" class="col-12 md:col-6 lg:col-3">
         <app-fusor-card [hoverable]="true">
-          <div card-body class="kpi-card-body" [class.kpi-highlighted]="card.highlighted">
+          <div card-body class="kpi-card-body">
             <div class="flex justify-content-between align-items-start mb-3">
               <div class="kpi-icon flex align-items-center justify-content-center">
                 <i [class]="card.icon" class="text-xl"></i>
               </div>
-              <div class="flex align-items-center gap-1">
-                <i class="pi text-xs"
-                   [class.pi-arrow-up-right]="card.isPositive"
-                   [class.pi-arrow-down-right]="!card.isPositive"
-                   [class.change-positive]="card.isPositive"
-                   [class.change-negative]="!card.isPositive"></i>
-                <span class="text-sm"
-                      [class.change-positive]="card.isPositive"
-                      [class.change-negative]="!card.isPositive">
+              <div class="flex align-items-center gap-1" *ngIf="card.change">
+                <i class="pi text-xs" [class.pi-arrow-up-right]="card.isPositive"
+                  [class.pi-arrow-down-right]="!card.isPositive" [class.change-positive]="card.isPositive"
+                  [class.change-negative]="!card.isPositive"></i>
+                <span class="text-sm" [class.change-positive]="card.isPositive"
+                  [class.change-negative]="!card.isPositive">
                   {{ card.change }}
                 </span>
               </div>
@@ -124,9 +115,10 @@
                 <tr>
                   <td [attr.colspan]="3" class="text-center py-5">
                     <div class="flex flex-column align-items-center gap-2">
-                      <i class="pi pi-comments text-3xl" ></i>
+                      <i class="pi pi-comments text-3xl"></i>
                       <span class="font-semibold">No queries recorded yet</span>
-                      <span class="empty-subtitle">Interact with your chatbots to see the most frequently asked questions here.</span>
+                      <span class="empty-subtitle">Interact with your chatbots to see the most frequently asked
+                        questions here.</span>
                     </div>
                   </td>
                 </tr>

@@ -118,7 +118,7 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
         icon: 'pi pi-comments',
         value: this.formatNumber(data.total_conversations),
         label: 'Total Conversations',
-        change: '+18.2%',
+        change: '',
         isPositive: true,
         highlighted: false
       },
@@ -126,7 +126,7 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
         icon: 'pi pi-users',
         value: this.formatNumber(data.unique_users),
         label: 'Unique Users',
-        change: '+12.5%',
+        change: '',
         isPositive: true,
         highlighted: false
       },
@@ -134,15 +134,15 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
         icon: 'pi pi-clock',
         value: this.formatLatency(data.avg_latency),
         label: 'Avg Response Time',
-        change: '-8.3%',
-        isPositive: false,
+        change: '',
+        isPositive: true,
         highlighted: false
       },
       {
         icon: 'pi pi-dollar',
         value: '$' + this.formatNumber(Math.round(data.total_cost || 0)),
         label: 'AI Cost Usage',
-        change: '+5.2%',
+        change: '',
         isPositive: true,
         highlighted: true
       }

@@ -7,6 +7,7 @@ import { ChatbotService } from 'src/app/core/services/chatbot.service';
 import { DashboardMetrics } from 'src/app/core/models/dashboard.model';
 import { ChatbotSummary } from 'src/app/core/models/chatbot.model';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { DeploymentService } from 'src/app/core/services/deployment.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,10 +28,16 @@ export class DashboardComponent implements OnInit {
   userId: string | null = null;
   loading: boolean = true;
 
+  // Inline Deployment Expansion State
+  expandedBotId: string | null = null;
+  deploymentDataMap: { [botId: string]: any } = {};
+  loadingDeploymentMap: { [botId: string]: boolean } = {};
+
   constructor(
     private analyticsService: AnalyticsService,
     private chatbotService: ChatbotService,
     private authService: AuthService,
+    private deploymentService: DeploymentService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
     private router: Router
@@ -75,6 +82,7 @@ export class DashboardComponent implements OnInit {
       {
         label: 'Delete',
         icon: 'pi pi-trash',
+        styleClass: 'delete-menu-item',
         command: () => this.confirmDelete(bot.bot_id)
       }
     ];
@@ -107,5 +115,32 @@ export class DashboardComponent implements OnInit {
 
   trackByBotId(index: number, bot: ChatbotSummary): string {
     return bot.bot_id;
+  }
+
+  toggleDeployment(botId: string): void {
+    if (this.expandedBotId === botId) {
+      this.expandedBotId = null;
+      return;
+    }
+
+    this.expandedBotId = botId;
+
+    if (!this.deploymentDataMap[botId]) {
+      this.loadingDeploymentMap[botId] = true;
+      const uid = this.userId || '';
+
+      forkJoin({
+        qr: this.deploymentService.getQrCode(uid, botId).pipe(catchError(() => of(null))),
+        snippet: this.deploymentService.getEmbedSnippet(uid, botId).pipe(catchError(() => of(null)))
+      }).subscribe(({ qr, snippet }) => {
+        this.deploymentDataMap[botId] = {
+          qrCodeUrl: qr?.qr_code_base64 || '',
+          embedCode: snippet?.snippet || '',
+          apiUrl: snippet?.api_base_url ? `${snippet.api_base_url}/chat/${botId}` : `https://api.fusor.ai/v1/chat/${botId}`,
+          apiKey: '1234567890abcdef1234567890abcdef'
+        };
+        this.loadingDeploymentMap[botId] = false;
+      });
+    }
   }
 }

@@ -102,7 +102,7 @@ export class CreateChatbotComponent implements OnInit, OnDestroy {
 
     if ((this.currentStepIndex === 2 || this.currentStepIndex === 3) && this.isNextValid) {
       this.isNextLoading = true;
-      
+
       const navigateNext = () => {
         this.isNextLoading = false;
         this.currentStepIndex++;
@@ -133,19 +133,20 @@ export class CreateChatbotComponent implements OnInit, OnDestroy {
       this.router.navigate(['/workspace/create-chatbot', this.routesPath[this.currentStepIndex]]);
     }
   }
-  
+
   getProgressWidth(): number {
-    if (this.currentStepIndex === 0) {
+    if (this.currentStepIndex === 0 || this.items.length <= 1) {
       return 0;
     }
-    // Custom percentages for each step
-    const widths = [0, 20, 42, 62, 100]; // Step 1 to Step 5
-    return widths[this.currentStepIndex];
+    return (this.currentStepIndex / (this.items.length - 1)) * 100;
   }
-  
+
   ngOnDestroy() {
     if (this.routerSub) this.routerSub.unsubscribe();
     if (this.validSub) this.validSub.unsubscribe();
     if (this.deploySub) this.deploySub.unsubscribe();
+
+    // Reset the chatbot state when navigating away from the create chatbot flow
+    this.state.resetConfig();
   }
 }

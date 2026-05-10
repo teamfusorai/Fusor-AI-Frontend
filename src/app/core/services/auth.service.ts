@@ -21,6 +21,7 @@ export class AuthService {
           localStorage.setItem('token', 'session_' + response.user_id);
         }
         if (response.name) localStorage.setItem('name', response.name);
+        if (response.email) localStorage.setItem('email', response.email);
       })
     );
   }
@@ -33,6 +34,7 @@ export class AuthService {
           localStorage.setItem('token', 'session_' + response.user_id);
         }
         if (response.name) localStorage.setItem('name', response.name);
+        if (response.email) localStorage.setItem('email', response.email);
       })
     );
   }
