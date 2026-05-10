@@ -5,6 +5,10 @@ import { ChatPageComponent } from './chat-page/chat-page.component';
 const routes: Routes =
   [
     {
+      path: 'chat/:id',
+      component: ChatPageComponent
+    },
+    {
       path: 'auth',
       loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
     },
@@ -15,10 +19,6 @@ const routes: Routes =
     {
       path: 'workspace',
       loadChildren: () => import('./workspace/workspace.module').then(m => m.WorkspaceModule)
-    },
-    {
-      path: 'chat/:id',
-      component: ChatPageComponent
     },
     {
       path: '**',
