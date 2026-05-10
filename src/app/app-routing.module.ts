@@ -16,6 +16,10 @@ const routes: Routes =
       loadChildren: () => import('./workspace/workspace.module').then(m => m.WorkspaceModule)
     },
     {
+      path: 'chat/:id',
+      component: ChatPageComponent
+    },
+    {
       path: '**',
       redirectTo: 'home'
     }
