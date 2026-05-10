@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, from, of, forkJoin, throwError } from 'rxjs';
-import { catchError, mergeMap, tap, finalize, switchMap } from 'rxjs/operators';
+import { catchError, mergeMap, tap, finalize, switchMap, toArray } from 'rxjs/operators';
 import { ChatbotConfig } from '../models/chatbot.model';
 import { KnowledgeBaseService } from './knowledge-base.service';
 import { ChatbotService } from './chatbot.service';
@@ -83,7 +83,7 @@ export class ChatbotStateService {
           system_prompt: response.system_prompt,
           temperature: response.temperature,
           urls: response.urls || [],
-          kb_doc_ids: response.kb_doc_ids || []
+          kb_doc_ids: response.documents ? response.documents.map((d: any) => d.id) : (response.kb_doc_ids || [])
         };
         this.updateConfig(configToPatch);
       }),
@@ -115,10 +115,6 @@ export class ChatbotStateService {
     return from(uploadTasks).pipe(
       mergeMap(task => 
         this.kbService.ingest(task.type, task.payload, userId).pipe(
-          tap(response => {
-            const currentIds = this._config.value.kb_doc_ids || [];
-            this.updateConfig({ kb_doc_ids: [...currentIds, response.kb_id] });
-          }),
           catchError(err => {
             this.messageService.add({
               severity: 'error',
@@ -130,6 +126,21 @@ export class ChatbotStateService {
         ),
         3
       ),
+      toArray(),
+      tap(responses => {
+        const newIds = responses
+          .filter(r => r && r.kb_id)
+          .map(r => r.kb_id);
+        
+        if (newIds.length > 0) {
+          const currentIds = this._config.value.kb_doc_ids || [];
+          this.updateConfig({ 
+            kb_doc_ids: [...currentIds, ...newIds],
+            kb_files: [], // Clear pending files after successful upload
+            urls: []      // Clear pending URLs after successful upload
+          });
+        }
+      }),
       finalize(() => {
         this._isUploading.next(false);
       })
