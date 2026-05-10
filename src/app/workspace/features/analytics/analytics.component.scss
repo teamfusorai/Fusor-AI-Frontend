@@ -84,8 +84,19 @@
 }
 
 .chart-container {
-  height: 280px;
+  height: 480px;
   position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+// Ensure the card body itself stretches
+:host ::ng-deep app-fusor-card .fusor-card-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 0 !important; // Stick to the very bottom
 }
 
 // Top User Intents

@@ -51,13 +51,13 @@
 
     <!-- Charts Row -->
     <div class="grid mb-4">
-      <!-- Conversation Trend Bar Chart -->
+      <!-- Conversation Trend Line Chart -->
       <div class="col-12 lg:col-6">
         <app-fusor-card>
           <div card-body>
             <h2 class="chart-title mt-0 mb-4">Conversation Trend</h2>
             <div class="chart-container">
-              <p-chart type="bar" [data]="barChartData" [options]="barChartOptions"></p-chart>
+              <p-chart type="line" [data]="trendChartData" [options]="trendChartOptions"></p-chart>
             </div>
           </div>
         </app-fusor-card>

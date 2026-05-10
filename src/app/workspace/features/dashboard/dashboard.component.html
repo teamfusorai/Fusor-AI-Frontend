@@ -129,13 +129,13 @@
             <div
               class="flex align-items-center justify-content-between md:justify-content-end w-full md:w-auto gap-3 shrink-0 md:ml-4">
               <div
-                class="flex align-items-center gap-3 w-12rem">
-                <div class="flex-1 flex justify-content-end">
+                class="flex align-items-center gap-3">
+                <div class="flex justify-content-start">
+                  <div class="bot-badge-industry w-auto text-center white-space-nowrap px-3">{{ bot.industry || 'General' }}</div>
+                </div>
+                <div class="flex justify-content-end">
                   <p-badge [value]="bot.status || 'active'" [severity]="bot.status === 'active' ? 'success' : 'warning'"
                     styleClass="bot-badge-active"></p-badge>
-                </div>
-                <div class="w-6rem flex justify-content-start">
-                  <div class="bot-badge-industry w-full text-center">{{ bot.industry || 'General' }}</div>
                 </div>
               </div>
 
@@ -148,7 +148,17 @@
                 (click)="menu.toggle($event); $event.stopPropagation()"></button>
               
               <p-menu #menu [model]="getMenuOptions(bot)" [popup]="true" appendTo="body"
-                styleClass="shadow-2 border-round-xl"></p-menu>
+                styleClass="chatbot-action-menu">
+                <ng-template pTemplate="item" let-item>
+                  <a class="flex align-items-center px-3 py-2 cursor-pointer w-full transition-colors"
+                    (click)="item.command()" [ngClass]="{'mt-1 pt-2': item.separator}">
+                    <i [class]="item.icon + ' mr-2 text-base'"
+                      [ngClass]="item.label === 'Delete' ? 'menu-item-danger' : 'menu-item-text'"></i>
+                    <span class="text-sm font-normal font-family-inter"
+                      [ngClass]="item.label === 'Delete' ? 'menu-item-danger' : 'menu-item-text'">{{item.label}}</span>
+                  </a>
+                </ng-template>
+              </p-menu>
             </div>
           </div>
 

@@ -164,7 +164,17 @@
 
   </ng-container>
 
-  <p-menu #actionMenu [popup]="true" [model]="menuItems"></p-menu>
+  <p-menu #actionMenu [popup]="true" [model]="menuItems" styleClass="chatbot-action-menu" appendTo="body">
+    <ng-template pTemplate="item" let-item>
+      <a class="flex align-items-center px-3 py-2 cursor-pointer w-full transition-colors"
+        (click)="item.command()" [ngClass]="{'mt-1 pt-2': item.separator}">
+        <i [class]="item.icon + ' mr-2 text-base'"
+          [ngClass]="item.label === 'Delete' ? 'menu-item-danger' : 'menu-item-text'"></i>
+        <span class="text-sm font-normal font-family-inter"
+          [ngClass]="item.label === 'Delete' ? 'menu-item-danger' : 'menu-item-text'">{{item.label}}</span>
+      </a>
+    </ng-template>
+  </p-menu>
   <p-confirmDialog></p-confirmDialog>
   <p-toast></p-toast>
 </div>

@@ -118,24 +118,4 @@
     font-size: 16px;
   }
 }
-
-::ng-deep .chatbot-action-menu {
-  border: 0.667px solid #e5e5e5;
-  border-radius: 12px;
-  box-shadow: 0px 4px 6px -1px rgba(0, 0, 0, 0.1);
-  padding: 4.667px;
-  width: 180px;
-
-  .p-menu-list {
-    padding: 0;
-    margin: 0;
-  }
-
-  .menu-item-text {
-    color: #0a0a0a;
-  }
-
-  .menu-item-danger {
-    color: #e7000b;
-  }
-}
+

@@ -47,8 +47,8 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
 
   // Data
   kpiCards: KpiCard[] = [];
-  barChartData: any = {};
-  barChartOptions: any = {};
+  trendChartData: any = {};
+  trendChartOptions: any = {};
   intents: TopIntent[] = [];
   maxIntentCount = 1;
   topQueries: TopQuery[] = [];
@@ -148,17 +148,23 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
       }
     ];
 
-    // Bar chart data (aggregate daily → monthly)
+    // Line chart data (aggregate daily → monthly)
     const monthlyData = this.aggregateMonthly(data.convo_trend || []);
-    this.barChartData = {
+    this.trendChartData = {
       labels: monthlyData.labels,
       datasets: [{
+        label: 'Conversations',
         data: monthlyData.values,
-        backgroundColor: '#E5E5E5',
-        borderRadius: { topLeft: 16, topRight: 16 },
-        borderSkipped: 'bottom',
-        barPercentage: 0.65,
-        categoryPercentage: 0.8
+        fill: true,
+        borderColor: '#0a0a0a',
+        backgroundColor: 'rgba(10, 10, 10, 0.05)',
+        tension: 0.4, // This gives the smooth curve
+        pointBackgroundColor: '#0a0a0a',
+        pointBorderColor: '#fff',
+        pointBorderWidth: 2,
+        pointRadius: 4,
+        pointHoverRadius: 6,
+        borderWidth: 2
       }]
     };
 
@@ -173,15 +179,29 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
   }
 
   private initChartOptions(): void {
-    this.barChartOptions = {
+    this.trendChartOptions = {
       responsive: true,
-      maintainAspectRatio: false,
+      maintainAspectRatio: false, // Crucial for stretching
+      layout: {
+        padding: {
+          bottom: 20, // Extra space at the bottom for labels
+          top: 20,
+          left: 10,
+          right: 10
+        }
+      },
       plugins: {
         legend: { display: false },
         tooltip: {
           backgroundColor: '#000',
-          cornerRadius: 8,
-          padding: 10
+          titleFont: { family: 'Inter', size: 13, weight: '600' },
+          bodyFont: { family: 'Inter', size: 12 },
+          padding: 12,
+          cornerRadius: 10,
+          displayColors: false,
+          callbacks: {
+            label: (context: any) => ` ${context.parsed.y} Conversations`
+          }
         }
       },
       scales: {
@@ -189,13 +209,25 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
           grid: { display: false },
           ticks: {
             color: '#737373',
-            font: { family: 'Inter', size: 12 }
+            font: { family: 'Inter', size: 12 },
+            padding: 15,
+            align: 'center'
           },
           border: { display: false }
         },
         y: {
-          display: false,
-          grid: { display: false }
+          beginAtZero: true,
+          grid: {
+            color: '#F5F5F5',
+            drawTicks: false
+          },
+          ticks: {
+            color: '#737373',
+            font: { family: 'Inter', size: 11 },
+            stepSize: 1,
+            padding: 10
+          },
+          border: { display: false }
         }
       }
     };

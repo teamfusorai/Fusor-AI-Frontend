@@ -12,6 +12,8 @@ export interface ChatbotConfig {
   urls: string[];
   kb_doc_ids: string[];
   kb_files?: File[];
+  status?: string;
+  updated_at?: string;
 }
 
 export interface KnowledgeSourceItem {
@@ -29,6 +31,7 @@ export interface ChatbotSummary {
   active_users: number;
   conversations_count: number;
   created_at: string;
+  updated_at: string;
   status: string;
 }
 

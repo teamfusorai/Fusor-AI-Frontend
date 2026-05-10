@@ -4,7 +4,11 @@
     <button pButton type="button" icon="pi pi-bars" class="p-button-rounded p-button-text md:hidden"
       (click)="toggleSidebar.emit()"></button>
 
-    <div class="header-breadcrumb text-primary font-semibold">
+    <!-- Back Button (Create Flow Only) -->
+    <button *ngIf="showBackButton" pButton type="button" label="Back" icon="pi pi-chevron-left" 
+      class="p-button-text text-color font-semibold p-0" routerLink="/workspace/dashboard"></button>
+
+    <div class="header-breadcrumb text-primary font-semibold" *ngIf="!showBackButton">
       <!-- Breadcrumbs -->
     </div>
   </div>

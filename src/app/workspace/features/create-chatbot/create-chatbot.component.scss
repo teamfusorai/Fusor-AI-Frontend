@@ -56,7 +56,6 @@
     background: var(--text-primary, #000000);
     z-index: 2;
     transition: width 0.3s ease;
-    max-width: 80%;
     width: 0%;
   }
 
@@ -70,7 +69,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      flex: 1;
+      flex: 1 1 0;
+      min-width: 0;
       padding: 0 4px;
 
       .node-circle {

@@ -101,7 +101,7 @@
   <!-- Single Context Menu Instance -->
   <p-menu #menu [popup]="true" [model]="menuItems" [appendTo]="'body'" styleClass="chatbot-action-menu bg-white">
     <ng-template pTemplate="item" let-item>
-      <a class="flex align-items-center px-3 py-2 cursor-pointer w-full hover:surface-100 transition-colors border-round-md"
+      <a class="flex align-items-center px-3 py-2 cursor-pointer w-full transition-colors"
         (click)="item.command()" [ngClass]="{'mt-1 pt-2': item.separator}">
         <i [class]="item.icon + ' mr-2 text-base'"
           [ngClass]="item.label === 'Delete' ? 'menu-item-danger' : 'menu-item-text'"></i>

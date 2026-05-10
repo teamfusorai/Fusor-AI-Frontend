@@ -82,6 +82,8 @@ export class ChatbotStateService {
           tone: response.tone,
           system_prompt: response.system_prompt,
           temperature: response.temperature,
+          status: response.status,
+          updated_at: response.updated_at,
           urls: response.urls || [],
           kb_doc_ids: response.documents ? response.documents.map((d: any) => d.id) : (response.kb_doc_ids || [])
         };
@@ -178,6 +180,8 @@ export class ChatbotStateService {
     if (config.kb_doc_ids && config.kb_doc_ids.length) {
       formData.append('kb_ids', JSON.stringify(config.kb_doc_ids));
     }
+
+    formData.append('status', 'Active');
 
     // Logo
     if (config.logo_file) {

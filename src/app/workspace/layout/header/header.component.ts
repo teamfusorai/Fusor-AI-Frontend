@@ -1,4 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -9,6 +11,9 @@ export class HeaderComponent implements OnInit {
   @Output() toggleSidebar = new EventEmitter<void>();
   userName: string = 'User';
   userInitials: string = 'U';
+  showBackButton: boolean = false;
+
+  constructor(private router: Router) {}
 
   ngOnInit() {
     const storedName = localStorage.getItem('name');
@@ -16,6 +21,16 @@ export class HeaderComponent implements OnInit {
       this.userName = storedName;
       this.userInitials = this.getInitials(storedName);
     }
+
+    // Update showBackButton based on URL
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: any) => {
+      this.showBackButton = event.urlAfterRedirects.includes('/workspace/create-chatbot');
+    });
+    
+    // Initial check
+    this.showBackButton = this.router.url.includes('/workspace/create-chatbot');
   }
 
   private getInitials(name: string): string {

@@ -1,4 +1,4 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import 'primeicons/primeicons.css';
 @import 'primeng/resources/themes/lara-light-blue/theme.css';
 @import 'primeng/resources/primeng.min.css';
@@ -55,39 +55,57 @@ body {
 }
 
 .p-inputtext::placeholder {
+    color: var(--text-muted);
+}
 
-    /* Global Menu Styling for Dashboard */
-    .p-menu.border-round-xl {
-        .p-menu-list {
-            padding: 0.5rem !important;
-        }
+/* Global Menu Styling */
+.chatbot-action-menu.p-menu {
+    border: 0.667px solid #e5e5e5;
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 6px !important;
+    width: 180px;
+    background: white;
 
+    .p-menu-list {
+        padding: 0;
+        margin: 0;
+    }
+
+    .p-menuitem, .p-menuitem-link, .p-menu-list {
+        background: transparent !important;
+        background-color: transparent !important;
+        box-shadow: none !important;
+        outline: none !important;
+        border: none !important;
+    }
+
+    .p-menuitem {
+        margin: 2px 0;
+        
         .p-menuitem-link {
-            border-radius: 8px !important;
-            padding: 0.75rem 1rem !important;
-            transition: background-color 0.2s !important;
+            border-radius: 10px !important;
+            transition: background-color 0.2s;
+            padding: 0 !important;
 
             &:hover {
-                background-color: #f3f4f6 !important;
+                background: #FAFAFA !important;
+                background-color: #FAFAFA !important;
+            }
+
+            &.p-menuitem-link-active, &:focus, &:active, &.p-focus {
+                background: transparent !important;
+                background-color: transparent !important;
+                box-shadow: none !important;
             }
         }
+    }
 
-        .delete-menu-item {
-            margin-top: 4px;
+    .menu-item-text {
+        color: #0a0a0a !important;
+    }
 
-            .p-menuitem-link {
-
-                .p-menuitem-text,
-                .p-menuitem-icon {
-                    color: #ef4444 !important;
-                    /* Red */
-                }
-
-                &:hover {
-                    background-color: #fef2f2 !important;
-                    /* Light red hover for delete */
-                }
-            }
-        }
+    .menu-item-danger {
+        color: #e7000b !important;
     }
 }
