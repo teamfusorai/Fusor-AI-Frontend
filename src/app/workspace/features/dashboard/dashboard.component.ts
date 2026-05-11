@@ -8,6 +8,7 @@ import { DashboardMetrics } from 'src/app/core/models/dashboard.model';
 import { ChatbotSummary } from 'src/app/core/models/chatbot.model';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { DeploymentService } from 'src/app/core/services/deployment.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-dashboard',
@@ -133,14 +134,15 @@ export class DashboardComponent implements OnInit {
       const uid = this.userId || '';
 
       forkJoin({
+        bot: this.chatbotService.getChatbotById(botId).pipe(catchError(() => of(null))),
         qr: this.deploymentService.getQrCode(uid, botId).pipe(catchError(() => of(null))),
         snippet: this.deploymentService.getEmbedSnippet(uid, botId).pipe(catchError(() => of(null)))
-      }).subscribe(({ qr, snippet }) => {
+      }).subscribe(({ bot, qr, snippet }) => {
         this.deploymentDataMap[botId] = {
           qrCodeUrl: qr?.qr_code_base64 || '',
           embedCode: snippet?.snippet || '',
-          apiUrl: snippet?.api_base_url ? `${snippet.api_base_url}/chat/${botId}` : `https://api.fusor.ai/v1/chat/${botId}`,
-          apiKey: '1234567890abcdef1234567890abcdef'
+          apiUrl: snippet?.api_base_url ? `${snippet.api_base_url}/chat/${botId}` : `${environment.apiUrl}/chat/${botId}`,
+          apiKey: (bot as { api_key?: string } | null)?.api_key || ''
         };
         this.loadingDeploymentMap[botId] = false;
       });

@@ -20,6 +20,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { SkeletonModule } from 'primeng/skeleton';
 import { BadgeModule } from 'primeng/badge';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { DialogModule } from 'primeng/dialog';
 
 import { FusorInputComponent } from './components/fusor-input/fusor-input.component';
 import { FusorButtonComponent } from './components/fusor-button/fusor-button.component';
@@ -55,7 +56,8 @@ const PRIMENG_MODULES = [
   ConfirmDialogModule,
   SkeletonModule,
   BadgeModule,
-  ProgressSpinnerModule
+  ProgressSpinnerModule,
+  DialogModule
 ];
 
 @NgModule({

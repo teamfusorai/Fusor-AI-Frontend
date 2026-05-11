@@ -1,4 +1,4 @@
-<div class="configuration-card surface-card border-1 border-300 border-round-2xl p-4 md:p-5 mx-auto w-full">
+<div class="configuration-card border-1 border-300 border-round-2xl p-4 md:p-5 mx-auto w-full">
   <div class="header-text mb-5 text-left w-full">
     <h4 class="m-0 font-semibold text-2xl text-color">AI Configuration</h4>
     <p class="m-0 mt-2 text-color-secondary">Configure how your chatbot behaves and responds</p>
@@ -21,8 +21,11 @@
       <div class="font-semibold text-sm text-color mb-3">Tone of Voice</div>
       <div class="grid m-0 -mx-2">
         <div class="col-12 md:col-6 p-2" *ngFor="let tone of toneCards">
-          <div class="tone-card border-1 p-4 border-round-2xl cursor-pointer transition-colors transition-duration-200 h-full surface-card"
-               [ngClass]="activeTone === tone.title ? 'border-900' : 'border-300'"
+          <div class="tone-card border-1 p-4 border-round-2xl cursor-pointer transition-colors transition-duration-200 h-full"
+               [ngClass]="{
+                 'selected border-900': activeTone === tone.title,
+                 'border-300': activeTone !== tone.title
+               }"
                (click)="selectTone(tone.title)">
             <div class="font-semibold text-color">{{ tone.title }}</div>
             <div class="text-sm text-color-secondary mt-2">{{ tone.description }}</div>

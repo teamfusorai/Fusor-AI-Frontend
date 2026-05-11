@@ -37,6 +37,13 @@
   padding: 0;
 }
 
+.copy-input-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
 .copy-input-btn {
   background: transparent;
   border: none;
@@ -53,6 +60,38 @@
   transition: background-color 0.2s;
 }
 
+.copy-input-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.copy-input-btn-secondary:disabled {
+  opacity: 0.55;
+}
+
 .copy-input-btn:hover {
   background-color: rgba(0,0,0,0.05);
+}
+
+.copy-input-btn-secondary {
+  color: #525252;
+}
+
+/* Unpublished API key: dot row, same gray as former placeholder (#71717a) */
+.copy-input-field--phantom-mask {
+  color: #71717a;
+  caret-color: transparent;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  user-select: none;
+}
+
+.copy-input-hint {
+  margin: 6px 0 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #737373;
+  font-family: 'Inter', sans-serif;
 }

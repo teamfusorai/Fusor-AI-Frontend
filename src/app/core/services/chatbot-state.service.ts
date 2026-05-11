@@ -6,11 +6,13 @@ import { KnowledgeBaseService } from './knowledge-base.service';
 import { ChatbotService } from './chatbot.service';
 import { DeploymentService } from './deployment.service';
 import { MessageService } from 'primeng/api';
+import { environment } from 'src/environments/environment';
 
 export interface DeploymentState {
   qr_code_base64: string;
   snippet: string;
   endpoint_url: string;
+  api_key: string;
 }
 
 @Injectable({
@@ -182,6 +184,9 @@ export class ChatbotStateService {
     }
 
     formData.append('status', 'Active');
+    if (this.currentEditId) {
+      formData.append('publish_deploy', 'true');
+    }
 
     // Logo
     if (config.logo_file) {
@@ -195,7 +200,8 @@ export class ChatbotStateService {
     return request$.pipe(
       switchMap(response => {
         const botId = this.currentEditId || response.bot_id;
-        
+        const apiKey = (response as { api_key?: string }).api_key ?? '';
+
         return forkJoin({
           qr: this.deploymentService.getQrCode(userId, botId).pipe(
             catchError(err => {
@@ -214,7 +220,8 @@ export class ChatbotStateService {
             this._deploymentState.next({
               qr_code_base64: qr?.qr_code_base64 || '',
               snippet: snippet?.snippet || '',
-              endpoint_url: snippet?.api_base_url ? `${snippet.api_base_url}/chat/${botId}` : `https://api.fusor.ai/v1/chat/${botId}`
+              endpoint_url: snippet?.api_base_url ? `${snippet.api_base_url}/chat/${botId}` : `${environment.apiUrl}/chat/${botId}`,
+              api_key: apiKey
             });
             this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Chatbot published successfully!' });
           })

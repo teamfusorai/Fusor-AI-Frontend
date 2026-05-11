@@ -219,4 +219,39 @@ body {
 .p-dialog-mask {
     background-color: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(2px);
-}
+}
+
+/* API documentation dialog — global so styles apply when appendTo="body" (dashboard layout) */
+body .api-doc-dialog.p-dialog,
+body .p-dialog.api-doc-dialog {
+    border-radius: 20px !important;
+    overflow: hidden;
+}
+
+body .api-doc-dialog.p-dialog .p-dialog-header,
+body .p-dialog.api-doc-dialog .p-dialog-header {
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 1.5rem 1.75rem 1rem !important;
+    border-radius: 20px 20px 0 0 !important;
+}
+
+body .api-doc-dialog.p-dialog .p-dialog-content,
+body .p-dialog.api-doc-dialog .p-dialog-content {
+    padding: 0.5rem 1.75rem 2rem !important;
+    max-height: min(68vh, 640px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: 0 0 20px 20px !important;
+    /* Scrollable but no visible scrollbar */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+body .api-doc-dialog.p-dialog .p-dialog-content::-webkit-scrollbar,
+body .p-dialog.api-doc-dialog .p-dialog-content::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+    background: transparent;
+}

@@ -3,12 +3,15 @@
   flex-direction: column;
   flex: 1;
   min-height: 100%;
+  /* Match dashboard grey (#FAFAFA), not Lara theme surface-hover (bluish) */
+  background-color: #fafafa;
 }
 
 .wizard-container {
   display: flex;
   flex-direction: column;
   min-height: 100%;
+  background-color: #fafafa;
 }
 
 /* STICKY HEADER */
@@ -160,7 +163,7 @@
 
 /* MAIN CONTENT */
 .wizard-main-content {
-  background-color: var(--surface-hover, #FAFAFA);
+  background-color: #fafafa;
   flex: 1;
 }
 

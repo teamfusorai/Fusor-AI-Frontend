@@ -2,16 +2,32 @@
   <label *ngIf="label" class="copy-input-label">{{ label }}</label>
   <div class="copy-input-wrapper">
     <input 
-      [type]="isMasked ? 'password' : 'text'"
-      [value]="value"
+      [type]="inputType"
+      [value]="displayInputValue"
+      [attr.placeholder]="!isMasked && !hasValue && placeholder ? placeholder : null"
       readonly
       class="copy-input-field"
+      [class.copy-input-field--phantom-mask]="isMasked && !hasValue"
     />
-    <button 
-      class="copy-input-btn"
-      [cdkCopyToClipboard]="value"
-      (cdkCopyToClipboardCopied)="onCopy()">
-      Copy
-    </button>
+    <div class="copy-input-actions">
+      <button
+        *ngIf="isMasked && showRevealToggle"
+        type="button"
+        class="copy-input-btn copy-input-btn-secondary"
+        [disabled]="!hasValue"
+        [attr.title]="!hasValue ? 'Publish your chatbot to generate an API key' : null"
+        (click)="toggleReveal()">
+        {{ !hasValue ? maskedRevealLabel : (revealSecret ? 'Hide' : maskedRevealLabel) }}
+      </button>
+      <button 
+        type="button"
+        class="copy-input-btn"
+        [cdkCopyToClipboard]="value"
+        (cdkCopyToClipboardCopied)="onCopy()"
+        [disabled]="!hasValue">
+        Copy
+      </button>
+    </div>
   </div>
+  <p *ngIf="emptyHint && !hasValue" class="copy-input-hint">{{ emptyHint }}</p>
 </div>

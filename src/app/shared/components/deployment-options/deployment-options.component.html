@@ -53,8 +53,8 @@
                 {{ data?.embedCode || '' }}
               </div>
               <div class="flex justify-content-start w-full">
-                <button pButton type="button" icon="pi pi-code" label="Copy Code" 
-                        class="p-button-sm font-medium border-1 border-300 border-round-3xl text-900 bg-surface-50 px-4 py-2 w-max shadow-none"
+                <button pButton type="button" icon="pi pi-code" label="Copy Code"
+                        class="p-button-sm font-medium border-1 border-300 border-round-3xl text-900 bg-gray-100 px-4 py-2 w-max shadow-none"
                         (click)="copyToClipboard(data?.embedCode || '')" [disabled]="!data?.embedCode"></button>
               </div>
             </ng-container>
@@ -87,9 +87,15 @@
 
               <ng-container *ngIf="!isLoading">
                 <app-fusor-copy-input label="Endpoint URL" [value]="data?.apiUrl || ''"></app-fusor-copy-input>
-                <app-fusor-copy-input label="API Key" [value]="data?.apiKey || ''" [isMasked]="true"></app-fusor-copy-input>
+                <app-fusor-copy-input
+                  label="API Key"
+                  [value]="data?.apiKey || ''"
+                  [isMasked]="true"
+                  [revealKeyByDefault]="true"
+                  maskedRevealLabel="View">
+                </app-fusor-copy-input>
                 
-                <button pButton type="button" label="View API Documentation" class="p-button-outlined p-button-sm border-round-xl text-color font-medium w-max mt-2 bg-surface-50" [disabled]="data?.qrCodeUrl === 'placeholder'"></button>
+                <button pButton type="button" label="View API Documentation" class="p-button-outlined p-button-sm border-round-xl text-color font-medium w-max mt-2 bg-surface-50" (click)="openApiDocumentation()"></button>
               </ng-container>
             </div>
           </div>
@@ -110,4 +116,53 @@
       </app-fusor-card>
     </div>
   </div>
+
+  <p-dialog
+    [(visible)]="apiDocVisible"
+    [modal]="true"
+    [dismissableMask]="true"
+    [draggable]="false"
+    [resizable]="false"
+    appendTo="body"
+    [baseZIndex]="11000"
+    [style]="{ width: 'min(92vw, 720px)' }"
+    styleClass="api-doc-dialog"
+    header="REST API — integrate in your backend">
+    <div class="api-doc">
+      <p class="api-doc-lead">
+        Send a <strong>POST</strong> request to your <strong>Endpoint URL</strong> from a trusted server (never expose your API key in browser-side code).
+      </p>
+
+      <section class="api-doc-section">
+        <h3 class="api-doc-h">1. Authentication</h3>
+        <p class="api-doc-p">Include your secret key on every request using one of these headers:</p>
+        <ul class="api-doc-list">
+          <li><code>X-API-Key: &lt;your key&gt;</code></li>
+          <li><code>Authorization: Bearer &lt;your key&gt;</code></li>
+        </ul>
+      </section>
+
+      <section class="api-doc-section">
+        <h3 class="api-doc-h">2. Request</h3>
+        <p class="api-doc-p"><code>Content-Type: application/json</code></p>
+        <p class="api-doc-p">Example body (required and optional fields):</p>
+        <pre class="api-doc-pre">{{ jsonBodyExample }}</pre>
+      </section>
+
+      <section class="api-doc-section">
+        <h3 class="api-doc-h">3. Example (curl)</h3>
+        <pre class="api-doc-pre">{{ curlExample }}</pre>
+      </section>
+
+      <section class="api-doc-section">
+        <h3 class="api-doc-h">4. Response</h3>
+        <p class="api-doc-p">JSON with fields such as <code>answer</code>, <code>citations</code>, <code>usage</code>, <code>bot_id</code>, and <code>user_id</code>.</p>
+      </section>
+
+      <section class="api-doc-section api-doc-note">
+        <h3 class="api-doc-h">Note</h3>
+        <p class="api-doc-p m-0">The hosted chat page and embed widget use other routes and do not require this API key. This key only secures the <strong>programmatic</strong> chat endpoint above.</p>
+      </section>
+    </div>
+  </p-dialog>
 </ng-container>

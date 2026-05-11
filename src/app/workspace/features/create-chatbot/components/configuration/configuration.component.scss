@@ -3,11 +3,22 @@
   width: 100%;
 }
 
+.tone-card {
+  background: #ffffff !important;
+  border-color: #d1d5db !important; /* visible unselected border */
+}
+
+.tone-card.selected {
+  background: #f3f4f6 !important; /* subtle selected fill */
+  border-color: #111827 !important; /* strong selected border */
+}
+
 .configuration-card {
   box-sizing: border-box;
   max-width: 1024px;
   margin: 0 auto;
   margin-top: 16px;
+  background: #ffffff !important;
 }
 
 /* Minimal PrimeNG Slider Override */
