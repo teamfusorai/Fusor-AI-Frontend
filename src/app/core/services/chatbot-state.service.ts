@@ -228,7 +228,22 @@ export class ChatbotStateService {
         );
       }),
       catchError(err => {
-        this.messageService.add({ severity: 'error', summary: 'Publish Failed', detail: 'Failed to publish chatbot. Please try again.' });
+        const apiErr = err?.error?.error;
+        const code = apiErr?.code;
+        const msg = apiErr?.message;
+        if (code === 'openai_key_required') {
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'OpenAI key required',
+            detail: msg || 'Add your OpenAI API key in Settings, then try publishing again.'
+          });
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Publish Failed',
+            detail: msg || 'Failed to publish chatbot. Please try again.'
+          });
+        }
         return throwError(() => err);
       })
     );

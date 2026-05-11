@@ -29,7 +29,11 @@ export class CreateChatbotComponent implements OnInit, OnDestroy {
     'publish'
   ];
 
-  constructor(private router: Router, private route: ActivatedRoute, private state: ChatbotStateService) { }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private state: ChatbotStateService
+  ) { }
 
   ngOnInit() {
     this.items = [

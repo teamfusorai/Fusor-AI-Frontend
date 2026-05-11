@@ -33,11 +33,14 @@ export class ErrorInterceptor implements HttpInterceptor {
           }
         }
 
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: standardError.error.message
-        });
+        const skipToast = request.headers.get('X-Skip-Global-Error') === 'true';
+        if (!skipToast) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: standardError.error.message
+          });
+        }
 
         return throwError(() => standardError);
       })

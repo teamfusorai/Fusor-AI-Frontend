@@ -3,7 +3,8 @@
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  background-color: var(--surface-ground);
+  /* Match body / workspace-feature-page — neutral grey, not Lara theme blue tint */
+  background-color: #fafafa;
 }
 
 .workspace-sidebar-slot {
@@ -18,6 +19,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  background-color: #fafafa;
 }
 
 .workspace-header-slot {
@@ -39,6 +41,7 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  background-color: #fafafa;
   zoom: 0.8; /* Scales down all content by 20% */
   
   /* Fallback for Firefox which doesn't support zoom well */

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { WorkspaceLayoutComponent } from './layout/workspace-layout/workspace-layout.component';
 import { authGuard } from '../guards/auth.guard';
+import { openAiKeyGuard } from '../guards/openai-key.guard';
 
 const routes: Routes = [
   {
@@ -10,7 +11,11 @@ const routes: Routes = [
     canActivate: [authGuard],
     children: [
       { path: '', redirectTo: 'create-chatbot', pathMatch: 'full' },
-      { path: 'create-chatbot', loadChildren: () => import('./features/create-chatbot/create-chatbot.module').then(m => m.CreateChatbotModule) },
+      {
+        path: 'create-chatbot',
+        loadChildren: () => import('./features/create-chatbot/create-chatbot.module').then(m => m.CreateChatbotModule),
+        canActivate: [openAiKeyGuard]
+      },
       { path: 'create-chatbot/:id', loadChildren: () => import('./features/create-chatbot/create-chatbot.module').then(m => m.CreateChatbotModule) },
       { path: 'dashboard', loadChildren: () => import('./features/dashboard/dashboard.module').then(m => m.DashboardModule) },
       { path: 'chatbots', loadChildren: () => import('./features/chatbots/chatbots.module').then(m => m.ChatbotsModule) },

@@ -1,1 +1,46 @@
-<p>settings works!</p>
+<div class="workspace-feature-page settings-page">
+  <div class="settings-header mb-5">
+    <h1 class="workspace-page-title m-0">Settings</h1>
+    <p class="workspace-page-subtitle mt-2 mb-0">Manage your workspace preferences and API credentials</p>
+  </div>
+
+  <app-fusor-card class="settings-card">
+    <div card-body>
+      <h2 class="settings-section-title">OpenAI API key</h2>
+      <p class="settings-section-desc">
+        Your key is used for embeddings, document ingestion, and chat replies for your chatbots.
+        It is stored on the server and never sent back to the browser after saving.
+      </p>
+
+      <div *ngIf="loadingStatus" class="flex justify-content-center align-items-center py-4">
+        <i class="pi pi-spin pi-spinner settings-page-spinner" aria-hidden="true"></i>
+      </div>
+
+      <ng-container *ngIf="!loadingStatus && userId">
+        <div class="key-status-row mb-4" *ngIf="hasOpenAiKey">
+          <span class="key-status-badge">
+            <i class="pi pi-check-circle"></i>
+            API key on file
+          </span>
+          <button pButton type="button" label="Remove key" class="p-button-text p-button-danger remove-key-btn"
+            [loading]="removing" [disabled]="removing" (click)="removeKey()"></button>
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="saveKey()" class="settings-form flex flex-column gap-3">
+          <app-fusor-input label="OpenAI API key" type="password" placeholder="sk-..."
+            formControlName="openai_api_key"
+            [errorMessage]="form.get('openai_api_key')?.touched && form.get('openai_api_key')?.invalid ? 'Enter a valid API key (min. 10 characters)' : ''">
+          </app-fusor-input>
+          <div class="flex flex-wrap gap-2">
+            <app-fusor-button type="submit" label="Save key" [loading]="saving" [disabled]="saving || form.invalid">
+            </app-fusor-button>
+          </div>
+        </form>
+      </ng-container>
+
+      <p *ngIf="!loadingStatus && !userId" class="text-secondary m-0">You must be signed in to manage settings.</p>
+    </div>
+  </app-fusor-card>
+</div>
+
+<p-toast></p-toast>
