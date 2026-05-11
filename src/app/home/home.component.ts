@@ -19,12 +19,7 @@ export class HomeComponent {
   }
 
   handleGetStarted(): void {
-    const isLoggedIn = !!localStorage.getItem('user_id');
-    if (isLoggedIn) {
-      this.router.navigate(['/workspace/dashboard']);
-    } else {
-      this.router.navigate(['/auth/signup']);
-    }
+    this.navigateToSignup();
   }
 
   handleCreateChatbot(): void {

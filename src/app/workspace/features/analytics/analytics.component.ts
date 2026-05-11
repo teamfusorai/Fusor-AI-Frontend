@@ -3,7 +3,7 @@ import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { switchMap, takeUntil, catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { AnalyticsService } from 'src/app/core/services/analytics.service';
-import { AnalyticsResponse, TopQuery, TopIntent } from 'src/app/core/models/dashboard.model';
+import { AnalyticsResponse, ConvoTrendItem, TopIntent, TopQuery } from 'src/app/core/models/dashboard.model';
 import { ChatbotSummary } from 'src/app/core/models/chatbot.model';
 
 interface KpiCard {
@@ -152,8 +152,8 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
       }
     ];
 
-    // Line chart data (aggregate daily → monthly)
-    const monthlyData = this.aggregateMonthly(data.convo_trend || []);
+    // Rolling buckets over the trend window (avoids piling years into one “January” bar)
+    const monthlyData = this.aggregateTrendRollingBuckets(data.convo_trend || []);
     this.trendChartData = {
       labels: monthlyData.labels,
       datasets: [{
@@ -192,8 +192,16 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
       }]
     };
 
-    // Top intents
-    this.intents = data.top_intents || [];
+    const maxCount = Math.max(...monthlyData.counts, 1);
+    const maxCostVal = Math.max(...monthlyData.costs, 0.0001);
+    this.applyDynamicChartScales(maxCount, maxCostVal);
+
+    // Top intents — cap radar segments so the spider chart stays readable
+    const rawIntents = data.top_intents || [];
+    this.intents = rawIntents.slice(0, 6).map(i => ({
+      ...i,
+      name: i.name.length > 26 ? `${i.name.slice(0, 24).trim()}…` : i.name,
+    }));
     this.maxIntentCount = this.intents.length > 0
       ? Math.max(...this.intents.map(i => i.count))
       : 1;
@@ -213,6 +221,25 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
           data: this.intents.map(i => i.count)
         }
       ]
+    };
+
+    this.intentChartOptions = {
+      ...this.intentChartOptions,
+      scales: {
+        r: {
+          angleLines: { color: '#d4d4d4' },
+          grid: { color: '#e0e0e0' },
+          pointLabels: {
+            font: { family: 'Inter', size: this.intents.length > 5 ? 10 : 12 },
+            color: '#737373'
+          },
+          ticks: {
+            display: false,
+            min: 0,
+            stepSize: 1
+          }
+        }
+      }
     };
 
     // Top queries (Slice to 5 so it immediately truncates even if backend sends 10)
@@ -266,12 +293,11 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
             color: '#737373',
             font: { family: 'Inter', size: 11 },
             padding: 10,
-            stepSize: 5,
             precision: 0,
-            autoSkip: false
+            autoSkip: true,
+            maxTicksLimit: 8
           },
           min: 0,
-          suggestedMax: 40,
           border: { display: false }
         }
       }
@@ -307,7 +333,6 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
             maxTicksLimit: 5
           },
           min: 0,
-          suggestedMax: 0.10,
           border: { display: false }
         }
       }
@@ -345,30 +370,72 @@ export class AnalyticsComponent implements OnInit, OnDestroy {
     };
   }
 
-  private aggregateMonthly(trend: any[]): { labels: string[]; counts: number[]; costs: number[] } {
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const countMap = new Map<number, number>();
-    const costMap = new Map<number, number>();
-
-    for (const item of trend) {
-      const monthIdx = new Date(item.day).getMonth();
-      countMap.set(monthIdx, (countMap.get(monthIdx) || 0) + item.count);
-      costMap.set(monthIdx, (costMap.get(monthIdx) || 0) + (item.cost || 0));
+  /**
+   * Bin daily trend rows into equal time buckets between first and last day (smooth line / cost curves).
+   */
+  private aggregateTrendRollingBuckets(trend: ConvoTrendItem[]): { labels: string[]; counts: number[]; costs: number[] } {
+    const fallbackLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    if (!trend?.length) {
+      return { labels: fallbackLabels, counts: new Array(12).fill(0), costs: new Array(12).fill(0) };
     }
 
-    if (countMap.size > 0 || costMap.size > 0) {
-      const labels: string[] = [];
-      const counts: number[] = [];
-      const costs: number[] = [];
-      for (let i = 0; i < 12; i++) {
-        labels.push(months[i]);
-        counts.push(countMap.get(i) || 0);
-        costs.push(costMap.get(i) || 0);
+    const sorted = [...trend].sort(
+      (a, b) => new Date(a.day).getTime() - new Date(b.day).getTime()
+    );
+    const tMin = new Date(sorted[0].day).getTime();
+    const tMax = new Date(sorted[sorted.length - 1].day).getTime();
+    const span = Math.max(tMax - tMin, 86400000);
+    const buckets = 12;
+    const bucketSpan = span / buckets;
+
+    const counts = new Array(buckets).fill(0);
+    const costs = new Array(buckets).fill(0);
+    const labels: string[] = [];
+
+    for (let i = 0; i < buckets; i++) {
+      const mid = new Date(tMin + (i + 0.5) * bucketSpan);
+      labels.push(
+        mid.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+      );
+    }
+
+    for (const item of sorted) {
+      const t = new Date(item.day).getTime();
+      let idx = Math.floor((t - tMin) / bucketSpan);
+      if (idx >= buckets) {
+        idx = buckets - 1;
       }
-      return { labels, counts, costs };
+      if (idx < 0) {
+        idx = 0;
+      }
+      counts[idx] += item.count;
+      costs[idx] += item.cost || 0;
     }
 
-    return { labels: months, counts: new Array(12).fill(0), costs: new Array(12).fill(0) };
+    return { labels, counts, costs };
+  }
+
+  private applyDynamicChartScales(maxCount: number, maxCostVal: number): void {
+    const yTrend = this.trendChartOptions?.scales?.y as Record<string, unknown> | undefined;
+    if (yTrend) {
+      yTrend['suggestedMax'] = Math.ceil(maxCount * 1.12);
+      const ticks = yTrend['ticks'] as Record<string, unknown> | undefined;
+      if (ticks) {
+        delete ticks['stepSize'];
+        ticks['maxTicksLimit'] = 8;
+        ticks['autoSkip'] = true;
+      }
+    }
+
+    const yCost = this.costChartOptions?.scales?.y as Record<string, unknown> | undefined;
+    if (yCost) {
+      const padded = maxCostVal <= 0 ? 0.01 : maxCostVal * 1.18;
+      yCost['suggestedMax'] = Math.ceil(padded * 1000) / 1000;
+      const cticks = yCost['ticks'] as Record<string, unknown> | undefined;
+      if (cticks) {
+        cticks['maxTicksLimit'] = 6;
+      }
+    }
   }
 
   getIntentBarWidth(count: number): string {

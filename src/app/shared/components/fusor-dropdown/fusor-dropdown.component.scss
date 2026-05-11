@@ -18,9 +18,24 @@
     }
   }
 
-  ::ng-deep .fusor-p-dropdown {
+  // Neutral border on hover/focus — override Prime theme blue ring (.p-focus box-shadow / border-color)
+  ::ng-deep .fusor-p-dropdown.p-dropdown {
     width: 100%;
     border-radius: 20px;
     padding: 2px;
+    border: 2px solid #e5e5e5 !important;
+    box-shadow: none !important;
+
+    &:not(.p-disabled):hover {
+      border-color: #e5e5e5 !important;
+      box-shadow: none !important;
+    }
+
+    &:not(.p-disabled).p-focus,
+    &:not(.p-disabled).p-inputwrapper-focus {
+      border-color: #e5e5e5 !important;
+      box-shadow: none !important;
+      outline: none !important;
+    }
   }
 }
