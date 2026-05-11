@@ -1,38 +1,3 @@
-.chatbots-container {
-  background-color: #FAFAFA;
-  font-family: 'Inter', sans-serif;
-}
-
-.page-title {
-  color: #0a0a0a;
-}
-
-.page-subtitle {
-  color: #525252;
-}
-
-.create-btn {
-  background-color: #000 !important;
-  color: #fff !important;
-  border: none !important;
-  padding: 0.75rem 1.5rem !important;
-  font-weight: 500;
-  font-size: 14px;
-}
-
-.filter-tab {
-  min-width: 60px;
-  border: 1px solid #E5E5E5;
-  background-color: #F4F4F4;
-  color: #0A0A0A;
-
-  &.active {
-    background-color: #171717;
-    color: #FAFAFA;
-    border-color: #171717;
-  }
-}
-
 .empty-icon-wrapper {
   width: 80px;
   height: 80px;
@@ -118,4 +83,4 @@
     font-size: 16px;
   }
 }
-
+

@@ -18,13 +18,6 @@ export class ChatbotsComponent implements OnInit {
   selectedBot: ChatbotSummary | null = null;
   userId: string = '';
 
-  tabs = [
-    { label: 'All', active: true },
-    { label: 'Active', active: false },
-    { label: 'Inactive', active: false },
-    { label: 'Draft', active: false }
-  ];
-
   constructor(
     private chatbotService: ChatbotService,
     private router: Router,

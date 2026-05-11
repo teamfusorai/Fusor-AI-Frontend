@@ -1,22 +1,13 @@
-<div class="chatbots-container px-6 py-6 w-full min-h-screen">
+<div class="workspace-feature-page w-full">
   <!-- Header Area -->
-  <div class="flex flex-column md:flex-row justify-content-between align-items-start md:align-items-center mb-4 gap-4">
+  <div class="flex flex-column md:flex-row justify-content-between align-items-start md:align-items-center gap-4 mb-5">
     <div>
-      <h1 class="page-title m-0 text-4xl font-bold tracking-tight">Chatbots</h1>
-      <p class="page-subtitle mt-2 mb-0 text-base font-normal">Manage and monitor all your AI chatbots</p>
+      <h1 class="workspace-page-title m-0">Chatbots</h1>
+      <p class="workspace-page-subtitle mt-2 mb-0">Manage and monitor all your AI chatbots</p>
     </div>
     <button pButton type="button" label="Create Chatbot" icon="pi pi-plus"
-      class="p-button-rounded create-btn shrink-0 w-auto" routerLink="/workspace/create-chatbot">
+      class="p-button-rounded workspace-create-chatbot-btn shrink-0 w-auto" routerLink="/workspace/create-chatbot">
     </button>
-  </div>
-
-  <!-- Filters -->
-  <div class="flex gap-2 mb-5 align-items-center h-3rem">
-    <div *ngFor="let tab of tabs"
-      class="filter-tab px-4 py-2 border-round-3xl cursor-pointer transition-colors transition-duration-200 font-medium text-sm flex align-items-center justify-content-center h-full"
-      [ngClass]="{'active': tab.active}">
-      {{ tab.label }}
-    </div>
   </div>
 
   <!-- Loading State -->

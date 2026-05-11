@@ -1,11 +1,11 @@
-<div class="dashboard-wrapper">
+<div class="workspace-feature-page">
   <div class="flex flex-column md:flex-row justify-content-between align-items-start md:align-items-center gap-4 mb-5">
     <div>
-      <h1 class="dashboard-title m-0">Dashboard</h1>
-      <p class="dashboard-subtitle mt-2 mb-0">Manage your chatbots and view analytics</p>
+      <h1 class="workspace-page-title m-0">Dashboard</h1>
+      <p class="workspace-page-subtitle mt-2 mb-0">Manage your chatbots and view analytics</p>
     </div>
-    <button pButton type="button" label="Create New Chatbot" icon="pi pi-plus"
-      class="p-button-rounded create-btn shrink-0" routerLink="/workspace/create-chatbot"></button>
+    <button pButton type="button" label="Create Chatbot" icon="pi pi-plus"
+      class="p-button-rounded workspace-create-chatbot-btn shrink-0 w-auto" routerLink="/workspace/create-chatbot"></button>
   </div>
 
   <ng-container *ngIf="loading; else content">
@@ -28,12 +28,24 @@
     <!-- Skeletons for List -->
     <h2 class="list-title mb-4">Your Chatbots</h2>
     <div class="flex flex-column gap-3">
-      <app-fusor-card *ngFor="let i of [1,2]">
-        <div card-body class="flex align-items-center">
-          <p-skeleton shape="circle" size="48px" class="mr-3"></p-skeleton>
-          <div class="flex-1">
-            <p-skeleton width="200px" height="24px" class="mb-2 block"></p-skeleton>
-            <p-skeleton width="150px" height="16px"></p-skeleton>
+      <app-fusor-card *ngFor="let i of [1,2]" class="chatbot-list-card">
+        <div card-body class="chatbot-row flex flex-column md:flex-row align-items-stretch md:align-items-center justify-content-between w-full gap-3">
+          <div class="flex align-items-center gap-3 flex-1 min-w-0">
+            <p-skeleton width="56px" height="56px" borderRadius="14px" class="shrink-0"></p-skeleton>
+            <div class="flex-1 min-w-0">
+              <p-skeleton width="220px" height="22px" borderRadius="8px" class="mb-2 block"></p-skeleton>
+              <div class="flex flex-wrap gap-2">
+                <p-skeleton width="8.5rem" height="26px" borderRadius="999px"></p-skeleton>
+                <p-skeleton width="10rem" height="26px" borderRadius="999px"></p-skeleton>
+              </div>
+            </div>
+          </div>
+          <div class="flex align-items-center justify-content-between md:justify-content-end gap-3 w-full md:w-auto shrink-0">
+            <div class="flex gap-2">
+              <p-skeleton width="4.5rem" height="26px" borderRadius="999px"></p-skeleton>
+              <p-skeleton width="3.25rem" height="26px" borderRadius="999px"></p-skeleton>
+            </div>
+            <p-skeleton width="5.25rem" height="38px" borderRadius="12px"></p-skeleton>
           </div>
         </div>
       </app-fusor-card>
@@ -44,7 +56,7 @@
     <div class="grid mb-5">
       <!-- Total Chatbots -->
       <div class="col-12 md:col-6 lg:col-3">
-        <app-fusor-card [hoverable]="true">
+        <app-fusor-card [hoverable]="true" class="dashboard-metric-card">
           <div card-body class="h-full flex flex-column justify-content-between">
             <div>
               <div class="flex justify-content-between align-items-start mb-3">
@@ -59,7 +71,7 @@
 
       <!-- Conversations -->
       <div class="col-12 md:col-6 lg:col-3">
-        <app-fusor-card [hoverable]="true">
+        <app-fusor-card [hoverable]="true" class="dashboard-metric-card">
           <div card-body class="h-full flex flex-column justify-content-between">
             <div>
               <div class="flex justify-content-between align-items-start mb-3">
@@ -74,7 +86,7 @@
 
       <!-- Active Users -->
       <div class="col-12 md:col-6 lg:col-3">
-        <app-fusor-card [hoverable]="true">
+        <app-fusor-card [hoverable]="true" class="dashboard-metric-card">
           <div card-body class="h-full flex flex-column justify-content-between">
             <div>
               <div class="flex justify-content-between align-items-start mb-3">
@@ -87,17 +99,16 @@
         </app-fusor-card>
       </div>
 
-      <!-- Success Rate -->
+      <!-- Share of positive (thumbs up) vs all feedback -->
       <div class="col-12 md:col-6 lg:col-3">
-        <app-fusor-card [hoverable]="true">
+        <app-fusor-card [hoverable]="true" class="dashboard-metric-card">
           <div card-body class="h-full flex flex-column justify-content-between">
             <div>
               <div class="flex justify-content-between align-items-start mb-3">
-                <span class="metric-title">Success Rate</span>
-                <i class="pi pi-chart-line text-color-secondary"></i>
+                <span class="metric-title">Positive Feedback</span>
+                <i class="pi pi-thumbs-up text-color-secondary"></i>
               </div>
               <div class="metric-value">{{ successRate }}</div>
-              <div class="metric-subtext mt-2">Thumbs Up ratio</div>
             </div>
           </div>
         </app-fusor-card>
@@ -112,77 +123,90 @@
           No chatbots found. Create one to get started!
         </div>
 
-        <app-fusor-card *ngFor="let bot of chatbots; trackBy: trackByBotId" [hoverable]="true">
+        <app-fusor-card *ngFor="let bot of chatbots; trackBy: trackByBotId" [hoverable]="true" class="chatbot-list-card">
           <div card-body
-            class="flex flex-column md:flex-row align-items-start md:align-items-center justify-content-between w-full gap-3">
-            <div class="flex align-items-center flex-1 min-w-0 w-full md:w-auto">
-              <div class="bot-icon-container mr-3 shrink-0">
-                <i class="pi pi-android text-xl"></i>
+            class="chatbot-row flex flex-column md:flex-row align-items-stretch md:align-items-center justify-content-between w-full gap-3 md:gap-4">
+            <div class="chatbot-row__identity flex align-items-start flex-1 min-w-0 gap-3">
+              <div class="chatbot-row__avatar shrink-0" aria-hidden="true">
+                <i class="pi pi-android"></i>
               </div>
-
-              <div class="flex-1 min-w-0 md:ml-3">
-              <h3 class="m-0 text-lg md:text-xl font-semibold mb-1 text-overflow-ellipsis white-space-nowrap overflow-hidden">{{ bot.chatbot_name || 'Unnamed Bot' }}</h3>
-              <span class="text-xs text-gray-500 flex align-items-center"><i class="pi pi-comment mr-1"></i> {{ bot.conversations_count || 0 }} conversations &nbsp;&bull;&nbsp; Updated {{ formatDate(bot.updated_at || bot.created_at || '') }}</span>
-            </div>
+              <div class="chatbot-row__info flex-1 min-w-0">
+                <h3 class="chatbot-row__title m-0 mb-2 text-overflow-ellipsis white-space-nowrap overflow-hidden">
+                  {{ bot.chatbot_name || 'Unnamed Bot' }}
+                </h3>
+                <div class="chatbot-row__meta flex flex-wrap align-items-center gap-2">
+                  <span class="chatbot-meta-chip">
+                    <i class="pi pi-comments" aria-hidden="true"></i>
+                    <span>{{ bot.conversations_count || 0 }} conversations</span>
+                  </span>
+                  <span class="chatbot-meta-chip chatbot-meta-chip--muted">
+                    <i class="pi pi-clock" aria-hidden="true"></i>
+                    <span>Updated {{ formatDate(bot.updated_at || bot.created_at || '') }}</span>
+                  </span>
+                </div>
+              </div>
             </div>
 
             <div
-              class="flex align-items-center justify-content-between md:justify-content-end w-full md:w-auto gap-3 shrink-0 md:ml-4">
-              <div
-                class="flex align-items-center gap-3">
-                <div class="flex justify-content-start">
-                  <div class="bot-badge-industry w-auto text-center white-space-nowrap px-3">{{ bot.industry || 'General' }}</div>
-                </div>
-                <div class="flex justify-content-end">
-                  <p-badge [value]="bot.status || 'active'" [severity]="bot.status === 'active' ? 'success' : 'warning'"
-                    styleClass="bot-badge-active"></p-badge>
-                </div>
+              class="chatbot-row__rail flex align-items-center justify-content-between md:justify-content-end w-full md:w-auto gap-3 shrink-0">
+              <div class="chatbot-row__badges flex align-items-center gap-2 flex-wrap">
+                <span class="chatbot-industry-chip white-space-nowrap">{{ bot.industry || 'General' }}</span>
+                <p-badge [value]="bot.status || 'active'" [severity]="bot.status === 'active' ? 'success' : 'warning'"
+                  styleClass="bot-badge-active"></p-badge>
               </div>
 
-              <button pButton pRipple type="button" icon="pi pi-globe"
-                class="p-button-rounded p-button-text p-button-plain w-2rem h-2rem md:ml-2"
-                [class.bg-gray-200]="expandedBotId === bot.bot_id" (click)="toggleDeployment(bot.bot_id)"></button>
+              <div class="chatbot-row__toolbar flex align-items-center shrink-0">
+                <button pButton type="button" icon="pi pi-globe"
+                  class="p-button-rounded p-button-text p-button-plain globe-deploy-btn chatbot-toolbar-btn"
+                  [class.globe-deploy-btn--active]="deploymentDialogVisible && deploymentDialogBotId === bot.bot_id"
+                  [attr.aria-label]="'Deployment options for ' + (bot.chatbot_name || 'chatbot')"
+                  (click)="openDeploymentDialog(bot); $event.stopPropagation()"></button>
 
-              <button pButton pRipple type="button" icon="pi pi-ellipsis-v"
-                class="p-button-rounded p-button-text p-button-plain w-2rem h-2rem"
-                (click)="menu.toggle($event); $event.stopPropagation()"></button>
-              
-              <p-menu #menu [model]="getMenuOptions(bot)" [popup]="true" appendTo="body"
-                styleClass="chatbot-action-menu">
-                <ng-template pTemplate="item" let-item>
-                  <a class="flex align-items-center px-3 py-2 cursor-pointer w-full transition-colors"
-                    (click)="item.command()" [ngClass]="{'mt-1 pt-2': item.separator}">
-                    <i [class]="item.icon + ' mr-2 text-base'"
-                      [ngClass]="item.label === 'Delete' ? 'menu-item-danger' : 'menu-item-text'"></i>
-                    <span class="text-sm font-normal font-family-inter"
-                      [ngClass]="item.label === 'Delete' ? 'menu-item-danger' : 'menu-item-text'">{{item.label}}</span>
-                  </a>
-                </ng-template>
-              </p-menu>
+                <button pButton pRipple type="button" icon="pi pi-ellipsis-v"
+                  class="p-button-rounded p-button-text p-button-plain chatbot-toolbar-btn"
+                  [attr.aria-label]="'More actions for ' + (bot.chatbot_name || 'chatbot')"
+                  (click)="menu.toggle($event); $event.stopPropagation()"></button>
+
+                <p-menu #menu [model]="getMenuOptions(bot)" [popup]="true" appendTo="body"
+                  styleClass="chatbot-action-menu">
+                  <ng-template pTemplate="item" let-item>
+                    <a class="flex align-items-center px-3 py-2 cursor-pointer w-full transition-colors"
+                      (click)="item.command()" [ngClass]="{'mt-1 pt-2': item.separator}">
+                      <i [class]="item.icon + ' mr-2 text-base'"
+                        [ngClass]="item.label === 'Delete' ? 'menu-item-danger' : 'menu-item-text'"></i>
+                      <span class="text-sm font-normal font-family-inter"
+                        [ngClass]="item.label === 'Delete' ? 'menu-item-danger' : 'menu-item-text'">{{item.label}}</span>
+                    </a>
+                  </ng-template>
+                </p-menu>
+              </div>
             </div>
-          </div>
-
-          <!-- Inline Deployment Expansion -->
-          <div card-actions *ngIf="expandedBotId === bot.bot_id" class="px-4 pb-4">
-            <app-fusor-card class="deployment-card">
-              <div card-body class="p-4 sm:p-5 bg-white border-round-xl">
-                <div class="flex justify-content-between align-items-center mb-4">
-                  <h3 class="m-0 text-xl font-bold text-gray-900">Deployment Options</h3>
-                  <button pButton pRipple type="button" icon="pi pi-times"
-                    class="p-button-rounded p-button-text p-button-plain w-2rem h-2rem text-gray-600"
-                    (click)="toggleDeployment(bot.bot_id)"></button>
-                </div>
-
-                <app-fusor-deployment-options mode="dashboard" [data]="deploymentDataMap[bot.bot_id]"
-                  [isLoading]="loadingDeploymentMap[bot.bot_id]">
-                </app-fusor-deployment-options>
-              </div>
-            </app-fusor-card>
           </div>
         </app-fusor-card>
       </ng-container>
     </div>
   </ng-template>
+
+  <p-dialog
+    [(visible)]="deploymentDialogVisible"
+    [modal]="true"
+    [dismissableMask]="true"
+    [draggable]="false"
+    [resizable]="false"
+    appendTo="body"
+    [baseZIndex]="11000"
+    [style]="{ width: 'min(94vw, 720px)' }"
+    styleClass="dashboard-deployment-dialog"
+    [header]="deploymentDialogHeader"
+    (onHide)="onDeploymentDialogHide()">
+    <div class="deployment-dialog-body" *ngIf="deploymentDialogBotId">
+      <app-fusor-deployment-options
+        mode="dashboard"
+        [data]="deploymentDataMap[deploymentDialogBotId]"
+        [isLoading]="!!loadingDeploymentMap[deploymentDialogBotId]">
+      </app-fusor-deployment-options>
+    </div>
+  </p-dialog>
 
   <p-confirmDialog></p-confirmDialog>
 </div>

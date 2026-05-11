@@ -1,6 +1,113 @@
 <ng-container>
   <div class="deployment-container w-full">
-    <div class="flex flex-column gap-3">
+    <!-- Dashboard / popup: segmented control + single panel (no long scroll) -->
+    <div *ngIf="mode === 'dashboard'" class="deploy-dashboard w-full">
+      <p-selectButton
+        [options]="deploySegmentOptions"
+        [(ngModel)]="deploySegment"
+        optionLabel="label"
+        optionValue="value"
+        [allowEmpty]="false"
+        styleClass="deploy-segment w-full">
+      </p-selectButton>
+
+      <div class="deploy-panel w-full border-1 border-200 border-round-xl p-4 md:p-5 mt-3 bg-white">
+        <ng-container *ngIf="deploySegment === 'qr'">
+          <div class="flex flex-column sm:flex-row gap-3 sm:align-items-start">
+            <div class="flex align-items-center justify-content-center border-round bg-gray-100 w-3rem h-3rem shrink-0">
+              <i class="pi pi-qrcode text-gray-900 text-xl"></i>
+            </div>
+            <div class="flex-1 w-full min-w-0">
+              <h3 class="m-0 text-lg font-semibold text-gray-900">QR Code</h3>
+              <p class="mt-1 mb-3 text-sm text-gray-600">Generate a QR code that users can scan to access your chatbot instantly</p>
+              <div class="flex flex-column gap-2 align-items-start">
+                <div class="border-round-2xl p-2 flex align-items-center justify-content-center w-8rem h-8rem bg-surface-200">
+                  <p-skeleton *ngIf="isLoading" width="100%" height="100%"></p-skeleton>
+                  <ng-container *ngIf="!isLoading">
+                    <span *ngIf="data?.qrCodeUrl === 'placeholder'" class="text-xs text-center text-color-secondary font-medium">QR Code<br>Preview</span>
+                    <img *ngIf="data?.qrCodeUrl && data?.qrCodeUrl !== 'placeholder'" [src]="data?.qrCodeUrl" alt="QR Code" class="w-full h-full object-cover border-round-sm mix-blend-multiply" />
+                  </ng-container>
+                </div>
+                <div class="w-8rem">
+                  <ng-container *ngIf="isLoading">
+                    <p-skeleton width="100%" height="20px"></p-skeleton>
+                  </ng-container>
+                  <ng-container *ngIf="!isLoading">
+                    <a *ngIf="data?.qrCodeUrl && data?.qrCodeUrl !== 'placeholder'" [href]="data?.qrCodeUrl" download="chatbot-qr.png" class="text-color-secondary text-sm font-medium text-center block w-full hover:text-primary transition-colors cursor-pointer no-underline">Download PNG</a>
+                    <span *ngIf="data?.qrCodeUrl === 'placeholder'" class="text-color-secondary text-sm font-medium text-center block w-full opacity-50 cursor-auto">Download PNG</span>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="deploySegment === 'embed'">
+          <div class="flex flex-column sm:flex-row gap-3 sm:align-items-start">
+            <div class="flex align-items-center justify-content-center border-round bg-gray-100 w-3rem h-3rem shrink-0">
+              <i class="pi pi-code text-gray-900 text-xl"></i>
+            </div>
+            <div class="flex-1 w-full min-w-0">
+              <h3 class="m-0 text-lg font-semibold text-gray-900">Embeddable Code</h3>
+              <p class="mt-1 mb-3 text-sm text-gray-600">Copy and paste this code snippet into your website to add the chatbot widget</p>
+              <ng-container *ngIf="isLoading">
+                <p-skeleton width="100%" height="80px" borderRadius="6px" class="block mb-3"></p-skeleton>
+                <p-skeleton width="120px" height="35px" borderRadius="16px"></p-skeleton>
+              </ng-container>
+              <ng-container *ngIf="!isLoading">
+                <div class="w-full responsive-code-box deploy-embed-scroll border-round-xl p-3 mb-2 border-none text-green-400 font-mono text-sm line-height-3 bg-gray-900 overflow-wrap-anywhere">
+                  {{ data?.embedCode || '' }}
+                </div>
+                <div class="flex justify-content-start w-full">
+                  <button pButton type="button" icon="pi pi-code" label="Copy Code"
+                          class="p-button-sm font-medium border-1 border-300 border-round-3xl text-900 bg-gray-100 px-4 py-2 w-max shadow-none"
+                          (click)="copyToClipboard(data?.embedCode || '')" [disabled]="!data?.embedCode"></button>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="deploySegment === 'api'">
+          <div class="flex flex-column sm:flex-row gap-3 sm:align-items-start">
+            <div class="flex align-items-center justify-content-center border-round bg-gray-100 w-3rem h-3rem shrink-0">
+              <i class="pi pi-globe text-gray-900 text-xl"></i>
+            </div>
+            <div class="flex-1 w-full min-w-0">
+              <h3 class="m-0 text-lg font-semibold text-gray-900">API Endpoint</h3>
+              <p class="mt-1 mb-3 text-sm text-gray-600">Integrate directly with your application using our REST API</p>
+              <div class="flex flex-column gap-3 w-full">
+                <ng-container *ngIf="isLoading">
+                  <div>
+                    <p-skeleton width="80px" height="15px" class="block mb-2"></p-skeleton>
+                    <p-skeleton width="100%" height="40px" borderRadius="6px"></p-skeleton>
+                  </div>
+                  <div>
+                    <p-skeleton width="60px" height="15px" class="block mb-2"></p-skeleton>
+                    <p-skeleton width="100%" height="40px" borderRadius="6px"></p-skeleton>
+                  </div>
+                  <p-skeleton width="160px" height="35px" borderRadius="16px" class="mt-1"></p-skeleton>
+                </ng-container>
+                <ng-container *ngIf="!isLoading">
+                  <app-fusor-copy-input label="Endpoint URL" [value]="data?.apiUrl || ''"></app-fusor-copy-input>
+                  <app-fusor-copy-input
+                    label="API Key"
+                    [value]="data?.apiKey || ''"
+                    [isMasked]="true"
+                    [revealKeyByDefault]="true"
+                    maskedRevealLabel="View">
+                  </app-fusor-copy-input>
+                  <button pButton type="button" label="View API Documentation" class="p-button-outlined p-button-sm border-round-xl text-color font-medium w-max mt-2 bg-surface-50" (click)="openApiDocumentation()"></button>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+
+    <!-- Builder: classic stacked cards -->
+    <div *ngIf="mode === 'builder'" class="flex flex-column gap-3">
       <!-- QR Code -->
       <app-fusor-card class="deployment-card">
         <div card-body class="flex flex-column sm:flex-row gap-3 sm:align-items-start">
@@ -103,7 +210,7 @@
       </app-fusor-card>
 
       <!-- Ready to Go Live (Builder Only) -->
-      <app-fusor-card class="deployment-card border-none bg-surface-50" *ngIf="mode === 'builder'">
+      <app-fusor-card class="deployment-card border-none bg-surface-50">
         <div card-body class="flex flex-column sm:flex-row gap-3 sm:align-items-start">
           <div class="flex align-items-center justify-content-center border-circle bg-black w-3rem h-3rem shrink-0">
             <i class="pi pi-check text-white text-xl"></i>

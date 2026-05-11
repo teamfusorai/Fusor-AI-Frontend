@@ -39,6 +39,62 @@ body {
     margin: 0;
 }
 
+/* Workspace feature shells — same chrome as Dashboard (padding, title block) */
+.workspace-feature-page {
+    background-color: #fafafa;
+    min-height: 100vh;
+    width: 100%;
+    padding: 32px;
+    box-sizing: border-box;
+    font-family: var(--font-family, 'Inter', sans-serif);
+}
+
+.workspace-page-title {
+    font-size: 40px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    color: var(--text-primary, #000000);
+    line-height: 1.2;
+}
+
+.workspace-page-subtitle {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--text-secondary, #525252);
+}
+
+/* Primary "Create Chatbot" — shared by Dashboard + Chatbots (same size, single-line label) */
+button.workspace-create-chatbot-btn.p-button,
+.workspace-create-chatbot-btn.p-button {
+    background-color: #000000 !important;
+    border: none !important;
+    border-color: transparent !important;
+    color: #ffffff !important;
+    border-radius: 20px !important;
+    padding: 0.75rem 1.5rem !important;
+    font-weight: 500 !important;
+    font-size: 14px !important;
+    line-height: 1 !important;
+    width: auto !important;
+    min-width: unset !important;
+    white-space: nowrap !important;
+
+    .p-button-icon {
+        font-size: 14px !important;
+    }
+
+    .p-button-label {
+        font-weight: 500 !important;
+        font-size: 14px !important;
+        white-space: nowrap !important;
+    }
+
+    &:enabled:hover {
+        background-color: #262626 !important;
+    }
+}
+
 /* App-wide Component specific tweaks */
 .p-button {
     border-radius: 20px !important;
@@ -254,4 +310,37 @@ body .p-dialog.api-doc-dialog .p-dialog-content::-webkit-scrollbar {
     height: 0;
     display: none;
     background: transparent;
+}
+
+/* Dashboard deployment dialog (appendTo body) */
+body .dashboard-deployment-dialog.p-dialog,
+body .p-dialog.dashboard-deployment-dialog {
+    border-radius: 18px !important;
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.18) !important;
+}
+
+body .dashboard-deployment-dialog .p-dialog-header,
+body .p-dialog.dashboard-deployment-dialog .p-dialog-header {
+    font-weight: 600;
+    font-size: 1.125rem;
+    padding: 1.25rem 1.5rem 0.85rem !important;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+body .dashboard-deployment-dialog .p-dialog-content,
+body .p-dialog.dashboard-deployment-dialog .p-dialog-content {
+    padding: 1rem 1.25rem 1.35rem !important;
+    max-height: min(78vh, 860px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+body .dashboard-deployment-dialog .p-dialog-content::-webkit-scrollbar,
+body .p-dialog.dashboard-deployment-dialog .p-dialog-content::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
 }

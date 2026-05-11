@@ -29,10 +29,12 @@ export class DashboardComponent implements OnInit {
   userId: string | null = null;
   loading: boolean = true;
 
-  // Inline Deployment Expansion State
-  expandedBotId: string | null = null;
   deploymentDataMap: { [botId: string]: any } = {};
   loadingDeploymentMap: { [botId: string]: boolean } = {};
+
+  deploymentDialogVisible = false;
+  deploymentDialogBotId: string | null = null;
+  deploymentDialogBotName = '';
 
   constructor(
     private analyticsService: AnalyticsService,
@@ -69,13 +71,15 @@ export class DashboardComponent implements OnInit {
   }
 
   calculateSuccessRate(metrics: DashboardMetrics): void {
-    const total = metrics.thumbs_up_count + metrics.thumbs_down_count;
-    if (total === 0) {
-      this.successRate = 'No data';
-    } else {
-      const rate = (metrics.thumbs_up_count / total) * 100;
-      this.successRate = `${rate.toFixed(1)}%`;
+    const up = Number(metrics?.thumbs_up_count ?? 0);
+    const down = Number(metrics?.thumbs_down_count ?? 0);
+    const total = up + down;
+    if (!Number.isFinite(total) || total <= 0) {
+      this.successRate = '0%';
+      return;
     }
+    const rate = (up / total) * 100;
+    this.successRate = Number.isFinite(rate) ? `${rate.toFixed(1)}%` : '—';
   }
 
   getMenuOptions(bot: ChatbotSummary) {
@@ -121,32 +125,48 @@ export class DashboardComponent implements OnInit {
     return bot.bot_id;
   }
 
-  toggleDeployment(botId: string): void {
-    if (this.expandedBotId === botId) {
-      this.expandedBotId = null;
+  get deploymentDialogHeader(): string {
+    const n = this.deploymentDialogBotName?.trim();
+    return n ? `Deployment — ${n}` : 'Deployment options';
+  }
+
+  openDeploymentDialog(bot: ChatbotSummary): void {
+    const id = bot.bot_id;
+    if (this.deploymentDialogVisible && this.deploymentDialogBotId === id) {
+      this.deploymentDialogVisible = false;
       return;
     }
+    this.deploymentDialogBotId = id;
+    this.deploymentDialogBotName = (bot.chatbot_name && bot.chatbot_name.trim()) || 'Unnamed Bot';
+    this.deploymentDialogVisible = true;
+    this.loadDeploymentDataForBot(id);
+  }
 
-    this.expandedBotId = botId;
+  onDeploymentDialogHide(): void {
+    this.deploymentDialogBotId = null;
+    this.deploymentDialogBotName = '';
+  }
 
-    if (!this.deploymentDataMap[botId]) {
-      this.loadingDeploymentMap[botId] = true;
-      const uid = this.userId || '';
-
-      forkJoin({
-        bot: this.chatbotService.getChatbotById(botId).pipe(catchError(() => of(null))),
-        qr: this.deploymentService.getQrCode(uid, botId).pipe(catchError(() => of(null))),
-        snippet: this.deploymentService.getEmbedSnippet(uid, botId).pipe(catchError(() => of(null)))
-      }).subscribe(({ bot, qr, snippet }) => {
-        this.deploymentDataMap[botId] = {
-          qrCodeUrl: qr?.qr_code_base64 || '',
-          embedCode: snippet?.snippet || '',
-          apiUrl: snippet?.api_base_url ? `${snippet.api_base_url}/chat/${botId}` : `${environment.apiUrl}/chat/${botId}`,
-          apiKey: (bot as { api_key?: string } | null)?.api_key || ''
-        };
-        this.loadingDeploymentMap[botId] = false;
-      });
+  private loadDeploymentDataForBot(botId: string): void {
+    if (this.deploymentDataMap[botId]) {
+      return;
     }
+    this.loadingDeploymentMap[botId] = true;
+    const uid = this.userId || '';
+
+    forkJoin({
+      bot: this.chatbotService.getChatbotById(botId).pipe(catchError(() => of(null))),
+      qr: this.deploymentService.getQrCode(uid, botId).pipe(catchError(() => of(null))),
+      snippet: this.deploymentService.getEmbedSnippet(uid, botId).pipe(catchError(() => of(null)))
+    }).subscribe(({ bot, qr, snippet }) => {
+      this.deploymentDataMap[botId] = {
+        qrCodeUrl: qr?.qr_code_base64 || '',
+        embedCode: snippet?.snippet || '',
+        apiUrl: snippet?.api_base_url ? `${snippet.api_base_url}/chat/${botId}` : `${environment.apiUrl}/chat/${botId}`,
+        apiKey: (bot as { api_key?: string } | null)?.api_key || ''
+      };
+      this.loadingDeploymentMap[botId] = false;
+    });
   }
 
   formatDate(dateString: string): string {

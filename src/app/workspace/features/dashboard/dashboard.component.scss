@@ -1,42 +1,3 @@
-.dashboard-wrapper {
-  background-color: #FAFAFA;
-  min-height: 100vh;
-  padding: 32px;
-  width: 100%;
-  font-family: var(--font-family, 'Inter', sans-serif);
-}
-
-.dashboard-title {
-  font-size: 40px;
-  font-weight: 700;
-  letter-spacing: -0.4px;
-  color: var(--text-primary, #000000);
-}
-
-.dashboard-subtitle {
-  .metric-subtext {
-    color: var(--text-color-secondary);
-    font-size: 0.875rem;
-  }
-}
-
-
-
-:host ::ng-deep .create-btn {
-  background-color: var(--primary-color, #000000) !important;
-  border-color: var(--primary-color, #000000) !important;
-  color: var(--primary-color-text, #ffffff) !important;
-  border-radius: 20px !important;
-  padding: 10px 20px !important;
-  font-size: 14px !important;
-  font-weight: 500 !important;
-  width: auto !important;
-
-  .pi {
-    font-size: 14px !important;
-  }
-}
-
 .metric-title {
   font-size: 14px;
   color: var(--text-secondary, #525252);
@@ -63,15 +24,95 @@
   padding: 4px 8px 4px 4px;
 }
 
-.bot-icon-container {
-  background-color: var(--surface-100, #f5f5f5);
-  width: 48px;
-  height: 48px;
-  border-radius: 20px;
+/* Top metric tiles: consistent minimum height */
+:host ::ng-deep app-fusor-card.dashboard-metric-card .fusor-card-wrapper {
+  min-height: 148px;
+  padding: 1.5rem 1.35rem;
+}
+
+/* Slightly tighter list cards + calmer hover than default metric cards */
+:host ::ng-deep app-fusor-card.chatbot-list-card .fusor-card-wrapper {
+  padding: 1.35rem 1.35rem;
+  border-radius: 14px;
+}
+
+:host ::ng-deep app-fusor-card.chatbot-list-card .fusor-card-wrapper.hover-effect:hover {
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.07);
+  border-color: #d4d4d8;
+  transform: translateY(-1px);
+}
+
+.chatbot-row__avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: linear-gradient(145deg, #fafafa 0%, #f0f0f0 100%);
+  border: 1px solid #ebebeb;
+  color: #171717;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+
+  .pi {
+    font-size: 1.35rem;
+  }
+}
+
+.chatbot-row__title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
   color: var(--text-primary, #0a0a0a);
+}
+
+.chatbot-row__meta {
+  line-height: 1.2;
+}
+
+.chatbot-meta-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.28rem 0.65rem;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #404040;
+  background: #f4f4f5;
+  border: 1px solid #e8e8ea;
+
+  .pi {
+    font-size: 0.7rem;
+    color: #737373;
+  }
+}
+
+.chatbot-meta-chip--muted {
+  color: #525252;
+  font-weight: 400;
+  background: #fafafa;
+  border-color: #ececec;
+}
+
+.chatbot-industry-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #374151;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+}
+
+.chatbot-row__toolbar {
+  gap: 2px;
+  padding: 3px;
+  border-radius: 12px;
+  background: #f0f0f2;
+  border: 1px solid #e6e6e9;
 }
 
 .bot-name {
@@ -103,17 +144,35 @@
   height: 24px !important;
 }
 
-.bot-badge-industry {
-  border: 0.667px solid #d4d4d4;
-  border-radius: 16px;
-  padding: 4.6px 12.6px;
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--text-primary, #0a0a0a);
-}
 
 .text-truncate {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.deployment-dialog-body {
+  margin: 0 -0.25rem;
+}
+
+/* Toolbar icon buttons: comfortable target, neutral focus */
+:host ::ng-deep button.chatbot-toolbar-btn.p-button.p-button-text {
+  width: 2.25rem !important;
+  height: 2.25rem !important;
+  color: #404040 !important;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.75) !important;
+  }
+
+  &:focus,
+  &:focus-visible,
+  &.p-focus {
+    box-shadow: 0 0 0 2px #e5e5e5 !important;
+    outline: none !important;
+  }
+}
+
+.globe-deploy-btn--active {
+  background-color: #e4e4e7 !important;
 }
