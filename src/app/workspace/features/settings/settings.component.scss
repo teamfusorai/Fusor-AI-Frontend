@@ -1,3 +1,8 @@
+/* PrimeNG dialog append — ensure above workspace chrome */
+:host ::ng-deep .openai-key-required-dialog.p-dialog {
+  border-radius: var(--border-radius, 16px);
+}
+
 .settings-page {
   max-width: 720px;
 }

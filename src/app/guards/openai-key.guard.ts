@@ -22,13 +22,15 @@ export const openAiKeyGuard: CanActivateFn = () => {
         return true;
       }
       router.navigate(['/workspace/settings'], {
-        queryParams: { reason: 'openai_key' }
+        queryParams: { reason: 'openai_key' },
+        state: { openAiKeyGate: true }
       });
       return false;
     }),
     catchError(() => {
       router.navigate(['/workspace/settings'], {
-        queryParams: { reason: 'openai_key' }
+        queryParams: { reason: 'openai_key' },
+        state: { openAiKeyGate: true }
       });
       return of(false);
     })

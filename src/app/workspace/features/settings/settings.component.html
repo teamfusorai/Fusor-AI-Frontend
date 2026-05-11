@@ -1,3 +1,16 @@
+<p-dialog [(visible)]="showOpenAiKeyRequiredDialog" [modal]="true" [closable]="true" [draggable]="false"
+  [dismissableMask]="true" appendTo="body" [style]="{ width: 'min(440px, 92vw)' }"
+  styleClass="openai-key-required-dialog" header="OpenAI API key required"
+  (onHide)="closeOpenAiKeyRequiredDialog()">
+  <p class="m-0 text-color-secondary line-height-3">
+    To create a chatbot, add your OpenAI API key in the field below and click <strong>Save key</strong>.
+    Your key is stored on the server and used only for your account.
+  </p>
+  <ng-template pTemplate="footer">
+    <button pButton type="button" label="Got it" class="p-button-primary" (click)="closeOpenAiKeyRequiredDialog()"></button>
+  </ng-template>
+</p-dialog>
+
 <div class="workspace-feature-page settings-page">
   <div class="settings-header mb-5">
     <h1 class="workspace-page-title m-0">Settings</h1>
